@@ -1,0 +1,19 @@
+{
+  "name": "agent-resilience-skills",
+  "version": "0.1.0",
+  "description": "Reusable AI agent skill for calm, honest recovery under pressure, ambiguity, and tool failure.",
+  "license": "MIT",
+  "private": false,
+  "type": "module",
+  "scripts": {
+    "test": "python -m pytest",
+    "lint": "python -m ruff check ."
+  },
+  "keywords": [
+    "ai-agent",
+    "resilience",
+    "reliability",
+    "prompting",
+    "evals"
+  ]
+}

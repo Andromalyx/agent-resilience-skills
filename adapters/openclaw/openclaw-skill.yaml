@@ -1,0 +1,13 @@
+name: agent-resilience-skills
+version: 0.1.0
+entrypoint: skill.md
+triggers:
+  - tool_failure
+  - ambiguity
+  - user_frustration
+  - hallucination_risk
+  - impossible_task
+actions:
+  - run_integrity_checkpoint
+  - disclose_uncertainty
+  - plan_recovery

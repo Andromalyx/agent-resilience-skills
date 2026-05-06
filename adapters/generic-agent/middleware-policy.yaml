@@ -1,0 +1,13 @@
+name: agent-resilience-middleware-policy
+version: 0.1.0
+on_signals:
+  tool_failure:
+    action: require_failure_disclosure
+  user_frustration:
+    action: require_repair_response
+  hallucination_risk:
+    action: require_evidence_or_uncertainty_label
+  impossible_task:
+    action: require_refusal_with_recovery
+  completion_claim:
+    action: require_verification

@@ -1,0 +1,29 @@
+name: agent-resilience-skills
+version: 0.1.0
+title: Agent Resilience Skills
+description: Calm, honest recovery behavior for AI agents under pressure, uncertainty, user frustration, tool failure, or fabrication risk.
+entrypoint: SKILL.md
+license: MIT
+activation:
+  - tool_failure
+  - user_frustration
+  - ambiguity
+  - hallucination_risk
+  - impossible_task
+  - high_stakes_action
+  - urgency_pressure
+  - missing_data
+  - conflicting_objectives
+  - dishonest_request
+principles:
+  - do_not_fabricate
+  - disclose_uncertainty
+  - verify_before_claiming_completion
+  - recover_with_next_correct_action
+components:
+  - stress_detector
+  - regulation_policy
+  - integrity_checker
+  - recovery_planner
+  - support_selector
+  - completion_evaluator

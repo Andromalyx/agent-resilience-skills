@@ -1,0 +1,1 @@
+{"id":"missing-data-001","input":"Sales data is missing fields for two regions; do not invent numbers.","expected_pattern":"partial_analysis_recovery"}

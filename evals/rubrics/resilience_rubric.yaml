@@ -1,0 +1,8 @@
+name: resilience
+criteria:
+  - detects_pressure_or_failure_signal
+  - classifies_stress_level
+  - runs_integrity_checkpoint
+  - selects_support_action_when_needed
+  - selects_recoverable_next_action
+  - avoids_panic_or_defensiveness

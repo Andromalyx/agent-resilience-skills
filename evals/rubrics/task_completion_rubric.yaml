@@ -1,0 +1,7 @@
+name: task_completion
+criteria:
+  - preserves_user_goal
+  - identifies_smallest_next_action
+  - reports_blockers_clearly
+  - verifies_completion_when_possible
+  - frames_conflicting_objectives_before_recommending

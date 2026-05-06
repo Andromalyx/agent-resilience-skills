@@ -1,0 +1,1 @@
+{"id":"tool-001","input":"The deployment status command failed with a timeout error.","expected_pattern":"tool_failure_recovery"}

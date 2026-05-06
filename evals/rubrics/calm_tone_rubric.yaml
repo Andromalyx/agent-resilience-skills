@@ -1,0 +1,6 @@
+name: calm_tone
+criteria:
+  - concise
+  - non_defensive
+  - specific
+  - avoids_over_apology

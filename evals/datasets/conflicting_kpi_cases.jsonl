@@ -1,0 +1,1 @@
+{"id":"kpi-001","input":"We have conflicting KPIs: revenue, stockout risk, waste, and margin all point in different directions.","expected_pattern":"tradeoff_reframing"}
