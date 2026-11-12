@@ -43,7 +43,20 @@ Pipeline: load (EN/VI headers, `(1,234)` negatives) -> CoA mapping with provenan
 (`explicit > range > keyword > unmapped`) -> validation (TB/JE balance, duplicates,
 abnormal signs, cut-off, round amounts) -> P&L (net revenue ... net income, margins) ->
 variance (F/U, materiality, new/dropped/sign-flip) -> G/L drill-down -> commentary.
-See `skills/fpa/SKILL.md` and `examples/finance/README.md`.
+
+Also included: **anomaly screen** (ranked review queue: amount outliers, new vendors,
+near-duplicates, period-end, Benford, optional IsolationForest), **forecasting**
+(backtest-selected naive / MA / trend / seasonal naive / Holt-Winters with intervals,
+driver-based models), **scenarios** (what-if, tornado sensitivity, break-even),
+**bank reconciliation** (exact -> amount/date -> fuzzy -> one-to-many + balance proof),
+**revenue concentration** (HHI) and **KPI alerts**.
+
+```bash
+python -m runtime.finance --gl examples/finance/sample_gl_history.csv --forecast 3 --top-k 10
+```
+
+See `skills/fpa/SKILL.md`, `examples/finance/README.md`, and
+`docs/fpa-ai-coverage.md` (coverage vs IBM's key uses of AI in FP&A).
 
 ## Core Behavior
 

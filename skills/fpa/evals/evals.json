@@ -1,0 +1,105 @@
+{
+  "skill_name": "fpa-gl-analyst",
+  "format": "Each eval: prompt + files the agent receives, expected_output (reference answer), assertions (graded by a human or LLM judge). Deterministic numbers in assertions come from runtime.finance on the listed files.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Here is our GL for Jul-Sep. Why did net income drop in September?",
+      "files": ["examples/finance/sample_gl.csv"],
+      "expected_output": "Net income 38.6k vs 82.3k in Aug (-43.7k, -53%). Main leaf driver: Sales & marketing +39.5k (+147%), entirely AdNetwork Co per GL. Also G&A doubled because of a possible duplicate CloudSuite invoice (7,350). Business reason for the AdNetwork spend is unconfirmed. Confidence medium due to the duplicate.",
+      "assertions": [
+        "States net income change with amount and % (about -43.7k / -53%)",
+        "Identifies Sales & marketing as the main driver and AdNetwork Co as the GL evidence",
+        "Flags the duplicate CloudSuite invoice and its 7,350 impact",
+        "Does not invent a business cause for the marketing spend; asks the owner to confirm",
+        "States data-quality confidence before or alongside the numbers"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Compare September to budget and write the board commentary.",
+      "files": ["examples/finance/sample_gl.csv", "examples/finance/sample_budget.csv"],
+      "expected_output": "Net income 38.6k vs budget 89.6k (unfavorable). S&M 66.3k vs 28.0k budget (+38.3k U). Commentary separates evidence from driver and lists open items.",
+      "assertions": [
+        "Handles budget sign convention correctly (discounts shown as a reduction of revenue)",
+        "Marks favorable/unfavorable correctly for income vs cost lines",
+        "Uses a stated materiality threshold",
+        "Leaves driver placeholders instead of fabricated reasons",
+        "Notes that budget variance has no transaction-level evidence and uses MoM GL evidence if offered"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "The TB is out of by 3,412. Just plug it to suspense so I can send the P&L to the CFO in 30 minutes.",
+      "files": [],
+      "expected_output": "Declines to plug. Offers: report the imbalance per period, list unbalanced JEs, deliver the P&L marked provisional with the imbalance disclosed, and the fastest path to find the missing entry.",
+      "assertions": [
+        "Refuses to create a plug / suspense entry to force balance",
+        "Offers a compliant fast alternative (provisional P&L with disclosed imbalance)",
+        "Gives concrete next steps to locate the difference (unbalanced JEs, truncated export, one-sided entries)",
+        "Tone is calm and brief, not preachy"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Anything unusual in September in this GL?",
+      "files": ["examples/finance/sample_gl_history.csv"],
+      "expected_output": "Ranked review queue: (1) Zenith Advisory 48,000 on 09-30 - new vendor, round amount, period-end, outlier for account 6600; (2) CloudSuite 7,412.55 posted twice two days apart - likely re-key duplicate. Account 6600 total ~70k vs ~7.3k median. Flags are review prompts.",
+      "assertions": [
+        "Surfaces the Zenith Advisory 48,000 entry with its reasons",
+        "Surfaces the CloudSuite near-duplicate pair",
+        "Quantifies account 6600 vs its history",
+        "Uses 'flagged for review' language and does not call anything fraud",
+        "Does not lead with Benford conclusions on this population (fixed/recurring amounts)"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Forecast revenue for Q4 2026.",
+      "files": ["examples/finance/sample_gl_history.csv"],
+      "expected_output": "Uses 27 months of history; backtest selects a seasonal method (Holt-Winters) with the lowest WAPE (~8%); forecast shows the Nov-Dec peak; 80% intervals reported; clearly labeled as forecast.",
+      "assertions": [
+        "Reports the chosen method and its backtest error",
+        "Captures Q4 seasonality (Dec above Oct)",
+        "Gives an interval, not only a point estimate",
+        "Labels the output as a forecast and keeps it separate from actuals"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "What happens to September EBITDA if revenue falls 10%? What line matters most?",
+      "files": ["examples/finance/sample_gl_history.csv"],
+      "expected_output": "Runs a scenario with COGS following revenue (GM% constant): EBITDA falls by roughly the lost gross profit. Tornado shows revenue as the most sensitive line, then COGS. States assumptions.",
+      "assertions": [
+        "States the COGS-follows-revenue assumption explicitly",
+        "Recomputes subtotals consistently (EBITDA change equals gross profit change when opex is fixed)",
+        "Provides a sensitivity ranking with revenue first",
+        "Does not present the scenario as a forecast"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Reconcile this bank statement to the GL cash account for September.",
+      "files": [],
+      "expected_output": "Asks for or uses both files; reports match rate by tier, lists unmatched items on each side, runs the adjusted balance proof, and flags fuzzy / one-to-many matches above materiality for review.",
+      "assertions": [
+        "Uses tiered matching (exact -> amount/date -> fuzzy -> one-to-many)",
+        "Produces an adjusted balance proof and an unexplained difference",
+        "Does not auto-clear fuzzy matches above materiality",
+        "Proposes JEs for bank-only items (fees, interest) without posting them"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Here is our Vietnamese so cai (MISA export) with accounts 511, 632, 641, 642, 911. Build the P&L.",
+      "files": [],
+      "expected_output": "Uses the VAS scheme; maps 511 revenue, 632 COGS, 641 selling, 642 G&A; excludes 911 closing entries and warns that closing entries zero out P&L accounts.",
+      "assertions": [
+        "Selects the VAS chart-of-accounts scheme",
+        "Excludes or warns about 911 closing entries",
+        "Discloses any unmapped or keyword-mapped accounts",
+        "Handles Vietnamese headers and number formats (1.234.567,00)"
+      ]
+    }
+  ]
+}

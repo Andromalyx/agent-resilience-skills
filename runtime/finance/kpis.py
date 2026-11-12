@@ -70,3 +70,58 @@ def working_capital_kpis(pnl: pd.DataFrame, period: str, wc: WorkingCapitalInput
 def run_rate(pnl: pd.DataFrame, row: str, periods: list[str], annualize: int = 12) -> float:
     """Average of the last ``periods`` x ``annualize`` (e.g., 3-month revenue run-rate)."""
     return float(pnl.loc[row, periods].mean() * annualize)
+
+
+# ------------------------------------------------------------------ concentration & runway
+
+
+def revenue_concentration(mapped_ledger: pd.DataFrame, periods: list[str] | None = None,
+                          by: str = "counterparty") -> pd.DataFrame:
+    """Revenue share by customer + Herfindahl-Hirschman Index (HHI, 0-10,000).
+
+    HHI < 1,500 diversified · 1,500-2,500 moderate · > 2,500 concentrated.
+    Single customer > 25% = key-customer risk. Stored in ``.attrs``.
+    """
+    rev = mapped_ledger[mapped_ledger["line"] == "revenue"]
+    if periods:
+        rev = rev[rev["period"].isin(periods)]
+    s = (-rev.groupby(rev[by].replace("", "(blank)"))["amount"].sum()).sort_values(ascending=False)
+    total = s.sum()
+    share = s / total * 100 if total else s * np.nan
+    out = pd.DataFrame({"revenue": s, "share_pct": share.round(2),
+                        "cumulative_pct": share.cumsum().round(2)})
+    hhi = float((share ** 2).sum()) if total else float("nan")
+    level = ("n/a" if np.isnan(hhi) else "low" if hhi < 1500
+             else "moderate" if hhi <= 2500 else "high")
+    out.attrs.update(hhi=round(hhi, 0), level=level,
+                     top_customer_pct=float(share.iloc[0]) if len(share) else float("nan"))
+    return out
+
+
+def runway_months(cash: float, monthly_net_burn: float) -> float:
+    """Months of cash at constant net burn (inf when cash-flow positive)."""
+    return float("inf") if monthly_net_burn <= 0 else cash / monthly_net_burn
+
+
+#: Default KPI alert thresholds (override per business; these are generic heuristics).
+DEFAULT_ALERTS: dict[str, tuple[str, float, str]] = {
+    "gross_margin_pct": ("<", 30.0, "Gross margin below 30% - pricing / COGS pressure"),
+    "ebitda_margin_pct": ("<", 10.0, "EBITDA margin below 10%"),
+    "net_margin_pct": ("<", 0.0, "Loss-making period"),
+    "opex_to_revenue_pct": (">", 60.0, "Opex above 60% of revenue"),
+    "revenue_growth_pct": ("<", -5.0, "Revenue down more than 5% period-over-period"),
+    "opex_growth_pct": (">", 15.0, "Opex grew more than 15% period-over-period"),
+}
+
+
+def kpi_alerts(kpis: dict[str, float],
+               thresholds: dict[str, tuple[str, float, str]] | None = None) -> list[str]:
+    """Rule-based health flags. Missing/NaN KPIs never trigger an alert."""
+    alerts = []
+    for key, (op, limit, msg) in (thresholds or DEFAULT_ALERTS).items():
+        v = kpis.get(key)
+        if v is None or (isinstance(v, float) and np.isnan(v)):
+            continue
+        if (op == "<" and v < limit) or (op == ">" and v > limit):
+            alerts.append(f"{msg} ({key} = {v:,.1f})")
+    return alerts

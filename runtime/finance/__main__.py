@@ -27,6 +27,10 @@ def main(argv: list[str] | None = None) -> int:
                         help="Extract has only P&L accounts; don't require TB to balance")
     parser.add_argument("--drill-by", default="counterparty",
                         choices=["counterparty", "description", "cost_center", "account"])
+    parser.add_argument("--forecast", type=int, default=0, metavar="N",
+                        help="Add an N-period statistical forecast")
+    parser.add_argument("--no-anomalies", action="store_true", help="Skip anomaly screen")
+    parser.add_argument("--top-k", type=int, default=15, help="Rows in the review queue")
     parser.add_argument("--out", help="Write markdown report to this path")
     parser.add_argument("--json", action="store_true", help="Print JSON summary to stdout")
     parser.add_argument("-v", "--verbose", action="store_true")
@@ -39,7 +43,8 @@ def main(argv: list[str] | None = None) -> int:
             args.gl, period=args.period, budget=args.budget, scheme=args.scheme,
             mapping_file=args.mapping, materiality_abs=args.materiality_abs,
             materiality_pct=args.materiality_pct, expect_balanced=not args.pnl_only,
-            drill_by=args.drill_by,
+            drill_by=args.drill_by, forecast_horizon=args.forecast,
+            anomalies=not args.no_anomalies, top_k=args.top_k,
         )
     except (FileNotFoundError, ValueError, KeyError) as exc:
         print(f"error: {exc}", file=sys.stderr)
@@ -57,6 +62,9 @@ def main(argv: list[str] | None = None) -> int:
             "confidence": result.confidence,
             "findings": result.validation.to_frame().to_dict("records"),
             "kpis": result.kpis,
+            "alerts": result.alerts,
+            "review_queue": (result.review_queue.to_dict("records")
+                             if result.review_queue is not None else []),
             "commentary": result.commentary,
         }, indent=2, default=str))
     elif not args.out:

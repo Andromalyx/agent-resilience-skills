@@ -52,7 +52,11 @@ def _mapped(path: str, scheme: str) -> tuple[pd.DataFrame, pd.DataFrame]:
 
 
 def _jsonable(df: pd.DataFrame, max_rows: int = 40) -> str:
-    return df.head(max_rows).round(2).to_json(orient="table", default_handler=str)
+    out = df.head(max_rows).copy()
+    for col in out.select_dtypes(include=["datetime", "datetimetz"]).columns:
+        out[col] = out[col].dt.strftime("%Y-%m-%d")  # avoid tz/precision warnings in JSON
+    out = out.round(2)
+    return out.to_json(orient="table", default_handler=str)
 
 
 @tool
@@ -109,7 +113,50 @@ def gl_drill_down(path: str, line: str, period: str, baseline_period: str,
     return _jsonable(drill_down(mapped, accounts, period, baseline_period, by=by))
 
 
-TOOLS = [load_and_validate, pnl, variance, gl_drill_down]
+@tool
+def forecast(path: str, horizon: int = 3, line: str = "net_revenue", scheme: str = "generic") -> str:
+    """Statistical forecast of a P&L line with backtest-selected method, WAPE per method,
+    and 80% interval. Label output as forecast, never as actuals."""
+    from runtime.finance.forecast import auto_forecast
+
+    mapped, _ = _mapped(path, scheme)
+    p = build_pnl(mapped)
+    periods = [c for c in p.columns if c not in {"label", "kind"}]
+    r = auto_forecast(p.loc[line, periods].rename(line), horizon=horizon)
+    return json.dumps({"method": r.method, "backtest_wape": r.backtest_wape,
+                       "warnings": r.warnings,
+                       "forecast": json.loads(_jsonable(r.to_frame()))}, default=float)
+
+
+@tool
+def anomaly_screen(path: str, period: str, top_k: int = 15, scheme: str = "generic") -> str:
+    """Ranked review queue of unusual G/L rows for `period` with reasons
+    (amount outlier, new counterparty, near-duplicate, period-end, round amount)."""
+    from runtime.finance.anomaly import account_period_outliers, risk_rank
+
+    mapped, _ = _mapped(path, scheme)
+    return json.dumps({
+        "review_queue": json.loads(_jsonable(risk_rank(mapped, period=period, top_k=top_k))),
+        "account_outliers": json.loads(_jsonable(account_period_outliers(mapped, period))),
+        "note": "Flags are review prompts, not conclusions of error or fraud.",
+    })
+
+
+@tool
+def what_if(path: str, period: str, shocks: dict[str, float], scheme: str = "generic") -> str:
+    """What-if on `period`: shocks = {p&l_line: pct_change}, e.g. {"revenue": -0.1}.
+    COGS follows revenue unless shocked explicitly. Returns base vs scenario P&L."""
+    from runtime.finance.scenarios import Scenario, run_scenarios
+
+    mapped, _ = _mapped(path, scheme)
+    try:
+        out = run_scenarios(build_pnl(mapped), period, [Scenario("scenario", pct=shocks)])
+    except KeyError as exc:
+        return json.dumps({"error": str(exc)})
+    return _jsonable(out)
+
+
+TOOLS = [load_and_validate, pnl, variance, gl_drill_down, forecast, anomaly_screen, what_if]
 
 
 def build_agent(model: str = DEFAULT_MODEL):

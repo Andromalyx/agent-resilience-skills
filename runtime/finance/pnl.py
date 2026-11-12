@@ -65,7 +65,17 @@ def line_totals(mapped_ledger: pd.DataFrame, by: str = "period") -> pd.DataFrame
 
 def build_pnl(mapped_ledger: pd.DataFrame, by: str = "period") -> pd.DataFrame:
     """Return the full P&L (lines, subtotals, margins) with a ``label`` column."""
-    t = line_totals(mapped_ledger, by=by)
+    return pnl_from_lines(line_totals(mapped_ledger, by=by))
+
+
+def pnl_from_lines(t: pd.DataFrame) -> pd.DataFrame:
+    """Recompute subtotals/margins from presentation-signed line totals.
+
+    ``t``: rows = P&L line keys (missing lines treated as 0), columns = periods or
+    scenarios. Used by ``build_pnl``, forecasting, and scenario analysis so every
+    view shares one set of formulas.
+    """
+    t = t.reindex(list(PNL_LINES), fill_value=0.0).astype(float)
     rows: dict[str, pd.Series] = {k: t.loc[k] for k in t.index}
 
     rows["net_revenue"] = rows["revenue"] + rows["contra_revenue"]

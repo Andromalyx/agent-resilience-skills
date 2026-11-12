@@ -120,8 +120,59 @@ def build_budget() -> pd.DataFrame:
                           "Amount": v} for a, v in lines.items()])
 
 
+def build_history(months: int = 27, end: str = "2026-09", seed: int = 11) -> pd.DataFrame:
+    """Longer, seasonal G/L for forecasting / anomaly demos.
+
+    Seasonality: Q4 peak (Nov-Dec +25-35%), Feb trough. Planted anomalies in the last
+    month: a one-off 48,000 round 'consulting' JE from a never-seen vendor posted on the
+    last day of the month, and a re-keyed (near-duplicate) supplier invoice.
+    """
+    rng = np.random.default_rng(seed)
+    season = {1: 0.95, 2: 0.85, 3: 0.95, 4: 1.0, 5: 1.0, 6: 1.02, 7: 0.98, 8: 0.97,
+              9: 1.03, 10: 1.08, 11: 1.25, 12: 1.35}
+    periods = [str(p) for p in pd.period_range(end=end, periods=months, freq="M")]
+    rows: list[dict] = []
+    n = 0
+    for i, p in enumerate(periods):
+        month = int(p[-2:])
+        trend = 1 + 0.01 * i
+        for cust, share in (("Acme Retail", 0.5), ("Beta Foods", 0.33), ("Cora Hotels", 0.17)):
+            n += 1
+            rev = round(360_000 * share * trend * season[month] * rng.uniform(0.97, 1.03), 2)
+            _je(rows, f"H{n:05d}", f"{p}-12", [("1200", rev, cust), ("4000", -rev, cust)],
+                f"Invoice {cust} {p}")
+            n += 1
+            cogs = round(rev * rng.uniform(0.41, 0.43), 2)
+            _je(rows, f"H{n:05d}", f"{p}-12", [("5000", cogs, cust), ("1000", -cogs, "")],
+                f"COGS {cust} {p}")
+        for acct, vendor, base in (("6000", "Payroll", 95_000), ("6200", "AdNetwork Co", 24_000),
+                                   ("6600", "CloudSuite", 7_350)):
+            n += 1
+            amt = round(base * rng.uniform(0.97, 1.03), 2)
+            _je(rows, f"H{n:05d}", f"{p}-20", [(acct, amt, vendor), ("2000", -amt, vendor)],
+                f"{vendor} {p}")
+        n += 1
+        _je(rows, f"H{n:05d}", f"{p}-03", [("6500", 18_000.0, "Landlord LLC"),
+                                           ("1000", -18_000.0, "Landlord LLC")], f"Rent {p}")
+    last = periods[-1]
+    last_day = str((pd.Period(last, freq="M").end_time).date())
+    n += 1
+    _je(rows, f"H{n:05d}", last_day, [("6600", 48_000.0, "Zenith Advisory"),
+                                      ("2000", -48_000.0, "Zenith Advisory")],
+        "Consulting - strategy")
+    n += 1
+    _je(rows, f"H{n:05d}", f"{last}-22", [("6600", 7_412.55, "CloudSuite"),
+                                          ("2000", -7_412.55, "CloudSuite")], "CloudSuite re-key")
+    n += 1
+    _je(rows, f"H{n:05d}", f"{last}-24", [("6600", 7_412.55, "CloudSuite"),
+                                          ("2000", -7_412.55, "CloudSuite")], "CloudSuite inv")
+    return pd.DataFrame(rows)
+
+
 if __name__ == "__main__":
     here = Path(__file__).parent
     build_gl().to_csv(here / "sample_gl.csv", index=False)
     build_budget().to_csv(here / "sample_budget.csv", index=False)
-    print(f"wrote {here / 'sample_gl.csv'} and {here / 'sample_budget.csv'}")
+    build_history().to_csv(here / "sample_gl_history.csv", index=False)
+    print(f"wrote sample_gl.csv, sample_budget.csv, sample_gl_history.csv to {here}")
+

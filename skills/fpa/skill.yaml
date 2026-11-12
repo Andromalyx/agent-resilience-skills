@@ -8,7 +8,7 @@ depends_on:
   - agent-resilience-skills
 runtime:
   package: runtime.finance
-  extra: finance          # pip install -e ".[finance]"
+  extra: finance          # pip install -e ".[finance]"  (+ ".[ml]" for IsolationForest/rapidfuzz)
   cli: python -m runtime.finance
 activation:
   - general_ledger
@@ -19,6 +19,9 @@ activation:
   - month_end_close
   - chart_of_accounts_mapping
   - kpi_forecast
+  - anomaly_screening
+  - bank_reconciliation
+  - scenario_analysis
 schemes:
   - generic   # 1xxx assets ... 4xxx revenue, 5xxx COGS, 6-7xxx opex, 8xxx other, 9xxx tax
   - vas       # Vietnam Circular 200: 511/521/515/632/635/641/642/711/811/821
@@ -36,3 +39,7 @@ components:
   - gl_drill_down
   - commentary_drafter
   - kpi_calculator
+  - anomaly_screener
+  - forecaster
+  - scenario_engine
+  - reconciler

@@ -1,6 +1,6 @@
 ---
 name: fpa-gl-analyst
-description: Read and explain a company's financials from G/L detail, trial balances, P&L exports and budgets. Use when the user shares or asks about a general ledger, trial balance, chart of accounts, P&L / income statement, budget vs actual, flux / variance analysis, month-end close, margins, opex, EBITDA, KPIs, or forecast. Builds the P&L from raw accounts, validates data quality, quantifies variances, drills into G/L transactions for evidence, and drafts commentary without inventing drivers.
+description: Read and explain a company's financials from G/L detail, trial balances, P&L exports, bank statements and budgets. Use when the user shares or asks about a general ledger, trial balance, chart of accounts, P&L / income statement, budget vs actual, flux / variance analysis, month-end close, bank reconciliation, unusual transactions / anomalies, forecast, what-if scenarios, margins, opex, EBITDA, or KPIs. Builds the P&L from raw accounts, validates data quality, quantifies variances, drills into G/L transactions for evidence, screens anomalies, forecasts with backtested methods, runs scenarios, and drafts commentary without inventing drivers.
 ---
 
 # FP&A & G/L Analyst
@@ -21,7 +21,9 @@ Activate when any of these appear:
 - Questions like "why is EBITDA down", "explain the variance", "what drove opex",
   "build the P&L from this TB", "review my GL", "month-end flux", "budget vs actual".
 - Chart-of-accounts work: mapping accounts to P&L lines, VAS (Vietnam) / US / IFRS layouts.
-- Forecasting, run-rate, or KPI questions grounded in the user's ledger.
+- Forecasting, run-rate, seasonality, what-if / scenario, or KPI questions grounded in the user's ledger.
+- "Anything unusual in the GL?", fraud/error screening, duplicate payments, Benford.
+- Bank-to-GL or sub-ledger reconciliation.
 
 Also activate `skills/resilience` when: the TB does not balance, accounts are
 unmapped, data is partial, a tool fails mid-pull, or the user asks to plug,
@@ -49,11 +51,23 @@ smooth, backdate, or reclassify to hit a number.
 7. **Drill down** - For each material leaf line, `drill_down` by counterparty,
    memo, cost center, or account to find which transactions moved. Use
    `price_volume_mix` when units are available.
-8. **Respond** - Lead with the answer (what changed, how much, F/U), then the
+8. **Screen anomalies** - `risk_rank` (ranked review queue with reasons: amount
+   outlier vs account history, new counterparty, near-duplicate, period-end, round)
+   and `account_period_outliers` (account total vs its own history). Optional
+   IsolationForest when scikit-learn is installed. Benford only with n >= 300 and
+   never on fixed/recurring amounts (rent, payroll). Flags are prompts, not findings.
+9. **Forecast / scenario (when asked)** - `auto_forecast` / `forecast_pnl` backtest
+   naive, moving average, trend, seasonal naive and Holt-Winters and pick the lowest
+   WAPE; always report method, WAPE and interval. `DriverModel` for driver-based
+   plans; `run_scenarios`, `sensitivity` (tornado), `breakeven_revenue` for what-ifs.
+10. **Reconcile (when given bank / sub-ledger)** - `reconcile`: exact ref -> amount+date
+    -> fuzzy description -> one-to-many; balance proof; fuzzy matches >= threshold are
+    proposals for review.
+11. **Respond** - Lead with the answer (what changed, how much, F/U), then the
    evidence, then caveats and open items. Commentary uses
    `[DRIVER: confirm with budget owner]` unless the user or data states the cause.
 
-One-shot CLI: `python -m runtime.finance --gl gl.csv [--budget b.csv] [--scheme vas] [--period YYYY-MM] [--out report.md]`
+One-shot CLI: `python -m runtime.finance --gl gl.csv [--budget b.csv] [--scheme vas] [--period YYYY-MM] [--forecast 3] [--top-k 15] [--out report.md]`
 (exit 0 ok, 2 warnings, 3 blocking errors, 4 bad input).
 
 ## Integrity Rules (finance-specific)
@@ -71,6 +85,10 @@ One-shot CLI: `python -m runtime.finance --gl gl.csv [--budget b.csv] [--scheme 
   valid accrual basis, backdate, or reclassify to hit a target. Offer the compliant
   alternative: disclose, accrue properly with support, or present a pro-forma view
   clearly labeled as such.
+- Never present a forecast without its method, backtest error, and interval, and never
+  blend forecast values into actuals. Seasonal methods need >= 2 full cycles.
+- Never call an anomaly "fraud" or "error". Say "flagged for review because ...".
+- Never auto-clear a fuzzy or one-to-many reconciliation match above materiality.
 - Do not give tax, audit, or legal opinions; flag them for a qualified reviewer.
 
 ## Answer Shape
@@ -90,5 +108,8 @@ Open items: confirm duplicate; confirm campaign driver.
 - `references/chart-of-accounts.md` - generic and VAS (Circular 200) ranges, custom mapping.
 - `references/variance-analysis.md` - materiality, F/U, flux, PVM, commentary standard.
 - `references/gl-review-checks.md` - validation checks, red flags, close checklist.
-- `references/kpis-and-forecasting.md` - KPI formulas, run-rate, driver-based forecasting.
+- `references/kpis-and-forecasting.md` - KPI formulas, forecasting methods, scenarios, concentration.
+- `references/anomaly-detection.md` - rules, robust z, Benford, ML, review-queue triage.
+- `references/reconciliation.md` - matching tiers, balance proof, guardrails.
+- `evals/evals.json` - prompt + assertion evals for this skill.
 - `templates/variance-commentary.md`, `templates/monthly-pnl-pack.md`, `templates/data-request.md`.

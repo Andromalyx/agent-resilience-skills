@@ -17,9 +17,11 @@ from pathlib import Path
 
 import pandas as pd
 
+from runtime.finance.anomaly import account_period_outliers, risk_rank
 from runtime.finance.coa import PNL_LINES, ChartOfAccounts, load_mapping_file
 from runtime.finance.commentary import draft_commentary
-from runtime.finance.kpis import pnl_kpis
+from runtime.finance.forecast import ForecastResult, forecast_pnl
+from runtime.finance.kpis import kpi_alerts, pnl_kpis, revenue_concentration
 from runtime.finance.ledger import LoadReport, load_ledger, natural_to_net_debit
 from runtime.finance.pnl import attach_lines, build_pnl
 from runtime.finance.validation import ValidationReport, validate_ledger
@@ -42,6 +44,12 @@ class FinanceAnalysis:
     commentary: list[str]
     evidence: dict[str, pd.DataFrame] = field(default_factory=dict)
     budget_report: LoadReport | None = None
+    alerts: list[str] = field(default_factory=list)
+    concentration: pd.DataFrame | None = None
+    review_queue: pd.DataFrame | None = None
+    account_outliers: pd.DataFrame | None = None
+    forecast: pd.DataFrame | None = None
+    forecast_detail: dict[str, ForecastResult] = field(default_factory=dict)
 
     @property
     def confidence(self) -> str:
@@ -67,6 +75,9 @@ def analyze(
     expect_balanced: bool = True,
     budget_sign: str = "natural",
     drill_by: str = "counterparty",
+    forecast_horizon: int = 0,
+    anomalies: bool = True,
+    top_k: int = 15,
 ) -> FinanceAnalysis:
     """Run the full pipeline.
 
@@ -121,14 +132,29 @@ def analyze(
 
     commentary = (draft_commentary(variance, baseline_name, evidence)
                   if variance is not None else [])
-    prior_col = baseline_period if budget is None else None
-    kpis = pnl_kpis(pnl, period, prior=prior_col)
+    prior_periods = [p for p in periods if p < period]
+    kpis = pnl_kpis(pnl, period, prior=prior_periods[-1] if prior_periods else None)
+    alerts = kpi_alerts(kpis)
+    concentration = revenue_concentration(mapped, [period])
+
+    review_queue = account_outliers = None
+    if anomalies:
+        review_queue = risk_rank(mapped, period=period, top_k=top_k)
+        account_outliers = account_period_outliers(mapped, period)
+
+    forecast = None
+    forecast_detail: dict[str, ForecastResult] = {}
+    if forecast_horizon:
+        history = pnl[["label", "kind"] + [p for p in periods if p <= period]]
+        forecast, forecast_detail = forecast_pnl(history, horizon=forecast_horizon)
 
     return FinanceAnalysis(
         period=period, baseline_name=baseline_name, baseline_period=baseline_period,
         load_report=load_report, mapping=mapping, validation=validation, pnl=pnl,
         variance=variance, kpis=kpis, commentary=commentary, evidence=evidence,
-        budget_report=budget_report,
+        budget_report=budget_report, alerts=alerts, concentration=concentration,
+        review_queue=review_queue, account_outliers=account_outliers,
+        forecast=forecast, forecast_detail=forecast_detail,
     )
 
 
@@ -202,7 +228,52 @@ def render_markdown(a: FinanceAnalysis) -> str:
     out.append("## KPIs")
     for k, v in a.kpis.items():
         out.append(f"- {k}: {_cell(v)}" if "pct" not in k else f"- {k}: {_cell(v, True)}")
+    if a.concentration is not None and not a.concentration.empty:
+        c = a.concentration.attrs
+        out.append(f"- revenue concentration (HHI): {_cell(c['hhi'])} ({c['level']}); "
+                   f"top customer {c['top_customer_pct']:.1f}%")
+    if a.alerts:
+        out.append("")
+        out.append("**Alerts (rule-based, generic thresholds):**")
+        out.extend(f"- {x}" for x in a.alerts)
     out.append("")
+
+    if a.review_queue is not None:
+        out.append(f"## Anomaly screen - {a.period} (ranked review queue)")
+        if a.review_queue.empty:
+            out.append("No rows flagged.")
+        else:
+            rows = [[str(r.get("date", ""))[:10], str(r["entry_id"]), str(r["account"]),
+                     str(r["counterparty"]), _cell(float(r["amount"])),
+                     f"{r['risk_score']:.1f}", str(r["reasons"])]
+                    for _, r in a.review_queue.iterrows()]
+            out.append(_md_table(["Date", "JE", "Account", "Counterparty", "Amount", "Score",
+                                  "Reasons"], rows))
+        if a.account_outliers is not None and not a.account_outliers.empty:
+            out.append("")
+            out.append("Account totals far from their own history (robust z):")
+            out.extend(f"- {r['account']}: {_cell(r['current'])} vs median "
+                       f"{_cell(r['hist_median'])} (z={r['robust_z']})"
+                       for _, r in a.account_outliers.iterrows())
+        out.append("Flags are review prompts, not conclusions of error or fraud.")
+        out.append("")
+
+    if a.forecast is not None:
+        out.append("## Forecast (statistical baseline - not actuals)")
+        fcols = [c for c in a.forecast.columns if c not in {"label", "kind"}]
+        rows = []
+        for key in ("net_revenue", "gross_profit", "total_opex", "ebitda", "net_income"):
+            r = a.forecast.loc[key]
+            rows.append([r["label"]] + [_cell(r[c]) for c in fcols])
+        out.append(_md_table(["Line"] + fcols, rows))
+        rev = a.forecast_detail.get("revenue")
+        if rev:
+            out.append(f"Revenue method: `{rev.method}` (backtest WAPE by method: "
+                       f"{ {k: float(v) for k, v in rev.backtest_wape.items()} }); "
+                       f"{int(rev.interval * 100)}% interval "
+                       f"{_cell(float(rev.lower[0]))}-{_cell(float(rev.upper[0]))} for {rev.periods[0]}.")
+            out.extend(f"- note: {w}" for w in rev.warnings)
+        out.append("")
     out.append("## Open items before sign-off")
     items = [f"Resolve `{f.code}`: {f.message}" for f in a.validation.findings
              if f.severity in {"error", "warning"}]

@@ -4,6 +4,7 @@
 |---|---|
 | `generate_sample_data.py` | Deterministic balanced G/L (Jul-Sep 2026) + Sep budget with planted issues |
 | `sample_gl.csv` / `sample_budget.csv` | Generated output (QuickBooks-style headers) |
+| `sample_gl_history.csv` | 27 months, seasonal (Q4 peak), planted Sep anomalies - for forecast / anomaly demos |
 | `langgraph_fpa_agent.py` | LangGraph ReAct agent exposing the toolkit as tools, `skills/fpa/SKILL.md` as system prompt |
 
 ## Using your own data
@@ -24,10 +25,12 @@ year-end closing entries (VAS 911); never sum mixed currencies.
 ## Agent
 
 ```bash
-pip install -e ".[finance,agent]"
+pip install -e ".[finance,ml,agent]"
 export ANTHROPIC_API_KEY=...
 python examples/finance/langgraph_fpa_agent.py --gl examples/finance/sample_gl.csv \
   "Why did net income drop in September, and is anything in the data suspicious?"
+python examples/finance/langgraph_fpa_agent.py --gl examples/finance/sample_gl_history.csv \
+  "Forecast Q4 revenue and tell me what a 10% revenue drop does to EBITDA."
 ```
 
 Production notes: put the ledger behind a read-only connector (ERP API / warehouse view),
