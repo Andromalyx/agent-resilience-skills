@@ -16,6 +16,35 @@ The goal is simple: an agent should not panic, fabricate, hide failure, or prete
 - Lightweight Python helpers for detection, integrity checking, and recovery planning.
 - Starter eval datasets, rubrics, and tests.
 
+## FP&A & G/L Analyst Skill (`skills/fpa`)
+
+A technical skill that pairs with resilience: it reads your general ledger or trial
+balance, builds the management P&L, explains variances with G/L evidence, and drafts
+commentary **without inventing drivers**.
+
+```bash
+python -m pip install -e ".[finance]"
+python -m runtime.finance --gl examples/finance/sample_gl.csv                       # vs prior month
+python -m runtime.finance --gl examples/finance/sample_gl.csv \
+    --budget examples/finance/sample_budget.csv --out pnl_review.md                 # vs budget
+python -m runtime.finance --gl my_gl.xlsx --scheme vas --mapping my_coa_map.csv     # Vietnam VAS
+```
+
+```python
+from runtime.finance import analyze
+
+result = analyze("my_gl.csv", period="2026-09", budget="budget.csv", materiality_abs=5_000)
+print(result.confidence)          # gated by data-quality checks
+print(result.variance.query("material"))
+print(result.to_markdown())       # P&L pack: data quality, P&L, variance, commentary, open items
+```
+
+Pipeline: load (EN/VI headers, `(1,234)` negatives) -> CoA mapping with provenance
+(`explicit > range > keyword > unmapped`) -> validation (TB/JE balance, duplicates,
+abnormal signs, cut-off, round amounts) -> P&L (net revenue ... net income, margins) ->
+variance (F/U, materiality, new/dropped/sign-flip) -> G/L drill-down -> commentary.
+See `skills/fpa/SKILL.md` and `examples/finance/README.md`.
+
 ## Core Behavior
 
 When resilience is activated, the agent should follow this loop:
@@ -33,8 +62,10 @@ When resilience is activated, the agent should follow this loop:
 
 ```text
 skills/resilience/        Main reusable skill content.
+skills/fpa/               FP&A & G/L analyst skill (references + templates).
 adapters/                 Platform-specific instruction adapters.
 runtime/                  Small Python runtime helpers.
+runtime/finance/          Pandas toolkit: GL/TB -> P&L, variance, KPIs, commentary, CLI.
 evals/                    Starter datasets and rubrics.
 docs/                     Conceptual and implementation documentation.
 tests/                    Unit tests for runtime behavior.

@@ -1,0 +1,38 @@
+name: fpa-gl-analyst
+version: 0.1.0
+title: FP&A & G/L Analyst
+description: Validate G/L / trial balance data, build the management P&L, explain variances with G/L evidence, and draft commentary without inventing drivers.
+entrypoint: SKILL.md
+license: MIT
+depends_on:
+  - agent-resilience-skills
+runtime:
+  package: runtime.finance
+  extra: finance          # pip install -e ".[finance]"
+  cli: python -m runtime.finance
+activation:
+  - general_ledger
+  - trial_balance
+  - pnl_review
+  - budget_vs_actual
+  - flux_analysis
+  - month_end_close
+  - chart_of_accounts_mapping
+  - kpi_forecast
+schemes:
+  - generic   # 1xxx assets ... 4xxx revenue, 5xxx COGS, 6-7xxx opex, 8xxx other, 9xxx tax
+  - vas       # Vietnam Circular 200: 511/521/515/632/635/641/642/711/811/821
+principles:
+  - every_number_traces_to_source_rows
+  - validation_gates_confidence
+  - evidence_is_not_a_driver
+  - never_plug_or_smooth
+components:
+  - ledger_loader
+  - coa_mapper
+  - ledger_validator
+  - pnl_builder
+  - variance_engine
+  - gl_drill_down
+  - commentary_drafter
+  - kpi_calculator

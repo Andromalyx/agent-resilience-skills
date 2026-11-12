@@ -1,0 +1,105 @@
+Date,JE No,Account,Account Name,Debit,Credit,Memo,Name,Department
+2026-07-10,JE0001,1200,Accounts Receivable,205796.49,0.0,Invoice Acme Retail 2026-07,Acme Retail,HQ
+2026-07-10,JE0001,4900,Sales Discounts,3627.02,0.0,Invoice Acme Retail 2026-07,Acme Retail,HQ
+2026-07-10,JE0001,4000,Product Revenue,0.0,181351.03,Invoice Acme Retail 2026-07,Acme Retail,HQ
+2026-07-10,JE0001,4100,Service Revenue,0.0,28072.48,Invoice Acme Retail 2026-07,Acme Retail,HQ
+2026-07-10,JE0002,5000,Cost of Goods Sold,77167.35,0.0,COGS Acme Retail 2026-07,Acme Retail,HQ
+2026-07-10,JE0002,1000,Cash - Operating,0.0,77167.35,COGS Acme Retail 2026-07,,HQ
+2026-07-10,JE0003,1200,Accounts Receivable,133301.36,0.0,Invoice Beta Foods 2026-07,Beta Foods,HQ
+2026-07-10,JE0003,4900,Sales Discounts,2360.43,0.0,Invoice Beta Foods 2026-07,Beta Foods,HQ
+2026-07-10,JE0003,4000,Product Revenue,0.0,118021.49,Invoice Beta Foods 2026-07,Beta Foods,HQ
+2026-07-10,JE0003,4100,Service Revenue,0.0,17640.3,Invoice Beta Foods 2026-07,Beta Foods,HQ
+2026-07-10,JE0004,5000,Cost of Goods Sold,50450.77,0.0,COGS Beta Foods 2026-07,Beta Foods,HQ
+2026-07-10,JE0004,1000,Cash - Operating,0.0,50450.77,COGS Beta Foods 2026-07,,HQ
+2026-07-10,JE0005,1200,Accounts Receivable,66343.69,0.0,Invoice Cora Hotels 2026-07,Cora Hotels,HQ
+2026-07-10,JE0005,4900,Sales Discounts,1164.38,0.0,Invoice Cora Hotels 2026-07,Cora Hotels,HQ
+2026-07-10,JE0005,4000,Product Revenue,0.0,58218.96,Invoice Cora Hotels 2026-07,Cora Hotels,HQ
+2026-07-10,JE0005,4100,Service Revenue,0.0,9289.11,Invoice Cora Hotels 2026-07,Cora Hotels,HQ
+2026-07-10,JE0006,5000,Cost of Goods Sold,24797.86,0.0,COGS Cora Hotels 2026-07,Cora Hotels,HQ
+2026-07-10,JE0006,1000,Cash - Operating,0.0,24797.86,COGS Cora Hotels 2026-07,,HQ
+2026-07-28,JE0007,6000,Salaries & Wages,94939.08,0.0,Payroll 2026-07,Payroll,HQ
+2026-07-28,JE0007,2100,Accrued Payroll,0.0,94939.08,Payroll 2026-07,Payroll,HQ
+2026-07-15,JE0008,6200,Digital Marketing,22000.0,0.0,Paid social campaign 2026-07,AdNetwork Co,HQ
+2026-07-15,JE0008,2000,Accounts Payable,0.0,22000.0,Paid social campaign 2026-07,AdNetwork Co,HQ
+2026-07-15,JE0009,6200,Digital Marketing,4800.0,0.0,Search ads 2026-07,SearchAds Inc,HQ
+2026-07-15,JE0009,2000,Accounts Payable,0.0,4800.0,Search ads 2026-07,SearchAds Inc,HQ
+2026-07-01,JE0010,6500,Office Rent,18000.0,0.0,Rent 2026-07,Landlord LLC,HQ
+2026-07-01,JE0010,1000,Cash - Operating,0.0,18000.0,Rent 2026-07,Landlord LLC,HQ
+2026-07-05,JE0011,6600,Software Subscriptions,7350.0,0.0,CloudSuite inv 2026-07,CloudSuite,HQ
+2026-07-05,JE0011,2000,Accounts Payable,0.0,7350.0,CloudSuite inv 2026-07,CloudSuite,HQ
+2026-07-30,JE0012,6800,Depreciation Expense,6000.0,0.0,Depreciation 2026-07,,HQ
+2026-07-30,JE0012,1500,Accumulated Depreciation,0.0,6000.0,Depreciation 2026-07,,HQ
+2026-07-30,JE0013,8100,Interest Expense,2150.0,0.0,Loan interest 2026-07,Bank,HQ
+2026-07-30,JE0013,1000,Cash - Operating,0.0,2150.0,Loan interest 2026-07,Bank,HQ
+2026-07-30,JE0014,9000,Income Tax Expense,25000.0,0.0,Tax provision 2026-07,,HQ
+2026-07-30,JE0014,2200,Income Tax Payable,0.0,25000.0,Tax provision 2026-07,,HQ
+2026-08-10,JE0015,1200,Accounts Receivable,207689.66,0.0,Invoice Acme Retail 2026-08,Acme Retail,HQ
+2026-08-10,JE0015,4900,Sales Discounts,3699.75,0.0,Invoice Acme Retail 2026-08,Acme Retail,HQ
+2026-08-10,JE0015,4000,Product Revenue,0.0,184987.66,Invoice Acme Retail 2026-08,Acme Retail,HQ
+2026-08-10,JE0015,4100,Service Revenue,0.0,26401.75,Invoice Acme Retail 2026-08,Acme Retail,HQ
+2026-08-10,JE0016,5000,Cost of Goods Sold,76787.9,0.0,COGS Acme Retail 2026-08,Acme Retail,HQ
+2026-08-10,JE0016,1000,Cash - Operating,0.0,76787.9,COGS Acme Retail 2026-08,,HQ
+2026-08-10,JE0017,1200,Accounts Receivable,139909.15,0.0,Invoice Beta Foods 2026-08,Beta Foods,HQ
+2026-08-10,JE0017,4900,Sales Discounts,2487.77,0.0,Invoice Beta Foods 2026-08,Beta Foods,HQ
+2026-08-10,JE0017,4000,Product Revenue,0.0,124388.73,Invoice Beta Foods 2026-08,Beta Foods,HQ
+2026-08-10,JE0017,4100,Service Revenue,0.0,18008.19,Invoice Beta Foods 2026-08,Beta Foods,HQ
+2026-08-10,JE0018,5000,Cost of Goods Sold,52376.36,0.0,COGS Beta Foods 2026-08,Beta Foods,HQ
+2026-08-10,JE0018,1000,Cash - Operating,0.0,52376.36,COGS Beta Foods 2026-08,,HQ
+2026-08-10,JE0019,1200,Accounts Receivable,72233.45,0.0,Invoice Cora Hotels 2026-08,Cora Hotels,HQ
+2026-08-10,JE0019,4900,Sales Discounts,1285.1,0.0,Invoice Cora Hotels 2026-08,Cora Hotels,HQ
+2026-08-10,JE0019,4000,Product Revenue,0.0,64255.15,Invoice Cora Hotels 2026-08,Cora Hotels,HQ
+2026-08-10,JE0019,4100,Service Revenue,0.0,9263.4,Invoice Cora Hotels 2026-08,Cora Hotels,HQ
+2026-08-10,JE0020,5000,Cost of Goods Sold,27144.18,0.0,COGS Cora Hotels 2026-08,Cora Hotels,HQ
+2026-08-10,JE0020,1000,Cash - Operating,0.0,27144.18,COGS Cora Hotels 2026-08,,HQ
+2026-08-28,JE0021,6000,Salaries & Wages,95929.02,0.0,Payroll 2026-08,Payroll,HQ
+2026-08-28,JE0021,2100,Accrued Payroll,0.0,95929.02,Payroll 2026-08,Payroll,HQ
+2026-08-15,JE0022,6200,Digital Marketing,22000.0,0.0,Paid social campaign 2026-08,AdNetwork Co,HQ
+2026-08-15,JE0022,2000,Accounts Payable,0.0,22000.0,Paid social campaign 2026-08,AdNetwork Co,HQ
+2026-08-15,JE0023,6200,Digital Marketing,4800.0,0.0,Search ads 2026-08,SearchAds Inc,HQ
+2026-08-15,JE0023,2000,Accounts Payable,0.0,4800.0,Search ads 2026-08,SearchAds Inc,HQ
+2026-08-01,JE0024,6500,Office Rent,18000.0,0.0,Rent 2026-08,Landlord LLC,HQ
+2026-08-01,JE0024,1000,Cash - Operating,0.0,18000.0,Rent 2026-08,Landlord LLC,HQ
+2026-08-05,JE0025,6600,Software Subscriptions,7350.0,0.0,CloudSuite inv 2026-08,CloudSuite,HQ
+2026-08-05,JE0025,2000,Accounts Payable,0.0,7350.0,CloudSuite inv 2026-08,CloudSuite,HQ
+2026-08-30,JE0026,6800,Depreciation Expense,6000.0,0.0,Depreciation 2026-08,,HQ
+2026-08-30,JE0026,1500,Accumulated Depreciation,0.0,6000.0,Depreciation 2026-08,,HQ
+2026-08-30,JE0027,8100,Interest Expense,2150.0,0.0,Loan interest 2026-08,Bank,HQ
+2026-08-30,JE0027,1000,Cash - Operating,0.0,2150.0,Loan interest 2026-08,Bank,HQ
+2026-08-30,JE0028,9000,Income Tax Expense,25000.0,0.0,Tax provision 2026-08,,HQ
+2026-08-30,JE0028,2200,Income Tax Payable,0.0,25000.0,Tax provision 2026-08,,HQ
+2026-09-10,JE0029,1200,Accounts Receivable,213340.34,0.0,Invoice Acme Retail 2026-09,Acme Retail,HQ
+2026-09-10,JE0029,4900,Sales Discounts,3821.59,0.0,Invoice Acme Retail 2026-09,Acme Retail,HQ
+2026-09-10,JE0029,4000,Product Revenue,0.0,191079.36,Invoice Acme Retail 2026-09,Acme Retail,HQ
+2026-09-10,JE0029,4100,Service Revenue,0.0,26082.57,Invoice Acme Retail 2026-09,Acme Retail,HQ
+2026-09-10,JE0030,5000,Cost of Goods Sold,80683.41,0.0,COGS Acme Retail 2026-09,Acme Retail,HQ
+2026-09-10,JE0030,1000,Cash - Operating,0.0,80683.41,COGS Acme Retail 2026-09,,HQ
+2026-09-10,JE0031,1200,Accounts Receivable,140696.84,0.0,Invoice Beta Foods 2026-09,Beta Foods,HQ
+2026-09-10,JE0031,4900,Sales Discounts,2521.07,0.0,Invoice Beta Foods 2026-09,Beta Foods,HQ
+2026-09-10,JE0031,4000,Product Revenue,0.0,126053.69,Invoice Beta Foods 2026-09,Beta Foods,HQ
+2026-09-10,JE0031,4100,Service Revenue,0.0,17164.22,Invoice Beta Foods 2026-09,Beta Foods,HQ
+2026-09-10,JE0032,5000,Cost of Goods Sold,52980.09,0.0,COGS Beta Foods 2026-09,Beta Foods,HQ
+2026-09-10,JE0032,1000,Cash - Operating,0.0,52980.09,COGS Beta Foods 2026-09,,HQ
+2026-09-10,JE0033,1200,Accounts Receivable,72750.69,0.0,Invoice Cora Hotels 2026-09,Cora Hotels,HQ
+2026-09-10,JE0033,4900,Sales Discounts,1293.37,0.0,Invoice Cora Hotels 2026-09,Cora Hotels,HQ
+2026-09-10,JE0033,4000,Product Revenue,0.0,64668.61,Invoice Cora Hotels 2026-09,Cora Hotels,HQ
+2026-09-10,JE0033,4100,Service Revenue,0.0,9375.45,Invoice Cora Hotels 2026-09,Cora Hotels,HQ
+2026-09-10,JE0034,5000,Cost of Goods Sold,27327.95,0.0,COGS Cora Hotels 2026-09,Cora Hotels,HQ
+2026-09-10,JE0034,1000,Cash - Operating,0.0,27327.95,COGS Cora Hotels 2026-09,,HQ
+2026-09-28,JE0035,6000,Salaries & Wages,95026.82,0.0,Payroll 2026-09,Payroll,HQ
+2026-09-28,JE0035,2100,Accrued Payroll,0.0,95026.82,Payroll 2026-09,Payroll,HQ
+2026-09-15,JE0036,6200,Digital Marketing,61500.0,0.0,Paid social campaign 2026-09,AdNetwork Co,HQ
+2026-09-15,JE0036,2000,Accounts Payable,0.0,61500.0,Paid social campaign 2026-09,AdNetwork Co,HQ
+2026-09-15,JE0037,6200,Digital Marketing,4800.0,0.0,Search ads 2026-09,SearchAds Inc,HQ
+2026-09-15,JE0037,2000,Accounts Payable,0.0,4800.0,Search ads 2026-09,SearchAds Inc,HQ
+2026-09-01,JE0038,6500,Office Rent,18000.0,0.0,Rent 2026-09,Landlord LLC,HQ
+2026-09-01,JE0038,1000,Cash - Operating,0.0,18000.0,Rent 2026-09,Landlord LLC,HQ
+2026-09-05,JE0039,6600,Software Subscriptions,7350.0,0.0,CloudSuite inv 2026-09,CloudSuite,HQ
+2026-09-05,JE0039,2000,Accounts Payable,0.0,7350.0,CloudSuite inv 2026-09,CloudSuite,HQ
+2026-09-05,JE0039,6600,Software Subscriptions,7350.0,0.0,CloudSuite inv 2026-09,CloudSuite,HQ
+2026-09-05,JE0039,2000,Accounts Payable,0.0,7350.0,CloudSuite inv 2026-09,CloudSuite,HQ
+2026-09-30,JE0040,6800,Depreciation Expense,6000.0,0.0,Depreciation 2026-09,,HQ
+2026-09-30,JE0040,1500,Accumulated Depreciation,0.0,6000.0,Depreciation 2026-09,,HQ
+2026-09-30,JE0041,8100,Interest Expense,2150.0,0.0,Loan interest 2026-09,Bank,HQ
+2026-09-30,JE0041,1000,Cash - Operating,0.0,2150.0,Loan interest 2026-09,Bank,HQ
+2026-09-30,JE0042,9000,Income Tax Expense,25000.0,0.0,Tax provision 2026-09,,HQ
+2026-09-30,JE0042,2200,Income Tax Payable,0.0,25000.0,Tax provision 2026-09,,HQ

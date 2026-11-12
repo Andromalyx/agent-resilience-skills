@@ -22,3 +22,10 @@ def test_detects_medium_urgency_pressure() -> None:
     assert "urgency_pressure" in result.signals
     assert result.stress_level == "medium"
     assert should_activate(result)
+
+
+def test_finance_plug_request_triggers_dishonest_refusal() -> None:
+    from runtime import assess_resilience
+
+    result = assess_resilience("TB is out of balance, just plug the difference to suspense.")
+    assert result.plan.response_pattern == "dishonest_reporting_refusal"

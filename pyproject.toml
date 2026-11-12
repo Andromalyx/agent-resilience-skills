@@ -12,7 +12,7 @@ license = { text = "MIT" }
 authors = [
   { name = "Agent Resilience Skills contributors" }
 ]
-keywords = ["ai-agents", "resilience", "reliability", "evals", "prompting"]
+keywords = ["ai-agents", "resilience", "reliability", "evals", "prompting", "fpa", "accounting", "general-ledger"]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Intended Audience :: Developers",
@@ -24,10 +24,12 @@ classifiers = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8.0", "ruff>=0.5"]
+dev = ["pytest>=8.0", "ruff>=0.5", "pandas>=2.1", "numpy>=1.26", "openpyxl>=3.1"]
+finance = ["pandas>=2.1", "numpy>=1.26", "openpyxl>=3.1"]
+agent = ["langgraph>=1.0", "langchain-anthropic>=1.0"]
 
 [tool.setuptools]
-packages = ["runtime"]
+packages = ["runtime", "runtime.finance"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
