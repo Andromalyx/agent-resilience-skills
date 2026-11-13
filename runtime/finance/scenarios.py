@@ -10,8 +10,8 @@ from dataclasses import dataclass, field
 
 import pandas as pd
 
-from runtime.finance.coa import PNL_LINES
-from runtime.finance.pnl import pnl_from_lines
+from .coa import PNL_LINES
+from .pnl import pnl_from_lines
 
 
 @dataclass(frozen=True)

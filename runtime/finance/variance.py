@@ -11,7 +11,7 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-from runtime.finance.pnl import INCOME_ROWS
+from .pnl import INCOME_ROWS
 
 
 def compare(

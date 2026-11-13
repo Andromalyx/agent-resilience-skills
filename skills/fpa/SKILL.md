@@ -1,115 +1,120 @@
 ---
 name: fpa-gl-analyst
-description: Read and explain a company's financials from G/L detail, trial balances, P&L exports, bank statements and budgets. Use when the user shares or asks about a general ledger, trial balance, chart of accounts, P&L / income statement, budget vs actual, flux / variance analysis, month-end close, bank reconciliation, unusual transactions / anomalies, forecast, what-if scenarios, margins, opex, EBITDA, or KPIs. Builds the P&L from raw accounts, validates data quality, quantifies variances, drills into G/L transactions for evidence, screens anomalies, forecasts with backtested methods, runs scenarios, and drafts commentary without inventing drivers.
+description: Read and explain a company's financials from G/L detail, trial balances, P&L exports, bank statements and budgets, using a bundled offline engine and a per-company knowledge base (fpa-context). Use when the user shares or asks about a general ledger / sổ cái, trial balance, chart of accounts, P&L / income statement, budget vs actual, flux / variance analysis, month-end close, bank reconciliation, unusual transactions, forecast, what-if scenarios, margins, opex, EBITDA, or KPIs. Validates data first, computes every number with code, cites G/L evidence, and never invents drivers.
 ---
 
 # FP&A & G/L Analyst
 
-## Purpose
+Turn raw accounting data into a validated P&L, variance analysis, anomaly review,
+forecast, and evidence-bound commentary. Numbers are the highest-fabrication-risk
+output an agent produces: **every figure comes from the engine, not from mental math,
+and traces to source rows or is labeled an assumption.** Apply `agent-resilience`
+whenever data is broken, a tool fails, or someone asks to plug, smooth or backdate.
 
-Turn raw accounting data (G/L detail, trial balance, P&L export, budget) into a
-validated management P&L, variance analysis, and evidence-bound commentary.
-This skill is the technical companion to `skills/resilience`: numbers are the
-highest-fabrication-risk output an agent produces, so every figure must trace to
-a source row or be labeled as an assumption.
+## 0. Setup (first use on a machine)
 
-## Activation
+The engine ships with this skill. `FPA` below means
+`python <this skill's base directory>/scripts/fpa.py`.
 
-Activate when any of these appear:
+1. `FPA doctor` - if it prints `fix: pip install ...`, ask the user before installing.
+2. Find or create the company knowledge base: look for `./fpa-context/` (or the path
+   the user names). If none exists, offer `FPA init-context ./fpa-context --scheme vas|generic --currency XXX`
+   and fill `company.yaml` **with the user** (currency, CoA scheme, date/decimal
+   format, materiality in their currency, closing accounts, owners).
+3. Suggest the user keep `fpa-context/` and raw data out of public repos
+   (add `data/` and `fpa-context/` to `.gitignore` unless the repo is private).
 
-- Files or tables with account codes, debit/credit, journal entries, or periods.
-- Questions like "why is EBITDA down", "explain the variance", "what drove opex",
-  "build the P&L from this TB", "review my GL", "month-end flux", "budget vs actual".
-- Chart-of-accounts work: mapping accounts to P&L lines, VAS (Vietnam) / US / IFRS layouts.
-- Forecasting, run-rate, seasonality, what-if / scenario, or KPI questions grounded in the user's ledger.
-- "Anything unusual in the GL?", fraud/error screening, duplicate payments, Benford.
-- Bank-to-GL or sub-ledger reconciliation.
+## 1. Knowledge base: read first, write only what a person confirms
 
-Also activate `skills/resilience` when: the TB does not balance, accounts are
-unmapped, data is partial, a tool fails mid-pull, or the user asks to plug,
-smooth, backdate, or reclassify to hit a number.
+| File | Agent reads | Agent may write |
+|---|---|---|
+| `company.yaml` | Always (via `--context`) | Only with the user's explicit approval of the value |
+| `coa_map.csv` (`account,line`) | Always | After the user confirms a mapping for an unmapped / keyword-mapped account |
+| `drivers.csv` | Commentary uses drivers for the period | Via `FPA record-driver ... --confirmed-by "<person>"` only after a person states or approves the explanation |
+| `notes.md` | Read before interpreting variances (seasonality, events, policies) | Append dated, sourced facts the user confirms |
 
-## Reasoning Loop (plan -> tool -> observe -> respond)
+Never record a driver, mapping or policy the user did not confirm. Evidence from
+the G/L is not a driver. If knowledge here conflicts with the data, report the
+conflict instead of picking one.
 
-1. **Plan** - Identify: data type (GL detail / TB / P&L export / budget), period(s),
-   baseline (budget, forecast, prior period, prior year), currency, entity scope,
-   materiality (default: |var| >= 10,000 AND |var %| >= 10%; ask if the user has a policy).
-2. **Load** - `runtime.finance.load_ledger` auto-detects columns (EN + VI headers),
-   parses accounting number formats, normalizes to net-debit. Report the column map
-   it chose; never silently assume a column meaning.
-3. **Map** - `ChartOfAccounts(scheme="generic"|"vas", explicit=...)`. Each account
-   records its mapping source: `explicit` > `range` > `keyword` > `unmapped`.
-   Keyword and unmapped accounts are disclosed, not hidden.
-4. **Validate (gate)** - `validate_ledger`. Errors (unbalanced TB/JEs) make every
-   downstream number provisional - say so up front. Warnings (duplicates, unmapped,
-   abnormal signs) become caveats and open items. Info flags are review prompts only.
-5. **Build P&L** - `build_pnl`: revenue -> net revenue -> gross profit -> opex ->
-   EBITDA -> EBIT -> PBT -> net income, plus margins. Check subtotals tie.
-6. **Variance** - `compare_pnl` / `compare`: actual vs baseline with F/U logic
-   (higher income = F, higher cost = U), materiality, and flags (`new`, `dropped`,
-   `sign_flip`). Margins compared in percentage points.
-7. **Drill down** - For each material leaf line, `drill_down` by counterparty,
-   memo, cost center, or account to find which transactions moved. Use
-   `price_volume_mix` when units are available.
-8. **Screen anomalies** - `risk_rank` (ranked review queue with reasons: amount
-   outlier vs account history, new counterparty, near-duplicate, period-end, round)
-   and `account_period_outliers` (account total vs its own history). Optional
-   IsolationForest when scikit-learn is installed. Benford only with n >= 300 and
-   never on fixed/recurring amounts (rent, payroll). Flags are prompts, not findings.
-9. **Forecast / scenario (when asked)** - `auto_forecast` / `forecast_pnl` backtest
-   naive, moving average, trend, seasonal naive and Holt-Winters and pick the lowest
-   WAPE; always report method, WAPE and interval. `DriverModel` for driver-based
-   plans; `run_scenarios`, `sensitivity` (tornado), `breakeven_revenue` for what-ifs.
-10. **Reconcile (when given bank / sub-ledger)** - `reconcile`: exact ref -> amount+date
-    -> fuzzy description -> one-to-many; balance proof; fuzzy matches >= threshold are
-    proposals for review.
-11. **Respond** - Lead with the answer (what changed, how much, F/U), then the
-   evidence, then caveats and open items. Commentary uses
-   `[DRIVER: confirm with budget owner]` unless the user or data states the cause.
+## 2. Workflow (plan -> tool -> observe -> respond)
 
-One-shot CLI: `python -m runtime.finance --gl gl.csv [--budget b.csv] [--scheme vas] [--period YYYY-MM] [--forecast 3] [--top-k 15] [--out report.md]`
-(exit 0 ok, 2 warnings, 3 blocking errors, 4 bad input).
+1. **Plan**: data type (G/L detail / TB / P&L export / budget / bank), period,
+   baseline (budget, prior period, prior year), entity, currency.
+2. **Run the engine**, writing JSON to a file and reading only what you need:
+   ```bash
+   FPA analyze --gl <file> --context ./fpa-context [--budget <file>] [--period YYYY-MM] \
+       [--forecast 3] [--ytd] [--pnl-only] --json-out /tmp/fpa_result.json --out /tmp/fpa_report.md
+   ```
+   Exit codes: 0 ok · 2 warnings · 3 blocking data errors · 4 bad input / missing deps.
+3. **Observe - gate on data quality first** (`confidence`, `findings`, `load`):
+   - `error` (unbalanced TB/JE, unparseable amounts, mixed currency): every figure is
+     provisional - say so in the first sentence; propose the fix.
+   - `possible_cumulative_tb`: ask whether exports are YTD; rerun with `--ytd`.
+   - `no_context` / `materiality_scale`: say defaults were used; offer to set them.
+   - `unmapped_accounts`: list them with amounts; ask for mappings -> `coa_map.csv`.
+   - Check `settings`: date order, decimal separator, closing accounts. If the engine
+     inferred them, state the inference; if wrong, rerun with `--dayfirst/--monthfirst`,
+     `--decimal`, `--closing-accounts`.
+4. **Explain**: headline (net income / EBITDA vs baseline), then material **leaf** lines
+   with `evidence` (top counterparties / memos), then `review_queue` items, then KPIs
+   and `alerts`, then open items. Use the commentary drafts; keep `[DRIVER: ...]`
+   placeholders until a person confirms.
+5. **Follow-ups** (Python API from `scripts/` on `sys.path`: `import fpa_engine as fe`):
+   - Drill-down: `fe.drill_down(mapped, accounts, period, baseline, by="description")`
+   - Scenarios: `fe.run_scenarios(pnl, period, [fe.Scenario("down", pct={"revenue": -0.1})])`,
+     `fe.sensitivity(...)`, `fe.breakeven_revenue(...)`
+   - Driver plan: `fe.DriverModel(...)`; PVM: `fe.price_volume_mix(...)`
+   - Reconciliation: `FPA reconcile --bank bank.csv --gl gl.xlsx --cash-account 112 --bank-balance X --gl-balance Y`
+6. **Close the loop**: when the user confirms a driver, mapping or fact, write it to
+   `fpa-context` (table above) and tell them it was saved.
 
-## Integrity Rules (finance-specific)
+## 3. Real-data handling
 
-- Never plug, force-balance, or create a "suspense" entry to make a TB tie. Report
-  the imbalance amount per period and the unbalanced JEs instead.
-- Never state a business driver (price increase, new hire, campaign) that is not in
-  the data or provided by the user. Evidence ("AdNetwork Co +39.5k") is not a driver
-  ("we launched a campaign") until confirmed.
+- **Privacy**: the engine is offline (no network). Do not paste raw ledger rows,
+  customer names or amounts into web searches, external tools, commits or PRs. Quote
+  only the rows needed as evidence.
+- **Large files**: never `cat`/Read a whole G/L. Use the engine, `head -20` to inspect
+  headers, or pandas filters. For > 1M rows prefer Parquet.
+- **Exports that need care**: title rows above headers (auto-skipped), dd/mm dates and
+  `1.234.567` VND amounts (auto-inferred, reported in `settings`), YTD TBs (`--ytd`),
+  closing entries (VAS 911 removed by default), multi-currency (blocked).
+- **Read-only**: the agent drafts and stages; it never posts entries to an ERP.
+
+## 4. Integrity rules
+
+- Never plug, force-balance, or create suspense entries to make a TB tie.
+- Never state a business driver that is not in the data, `drivers.csv`, or the user's words.
 - Never present keyword-mapped or unmapped accounts as confidently classified.
-- Never mix sign conventions silently. State whether figures are presentation-signed
-  (income positive, costs positive) or net-debit.
-- Never compute a ratio with a zero/missing denominator; return n/a.
-- Refuse requests to smooth earnings, shift expenses across periods without a
-  valid accrual basis, backdate, or reclassify to hit a target. Offer the compliant
-  alternative: disclose, accrue properly with support, or present a pro-forma view
-  clearly labeled as such.
-- Never present a forecast without its method, backtest error, and interval, and never
-  blend forecast values into actuals. Seasonal methods need >= 2 full cycles.
-- Never call an anomaly "fraud" or "error". Say "flagged for review because ...".
-- Never auto-clear a fuzzy or one-to-many reconciliation match above materiality.
-- Do not give tax, audit, or legal opinions; flag them for a qualified reviewer.
+- State sign conventions when ambiguous (presentation: income +, costs +).
+- Ratios with zero/missing denominators are n/a.
+- Refuse smoothing, backdating, or reclassifying to hit a target; offer disclosure,
+  a supported accrual, or a clearly labeled pro-forma view.
+- Forecasts always carry method, backtest WAPE and interval, and stay separate from
+  actuals. Seasonal methods need >= 2 full cycles.
+- Anomalies are "flagged for review because ...", never "fraud" or "error".
+- Fuzzy / one-to-many reconciliation matches above materiality are proposals.
+- No tax, audit or legal opinions; flag for a qualified reviewer.
 
-## Answer Shape
+## 5. Answer shape
 
 ```text
 Headline: Sep net income 38.6k vs 82.3k prior (-43.7k, -53%), unfavorable.
-Main driver line: Sales & marketing +39.5k (+147%); GL shows AdNetwork Co +39.5k
-(single vendor, JE on 09-15). Business reason: [confirm with marketing owner].
-Data quality: medium confidence - 1 possible duplicate CloudSuite invoice (7,350)
-in G&A; TB balances.
+Driver line: Sales & marketing +39.5k (+147%); GL: AdNetwork Co +39.5k (JE 09-15).
+Business reason: [confirm with Marketing Director].
+Data quality: medium - possible duplicate CloudSuite invoice (7,350); TB balances.
+Settings: dates dd/mm (inferred), materiality 10,000 AND 10% (default - not set in fpa-context).
 Open items: confirm duplicate; confirm campaign driver.
 ```
 
-## References
+## References (load when relevant)
 
-- `references/pnl-structure.md` - P&L layout, sign conventions, subtotal formulas.
-- `references/chart-of-accounts.md` - generic and VAS (Circular 200) ranges, custom mapping.
-- `references/variance-analysis.md` - materiality, F/U, flux, PVM, commentary standard.
-- `references/gl-review-checks.md` - validation checks, red flags, close checklist.
-- `references/kpis-and-forecasting.md` - KPI formulas, forecasting methods, scenarios, concentration.
-- `references/anomaly-detection.md` - rules, robust z, Benford, ML, review-queue triage.
-- `references/reconciliation.md` - matching tiers, balance proof, guardrails.
-- `evals/evals.json` - prompt + assertion evals for this skill.
-- `templates/variance-commentary.md`, `templates/monthly-pnl-pack.md`, `templates/data-request.md`.
+- `references/pnl-structure.md` - layout, sign conventions, tie-outs, pitfalls.
+- `references/chart-of-accounts.md` - generic and VAS ranges, custom mapping.
+- `references/variance-analysis.md` - materiality, F/U, drill-down order, PVM, commentary.
+- `references/gl-review-checks.md` - validation codes, red flags, close checklist.
+- `references/anomaly-detection.md` - review-queue scoring, Benford validity.
+- `references/kpis-and-forecasting.md` - KPIs, forecasting, scenarios, concentration.
+- `references/reconciliation.md` - matching tiers, balance proof.
+- `templates/` - variance commentary, monthly P&L pack, data request.
+- `evals/evals.json` - acceptance cases for this skill.

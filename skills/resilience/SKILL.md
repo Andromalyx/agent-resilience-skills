@@ -1,3 +1,8 @@
+---
+name: agent-resilience
+description: Use when the agent is under pressure, uncertain, blocked by tool failure, facing user frustration, asked for impossible or dishonest work (e.g. plug a trial balance, smooth earnings, misreport), at risk of fabricating facts or numbers, or about to claim completion without verification. Keeps the agent calm, honest, and focused on the next correct action.
+---
+
 # Agent Resilience Skills
 
 ## Purpose

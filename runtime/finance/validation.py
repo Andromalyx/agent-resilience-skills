@@ -14,7 +14,7 @@ from dataclasses import dataclass, field
 
 import pandas as pd
 
-from runtime.finance.coa import PNL_LINES, is_income_line
+from .coa import PNL_LINES, is_income_line
 
 TOLERANCE = 0.01  # currency units; rounding noise allowed when testing balance
 
@@ -139,7 +139,10 @@ def validate_ledger(
         (ledger["amount"].abs() >= round_amount_threshold)
         & ((ledger["amount"].abs() % 1000) == 0)
     ]
-    if not big_round.empty:
+    nonzero = int((ledger["amount"] != 0).sum())
+    round_share = (ledger["amount"].abs() % 1000 == 0).sum() / nonzero if nonzero else 0
+    # In currencies like VND most postings are whole thousands; the flag is then noise.
+    if not big_round.empty and round_share < 0.5:
         report.add(Finding(
             "info", "round_amounts",
             f"{len(big_round)} round-thousand amount(s) >= {round_amount_threshold:,.0f} "

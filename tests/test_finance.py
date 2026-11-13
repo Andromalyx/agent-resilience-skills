@@ -36,8 +36,17 @@ def gl() -> pd.DataFrame:
 
 
 def test_parse_amount_accounting_formats() -> None:
-    s = pd.Series(["1,234.50", "(200)", "300-", "", "$1,000", "1.234,56", None])
-    assert parse_amount(s).tolist() == [1234.5, -200.0, -300.0, 0.0, 1000.0, 1234.56, 0.0]
+    us = pd.Series(["1,234.50", "(200)", "300-", "", "$1,000", "-5", None])
+    assert parse_amount(us).tolist() == [1234.5, -200.0, -300.0, 0.0, 1000.0, -5.0, 0.0]
+    eu = pd.Series(["1.234,56", "(1.000,00)", "12,5"])
+    assert parse_amount(eu).tolist() == [1234.56, -1000.0, 12.5]
+    vnd = pd.Series(["1.200.000.000", "700.000.000", "150.000"])  # VND, dot = thousands
+    assert parse_amount(vnd).tolist() == [1_200_000_000.0, 700_000_000.0, 150_000.0]
+
+
+def test_unparseable_amount_is_error_not_zero() -> None:
+    _, report = load_ledger(pd.DataFrame({"Account": ["4000"], "Amount": ["12abc..34x"]}))
+    assert report.errors and "could not be parsed" in report.errors[0]
 
 
 def test_load_ledger_detects_columns_and_signs(gl: pd.DataFrame) -> None:

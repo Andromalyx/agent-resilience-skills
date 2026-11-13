@@ -9,7 +9,7 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-from runtime.finance.coa import OPEX_LINES, PNL_LINES, is_income_line
+from .coa import OPEX_LINES, PNL_LINES, is_income_line
 
 #: (row_key, label, kind) in presentation order. kind: line | subtotal | ratio
 PNL_LAYOUT: tuple[tuple[str, str, str], ...] = (

@@ -16,6 +16,18 @@ The goal is simple: an agent should not panic, fabricate, hide failure, or prete
 - Lightweight Python helpers for detection, integrity checking, and recovery planning.
 - Starter eval datasets, rubrics, and tests.
 
+## Install in Claude Code
+
+```text
+/plugin marketplace add Andromalyx/agent-resilience-skills
+/plugin install agent-resilience-skills@agent-resilience-skills
+```
+
+Or copy a single skill: `cp -r skills/fpa ~/.claude/skills/fpa-gl-analyst` (the finance
+engine is bundled in `skills/fpa/scripts/`; needs `pip install pandas numpy openpyxl pyyaml`).
+For real-data setup (knowledge base, calibration, privacy) see
+[`docs/claude-code-setup.md`](docs/claude-code-setup.md).
+
 ## FP&A & G/L Analyst Skill (`skills/fpa`)
 
 A technical skill that pairs with resilience: it reads your general ledger or trial
@@ -79,6 +91,8 @@ skills/fpa/               FP&A & G/L analyst skill (references + templates).
 adapters/                 Platform-specific instruction adapters.
 runtime/                  Small Python runtime helpers.
 runtime/finance/          Pandas toolkit: GL/TB -> P&L, variance, KPIs, commentary, CLI.
+                          (vendored into skills/fpa/scripts/fpa_engine by scripts/sync_skill_engine.py)
+.claude-plugin/           Claude Code plugin + marketplace manifests.
 evals/                    Starter datasets and rubrics.
 docs/                     Conceptual and implementation documentation.
 tests/                    Unit tests for runtime behavior.

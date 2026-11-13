@@ -23,7 +23,7 @@ from dataclasses import dataclass, field
 import numpy as np
 import pandas as pd
 
-from runtime.finance.pnl import pnl_from_lines
+from .pnl import pnl_from_lines
 
 logger = logging.getLogger(__name__)
 
@@ -216,7 +216,7 @@ def forecast_pnl(pnl: pd.DataFrame, horizon: int = 3, season_length: int = 12,
 
     Returns (forecast P&L in ``build_pnl`` layout, per-line ForecastResult).
     """
-    from runtime.finance.coa import PNL_LINES
+    from .coa import PNL_LINES
 
     periods = [c for c in pnl.columns if c not in {"label", "kind"}]
     lines = lines or list(PNL_LINES)

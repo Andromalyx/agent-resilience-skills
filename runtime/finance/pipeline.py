@@ -17,15 +17,23 @@ from pathlib import Path
 
 import pandas as pd
 
-from runtime.finance.anomaly import account_period_outliers, risk_rank
-from runtime.finance.coa import PNL_LINES, ChartOfAccounts, load_mapping_file
-from runtime.finance.commentary import draft_commentary
-from runtime.finance.forecast import ForecastResult, forecast_pnl
-from runtime.finance.kpis import kpi_alerts, pnl_kpis, revenue_concentration
-from runtime.finance.ledger import LoadReport, load_ledger, natural_to_net_debit
-from runtime.finance.pnl import attach_lines, build_pnl
-from runtime.finance.validation import ValidationReport, validate_ledger
-from runtime.finance.variance import compare_pnl, drill_down
+from .adjustments import (
+    DEFAULT_CLOSING_ACCOUNTS,
+    currency_check,
+    detect_cumulative,
+    exclude_closing_entries,
+    ytd_to_periodic,
+)
+from .anomaly import account_period_outliers, risk_rank
+from .coa import PNL_LINES, ChartOfAccounts, load_mapping_file
+from .commentary import draft_commentary
+from .context import FinanceContext, load_context
+from .forecast import ForecastResult, forecast_pnl
+from .kpis import kpi_alerts, pnl_kpis, revenue_concentration
+from .ledger import LoadReport, load_ledger, natural_to_net_debit
+from .pnl import attach_lines, build_pnl
+from .validation import Finding, ValidationReport, validate_ledger
+from .variance import compare_pnl, drill_down
 
 logger = logging.getLogger(__name__)
 
@@ -50,6 +58,8 @@ class FinanceAnalysis:
     account_outliers: pd.DataFrame | None = None
     forecast: pd.DataFrame | None = None
     forecast_detail: dict[str, ForecastResult] = field(default_factory=dict)
+    context: FinanceContext | None = None
+    settings: dict = field(default_factory=dict)
 
     @property
     def confidence(self) -> str:
@@ -68,29 +78,105 @@ def analyze(
     gl: str | Path | pd.DataFrame,
     period: str | None = None,
     budget: str | Path | pd.DataFrame | None = None,
-    scheme: str = "generic",
+    scheme: str | None = None,
     mapping_file: str | Path | None = None,
-    materiality_abs: float = 10_000,
-    materiality_pct: float = 10.0,
-    expect_balanced: bool = True,
+    materiality_abs: float | None = None,
+    materiality_pct: float | None = None,
+    expect_balanced: bool | None = None,
     budget_sign: str = "natural",
     drill_by: str = "counterparty",
     forecast_horizon: int = 0,
     anomalies: bool = True,
     top_k: int = 15,
+    context: FinanceContext | str | Path | None = None,
+    closing_accounts: tuple[str, ...] | list[str] | None = None,
+    cumulative: bool | None = None,
+    dayfirst: bool | None = None,
+    decimal: str | None = None,
 ) -> FinanceAnalysis:
     """Run the full pipeline.
 
     Baseline is the budget for ``period`` if ``budget`` is given, otherwise the prior
-    period present in the ledger.
+    period present in the ledger. Arguments left as ``None`` come from ``context``
+    (an ``fpa-context`` folder or ``FinanceContext``), then from safe defaults.
     """
-    ledger, load_report = load_ledger(gl)
-    coa = ChartOfAccounts(scheme=scheme,
-                          explicit=load_mapping_file(mapping_file) if mapping_file else None)
+    ctx = context if isinstance(context, FinanceContext) else load_context(context)
+    scheme = scheme or ctx.scheme
+    materiality_abs = ctx.materiality_abs if materiality_abs is None else materiality_abs
+    materiality_pct = ctx.materiality_pct if materiality_pct is None else materiality_pct
+    expect_balanced = ctx.expect_balanced if expect_balanced is None else expect_balanced
+    cumulative = ctx.cumulative_tb if cumulative is None else cumulative
+    dayfirst = ctx.dayfirst if dayfirst is None else dayfirst
+    decimal = decimal or ctx.decimal
+    if closing_accounts is None:
+        closing_accounts = (ctx.closing_accounts if ctx.closing_accounts is not None
+                            else DEFAULT_CLOSING_ACCOUNTS.get(scheme, ()))
+
+    ledger, load_report = load_ledger(gl, dayfirst=dayfirst, decimal=decimal)
+    pre_findings: list[Finding] = [Finding("error", "load_error", e) for e in load_report.errors]
+
+    currencies = currency_check(ledger)
+    if len(currencies) > 1:
+        pre_findings.append(Finding(
+            "error", "mixed_currency",
+            f"Ledger mixes currencies {currencies}; totals are meaningless until amounts are "
+            "in one functional currency (export functional-currency amounts or apply FX)."))
+    elif (currencies and ctx.functional_currency
+          and currencies[0] != ctx.functional_currency):
+        pre_findings.append(Finding(
+            "warning", "currency_mismatch",
+            f"Ledger currency {currencies[0]} differs from functional currency "
+            f"{ctx.functional_currency} in fpa-context."))
+
+    ledger, closing_info = exclude_closing_entries(ledger, closing_accounts)
+    if closing_info["rows_removed"]:
+        pre_findings.append(Finding(
+            "info", "closing_entries_removed",
+            f"Removed {closing_info['rows_removed']} row(s) / {closing_info['entries_removed']} "
+            f"closing JE(s) posting to {closing_info['closing_accounts']} so P&L balances "
+            "are not zeroed."))
+    if closing_info["warning"]:
+        pre_findings.append(Finding("warning", "closing_entries_uncertain",
+                                    closing_info["warning"]))
+
+    explicit = dict(ctx.coa_map)
+    if mapping_file:
+        explicit.update(load_mapping_file(mapping_file))
+    coa = ChartOfAccounts(scheme=scheme, explicit=explicit or None)
     mapping = coa.classify_frame(ledger)
+
+    if cumulative is None and detect_cumulative(ledger):
+        pre_findings.append(Finding(
+            "warning", "possible_cumulative_tb",
+            "P&L balances only grow within each year - this looks like a YTD (cumulative) "
+            "trial balance. Monthly figures and variances are wrong unless converted: "
+            "rerun with cumulative=True (--ytd) or set cumulative_tb in fpa-context."))
+    elif cumulative:
+        ledger = ytd_to_periodic(ledger, ctx.fiscal_year_start_month)
+        pre_findings.append(Finding("info", "ytd_converted",
+                                    "YTD balances converted to monthly movements."))
+
+    if ctx.root is None:
+        pre_findings.append(Finding(
+            "info", "no_context",
+            "No fpa-context folder used: CoA mapping, materiality, date/decimal format and "
+            "drivers are defaults. Create one (`fpa.py init-context`) for real data."))
+    typical = ledger["amount"].abs().median() if len(ledger) else 0
+    if materiality_abs == 10_000 and typical > 1_000_000:
+        pre_findings.append(Finding(
+            "warning", "materiality_scale",
+            f"Default materiality 10,000 vs typical posting {typical:,.0f}: almost every "
+            "line will be 'material'. Set materiality in fpa-context (e.g. VND scale)."))
+
     validation = validate_ledger(ledger, mapping, expect_balanced=expect_balanced)
+    validation.findings[:0] = pre_findings
     mapped = attach_lines(ledger, mapping)
     pnl = build_pnl(mapped)
+    # Fall back to a populated dimension so G/L evidence is never all "(blank)".
+    for dim in (drill_by, "counterparty", "description", "account"):
+        if (mapped[dim].astype(str).str.strip() != "").any():
+            drill_by = dim
+            break
 
     periods = sorted(p for p in mapped["period"].unique() if p not in {"ALL", "UNKNOWN"})
     period = period or (periods[-1] if periods else "ALL")
@@ -102,9 +188,13 @@ def analyze(
     baseline_name = "budget" if budget is not None else "prior period"
     budget_report = None
     evidence: dict[str, pd.DataFrame] = {}
+    rule = ctx.materiality_rule
 
     if budget is not None:
-        bud, budget_report = load_ledger(budget, amount_sign=budget_sign)
+        bud, budget_report = load_ledger(budget, amount_sign=budget_sign, dayfirst=dayfirst,
+                                         decimal=decimal)
+        validation.findings.extend(Finding("error", "budget_load_error", e)
+                                   for e in budget_report.errors)
         bud_map = coa.classify_frame(bud)
         if budget_sign == "natural":
             bud = natural_to_net_debit(bud, bud_map)
@@ -112,15 +202,15 @@ def analyze(
         if period not in bud_pnl.columns:
             raise ValueError(f"Budget has no period {period!r}: {list(bud_pnl.columns[2:])}")
         baseline_period = period
-        variance = compare_pnl(pnl, bud_pnl, period, period,
-                               materiality_abs=materiality_abs, materiality_pct=materiality_pct)
+        variance = compare_pnl(pnl, bud_pnl, period, period, materiality_abs=materiality_abs,
+                               materiality_pct=materiality_pct, rule=rule)
     else:
         prior = [p for p in periods if p < period]
         if prior:
             baseline_period = prior[-1]
             variance = compare_pnl(pnl, pnl, period, baseline_period,
                                    materiality_abs=materiality_abs,
-                                   materiality_pct=materiality_pct)
+                                   materiality_pct=materiality_pct, rule=rule)
             # G/L evidence only possible period-over-period (budget has no transactions).
             for key in variance.index[variance["material"]]:
                 if key in PNL_LINES:
@@ -130,16 +220,22 @@ def analyze(
                         ev["change"] = -ev["change"]  # present income increases as positive
                     evidence[key] = ev
 
-    commentary = (draft_commentary(variance, baseline_name, evidence)
+    drivers = {line: d for (p, line), d in ctx.drivers.items() if p == period}
+    commentary = (draft_commentary(variance, baseline_name, evidence, drivers=drivers,
+                                   owners=ctx.owners)
                   if variance is not None else [])
     prior_periods = [p for p in periods if p < period]
     kpis = pnl_kpis(pnl, period, prior=prior_periods[-1] if prior_periods else None)
-    alerts = kpi_alerts(kpis)
+    alerts = kpi_alerts(kpis, ctx.alert_thresholds)
     concentration = revenue_concentration(mapped, [period])
 
     review_queue = account_outliers = None
     if anomalies:
         review_queue = risk_rank(mapped, period=period, top_k=top_k)
+        if ctx.whitelist_counterparties and not review_queue.empty:
+            review_queue = review_queue[
+                ~review_queue["counterparty"].isin(ctx.whitelist_counterparties)
+            ].reset_index(drop=True)
         account_outliers = account_period_outliers(mapped, period)
 
     forecast = None
@@ -154,7 +250,11 @@ def analyze(
         variance=variance, kpis=kpis, commentary=commentary, evidence=evidence,
         budget_report=budget_report, alerts=alerts, concentration=concentration,
         review_queue=review_queue, account_outliers=account_outliers,
-        forecast=forecast, forecast_detail=forecast_detail,
+        forecast=forecast, forecast_detail=forecast_detail, context=ctx,
+        settings={"scheme": scheme, "materiality": f"{materiality_abs:,.0f} {rule} "
+                  f"{materiality_pct:g}%", "closing_accounts": list(closing_accounts),
+                  "dayfirst": load_report.dayfirst, "decimal": load_report.decimal,
+                  "context_sources": ctx.sources},
     )
 
 
@@ -184,6 +284,13 @@ def render_markdown(a: FinanceAnalysis) -> str:
                + (f" ({a.baseline_period})" if a.baseline_period else " (none available)"))
     out.append(f"**Confidence:** {a.confidence}")
     out.append(f"**Source:** {a.load_report.source} - {a.load_report.rows:,} rows")
+    st = a.settings
+    if st:
+        ctx = ", ".join(st["context_sources"]) or "none (defaults used)"
+        order = {True: "dd/mm", False: "mm/dd", None: "n/a or ISO"}[st["dayfirst"]]
+        out.append(f"**Settings:** scheme `{st['scheme']}` · materiality {st['materiality']} · "
+                   f"dates {order} · decimal `{st['decimal']}` · closing accounts "
+                   f"{st['closing_accounts'] or 'none'} · fpa-context: {ctx}")
     out.append("")
 
     # Data quality first: it gates how the numbers below may be used.

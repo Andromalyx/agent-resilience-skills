@@ -44,6 +44,7 @@ CANONICAL_COLUMNS = (
     "description",
     "cost_center",
     "counterparty",
+    "currency",
 )
 
 # Header synonyms (normalized: lowercase, non-alphanumerics stripped). EN + VI (no accents
@@ -67,7 +68,8 @@ _SYNONYMS: dict[str, tuple[str, ...]] = {
     "cost_center": ("costcenter", "department", "dept", "class", "division", "bophan",
                     "bộphận", "kostl"),
     "counterparty": ("vendor", "customer", "counterparty", "name", "supplier", "payee",
-                     "doituong", "đốitượng", "partner"),
+                     "doituong", "đốitượng", "partner", "tendoituong", "madoituong"),
+    "currency": ("currency", "ccy", "cur", "currencycode", "loaitien", "mant", "waers"),
 }
 
 
@@ -89,33 +91,55 @@ class LoadReport:
     rows: int = 0
     column_map: dict[str, str] = field(default_factory=dict)
     warnings: list[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)  # blocking: numbers are unreliable
     dropped_rows: int = 0
+    header_row: int = 0  # number of title rows skipped above the real header
+    dayfirst: bool | None = None
+    decimal: str = "."
 
 
-def parse_amount(series: pd.Series) -> pd.Series:
-    """Parse accounting-formatted numbers.
+def infer_decimal(series: pd.Series) -> str | None:
+    """Infer the decimal separator for a text column ('.' or ',').
 
-    Handles ``1,234.56``, ``(1,234.56)`` negatives, trailing minus ``1234-``, currency
-    symbols, and blanks. European ``1.234,56`` is detected when a comma is the last
-    separator and followed by exactly two digits.
+    Evidence for ',' decimal: ``1.234,56``, ``1.234.567`` (repeated dots = thousands),
+    ``12,5``. Evidence for '.': ``1,234.56``, ``1,234,567``, ``12.5``.
+    Returns None when the column carries no evidence (e.g. integers only).
+    """
+    if pd.api.types.is_numeric_dtype(series):
+        return None
+    text = series.dropna().astype(str).str.replace(r"[^\d,.]", "", regex=True)
+    comma = (text.str.contains(r"\.\d{3}\.") | text.str.contains(r"\.\d{3},\d+$")
+             | text.str.fullmatch(r"\d+,\d{1,2}") | text.str.fullmatch(r"\d{1,3}(\.\d{3})+")).sum()
+    dot = (text.str.contains(r",\d{3},") | text.str.contains(r",\d{3}\.\d+$")
+           | text.str.fullmatch(r"\d+\.\d{1,2}") | text.str.fullmatch(r"\d{1,3}(,\d{3})+")).sum()
+    if comma == dot:
+        return None if comma == 0 else "."
+    return "," if comma > dot else "."
+
+
+def parse_amount(series: pd.Series, decimal: str | None = None) -> pd.Series:
+    """Parse accounting-formatted numbers; unparseable values become NaN (never 0).
+
+    Handles ``1,234.56``, ``1.234,56``, ``1.200.000.000`` (VND), ``(1,234.56)``
+    negatives, trailing minus ``1234-``, currency symbols, and blanks (-> 0).
+    ``decimal``: '.' or ','; inferred per column when None (see ``infer_decimal``).
     """
     if pd.api.types.is_numeric_dtype(series):
         return series.astype(float).fillna(0.0)
+    decimal = decimal or infer_decimal(series) or "."
+    thousands = "," if decimal == "." else "."
 
     def _one(raw: object) -> float:
         if raw is None or (isinstance(raw, float) and np.isnan(raw)):
             return 0.0
+        if isinstance(raw, (int, float, np.number)):
+            return float(raw)
         text = str(raw).strip()
-        if text in {"", "-", "—"}:
+        if text in {"", "-", "—", "nan", "None"}:
             return 0.0
-        negative = text.startswith("(") and text.endswith(")") or text.endswith("-")
-        text = re.sub(r"[^\d,.\-]", "", text).strip("-")
-        if re.search(r",\d{2}$", text) and "." in text:  # 1.234,56
-            text = text.replace(".", "").replace(",", ".")
-        else:
-            text = text.replace(",", "")
-        if text.startswith("-"):
-            negative, text = True, text[1:]
+        negative = (text.startswith("(") and text.endswith(")")) or text.endswith("-") \
+            or text.startswith("-")
+        text = re.sub(r"[^\d,.]", "", text).replace(thousands, "").replace(decimal, ".")
         try:
             value = float(text) if text else 0.0
         except ValueError:
@@ -123,6 +147,65 @@ def parse_amount(series: pd.Series) -> pd.Series:
         return -value if negative else value
 
     return series.map(_one).astype(float)
+
+
+_DMY = re.compile(r"^\s*(\d{1,2})[/\-.](\d{1,2})[/\-.](\d{2,4})")
+
+
+def infer_dayfirst(series: pd.Series) -> bool | None:
+    """True = dd/mm, False = mm/dd, None = no slash-style dates or ambiguous."""
+    text = series.dropna().astype(str)
+    parts = text.str.extract(_DMY)
+    if parts.dropna().empty:
+        return None
+    a, b = parts[0].dropna().astype(int), parts[1].dropna().astype(int)
+    if (a > 12).any() and not (b > 12).any():
+        return True
+    if (b > 12).any() and not (a > 12).any():
+        return False
+    return None
+
+
+def parse_dates(series: pd.Series, dayfirst: bool | None = None) -> tuple[pd.Series, str | None]:
+    """Parse dates with explicit day/month order. Returns (dates, warning or None)."""
+    if pd.api.types.is_datetime64_any_dtype(series):
+        return series, None
+    has_slash = series.dropna().astype(str).str.match(_DMY).any()
+    warning = None
+    if has_slash and dayfirst is None:
+        dayfirst = infer_dayfirst(series)
+        if dayfirst is None:
+            dayfirst = False
+            warning = ("Date order is ambiguous (no day > 12 found); assumed month/day. "
+                       "Set dayfirst=True (or date_order: dmy in fpa-context) if dd/mm.")
+    # Excel cells may already be datetime objects mixed with strings.
+    out = series.map(lambda v: v if isinstance(v, (pd.Timestamp, np.datetime64)) or
+                     hasattr(v, "year") else pd.to_datetime(v, errors="coerce",
+                                                             dayfirst=bool(dayfirst)))
+    return pd.to_datetime(out, errors="coerce"), warning
+
+
+def _promote_header(raw: pd.DataFrame, max_scan: int = 30) -> tuple[pd.DataFrame, int]:
+    """Find the real header row when exports have title lines above it.
+
+    Picks the first row (within ``max_scan``) that maps an account column and >= 2
+    other canonical columns. Returns (frame, header_row_index) - 0 means unchanged.
+    """
+    def _score(cells: list) -> tuple[bool, int]:
+        canon = {_LOOKUP.get(_norm_header(c)) for c in cells if str(c).strip()}
+        canon.discard(None)
+        return "account" in canon, len(canon)
+
+    has_acct, n = _score(list(raw.columns))
+    if has_acct and n >= 3:
+        return raw, 0
+    for i in range(min(max_scan, len(raw))):
+        has_acct, n = _score(raw.iloc[i].tolist())
+        if has_acct and n >= 3:
+            body = raw.iloc[i + 1:].copy()
+            body.columns = [str(c).strip() for c in raw.iloc[i].tolist()]
+            return body.reset_index(drop=True), i + 1
+    return raw, 0
 
 
 def _detect_columns(columns: list[str], overrides: Mapping[str, str] | None) -> dict[str, str]:
@@ -149,6 +232,8 @@ def _read_any(source: str | Path | pd.DataFrame, sheet: str | int | None) -> pd.
     if suffix in {".xlsx", ".xlsm", ".xls"}:
         # dtype=object keeps account codes like '0010' intact.
         return pd.read_excel(path, sheet_name=sheet or 0, dtype=object)
+    if suffix in {".csv", ".txt", ".tsv"} and path.stat().st_size > 50_000_000:
+        logger.info("Large CSV (%d MB); consider Parquet for speed", path.stat().st_size >> 20)
     if suffix in {".csv", ".txt", ".tsv"}:
         sep = "\t" if suffix == ".tsv" else None
         return pd.read_csv(path, sep=sep, engine="python", dtype=str, encoding_errors="replace")
@@ -162,6 +247,8 @@ def load_ledger(
     column_map: Mapping[str, str] | None = None,
     sheet: str | int | None = None,
     amount_sign: str = "net_debit",
+    dayfirst: bool | None = None,
+    decimal: str | None = None,
 ) -> tuple[pd.DataFrame, LoadReport]:
     """Load G/L detail or a trial balance into the canonical frame.
 
@@ -172,6 +259,8 @@ def load_ledger(
         amount_sign: meaning of a single signed ``amount`` column. ``net_debit`` (debits
             positive - most ERPs) or ``natural`` (revenue positive, expenses positive -
             common in budget files; requires CoA to re-sign, see ``natural_to_net_debit``).
+        dayfirst: date order for dd/mm vs mm/dd strings; inferred when None.
+        decimal: '.' or ','; inferred per amount column when None.
 
     Returns:
         ``(frame, report)``. Rows with no account are dropped and counted.
@@ -179,6 +268,10 @@ def load_ledger(
     raw = _read_any(source, sheet)
     report = LoadReport(source=str(source) if not isinstance(source, pd.DataFrame) else "<frame>")
     raw.columns = [str(c).strip() for c in raw.columns]
+    if not column_map:
+        raw, report.header_row = _promote_header(raw)
+        if report.header_row:
+            report.warnings.append(f"Skipped {report.header_row} title row(s) above the header.")
     mapping = _detect_columns(list(raw.columns), column_map)
     report.column_map = dict(mapping)
 
@@ -201,9 +294,21 @@ def load_ledger(
         else ""
     )
 
+    amount_cols = [mapping[c] for c in ("debit", "credit", "amount") if c in mapping]
+    if decimal is None:
+        votes = [v for v in (infer_decimal(raw[c]) for c in amount_cols) if v]
+        decimal = "," if votes.count(",") > votes.count(".") else "."
+        if votes.count(",") and votes.count("."):
+            report.warnings.append("Amount columns disagree on decimal separator; used "
+                                   f"{decimal!r}. Set decimal explicitly to be sure.")
+    report.decimal = decimal
+    if decimal == ",":
+        report.warnings.append("Detected ',' as decimal separator ('.' = thousands).")
+
     if has_dc:
-        out["debit"] = parse_amount(raw[mapping["debit"]]) if "debit" in mapping else 0.0
-        out["credit"] = parse_amount(raw[mapping["credit"]]) if "credit" in mapping else 0.0
+        out["debit"] = parse_amount(raw[mapping["debit"]], decimal) if "debit" in mapping else 0.0
+        out["credit"] = (parse_amount(raw[mapping["credit"]], decimal)
+                         if "credit" in mapping else 0.0)
         # Some exports put negative numbers in the debit column for credits; normalize.
         out["amount"] = out["debit"] - out["credit"]
         if "amount" in mapping:
@@ -211,23 +316,27 @@ def load_ledger(
                 f"Both debit/credit and amount ({mapping['amount']!r}) present; used debit-credit."
             )
     else:
-        signed = parse_amount(raw[mapping["amount"]])
+        signed = parse_amount(raw[mapping["amount"]], decimal)
         out["amount"] = signed
         if amount_sign == "natural":
             report.warnings.append(
                 "Amounts are in natural sign; call natural_to_net_debit() after mapping."
             )
+    bad_amounts = int(out["amount"].isna().sum())
+    if bad_amounts:
+        sample = raw.loc[out["amount"].isna(), amount_cols].head(3).to_dict("records")
+        report.errors.append(f"{bad_amounts} amount value(s) could not be parsed "
+                             f"(e.g. {sample}); totals exclude them - fix the source.")
+        out["amount"] = out["amount"].fillna(0.0)
     out["debit"] = out["amount"].clip(lower=0)
     out["credit"] = (-out["amount"]).clip(lower=0)
 
-    bad_amounts = int(out["amount"].isna().sum())
-    if bad_amounts:
-        report.warnings.append(f"{bad_amounts} amount value(s) could not be parsed; set to 0.")
-        out["amount"] = out["amount"].fillna(0.0)
-
     # Dates and periods.
     if "date" in mapping:
-        out["date"] = pd.to_datetime(raw[mapping["date"]], errors="coerce", dayfirst=False)
+        out["date"], date_warning = parse_dates(raw[mapping["date"]], dayfirst)
+        report.dayfirst = dayfirst if dayfirst is not None else infer_dayfirst(raw[mapping["date"]])
+        if date_warning:
+            report.warnings.append(date_warning)
         bad_dates = int(out["date"].isna().sum() - raw[mapping["date"]].isna().sum())
         if bad_dates > 0:
             report.warnings.append(f"{bad_dates} date value(s) could not be parsed.")
@@ -241,7 +350,7 @@ def load_ledger(
         out["period"] = "ALL"
         report.warnings.append("No date/period column; all rows treated as one period 'ALL'.")
 
-    for col in ("entry_id", "description", "cost_center", "counterparty"):
+    for col in ("entry_id", "description", "cost_center", "counterparty", "currency"):
         out[col] = raw[mapping[col]].fillna("").astype(str).str.strip() if col in mapping else ""
 
     # Drop rows with no account (subtotal/blank lines in exports).
@@ -277,7 +386,7 @@ def natural_to_net_debit(frame: pd.DataFrame, mapped: pd.DataFrame) -> pd.DataFr
 
     ``mapped`` must have ``account`` and ``line`` columns (from ``ChartOfAccounts``).
     """
-    from runtime.finance.coa import is_income_line
+    from .coa import is_income_line
 
     lines = dict(zip(mapped["account"], mapped["line"]))
     credit_normal = {"liability", "equity"}

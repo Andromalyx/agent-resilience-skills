@@ -1,5 +1,5 @@
 name: fpa-gl-analyst
-version: 0.1.0
+version: 0.2.0
 title: FP&A & G/L Analyst
 description: Validate G/L / trial balance data, build the management P&L, explain variances with G/L evidence, and draft commentary without inventing drivers.
 entrypoint: SKILL.md
@@ -9,7 +9,7 @@ depends_on:
 runtime:
   package: runtime.finance
   extra: finance          # pip install -e ".[finance]"  (+ ".[ml]" for IsolationForest/rapidfuzz)
-  cli: python -m runtime.finance
+  cli: python scripts/fpa.py   # bundled engine (scripts/fpa_engine), or python -m runtime.finance
 activation:
   - general_ledger
   - trial_balance

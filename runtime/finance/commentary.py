@@ -29,6 +29,7 @@ def draft_line_commentary(
     baseline_name: str = "budget",
     evidence: pd.DataFrame | None = None,
     driver: str | None = None,
+    owner: str = "budget owner",
 ) -> str:
     """One commentary bullet for a material variance row from ``compare``."""
     label = row.get("label", key)
@@ -44,7 +45,8 @@ def draft_line_commentary(
         top = evidence.head(3)
         parts = [f"{r[by]} {_fmt(r['change'])}" for _, r in top.iterrows()]
         text += f" G/L evidence (top {by}): " + "; ".join(parts) + "."
-    text += f" Driver: {driver}." if driver else f" Driver: {DRIVER_PLACEHOLDER}."
+    placeholder = DRIVER_PLACEHOLDER.replace("budget owner", owner)
+    text += f" Driver: {driver}." if driver else f" Driver: {placeholder}."
     return text
 
 
@@ -57,12 +59,13 @@ def draft_commentary(
     evidence: dict[str, pd.DataFrame] | None = None,
     drivers: dict[str, str] | None = None,
     max_items: int = 8,
+    owners: dict[str, str] | None = None,
 ) -> list[str]:
     """Bullets for material variances: headline subtotals first, then the leaf P&L
     lines that explain them (largest first). Intermediate subtotals are skipped -
     they restate the same money and bury the driver.
     """
-    from runtime.finance.coa import PNL_LINES
+    from .coa import PNL_LINES
 
     evidence = evidence or {}
     drivers = drivers or {}
@@ -72,6 +75,7 @@ def draft_commentary(
     leaves = leaves.reindex(leaves["variance"].abs().sort_values(ascending=False).index)
     keys = headline + list(leaves.index)
     return [
-        draft_line_commentary(k, mat.loc[k], baseline_name, evidence.get(k), drivers.get(k))
+        draft_line_commentary(k, mat.loc[k], baseline_name, evidence.get(k), drivers.get(k),
+                              (owners or {}).get(k, "budget owner"))
         for k in keys[:max_items]
     ]

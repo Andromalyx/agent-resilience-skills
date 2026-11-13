@@ -3,22 +3,29 @@
 Requires pandas (``pip install -e ".[finance]"``).
 """
 
-from runtime.finance.anomaly import (
+from .adjustments import (
+    currency_check,
+    detect_cumulative,
+    exclude_closing_entries,
+    ytd_to_periodic,
+)
+from .anomaly import (
     account_period_outliers,
     benford_first_digit,
     risk_rank,
     transaction_flags,
 )
-from runtime.finance.coa import ChartOfAccounts, load_mapping_file
-from runtime.finance.commentary import draft_commentary
-from runtime.finance.forecast import (
+from .coa import ChartOfAccounts, load_mapping_file
+from .commentary import draft_commentary
+from .context import FinanceContext, load_context, record_driver
+from .forecast import (
     DriverModel,
     ForecastResult,
     auto_forecast,
     forecast_pnl,
     seasonality_index,
 )
-from runtime.finance.kpis import (
+from .kpis import (
     WorkingCapitalInputs,
     kpi_alerts,
     pnl_kpis,
@@ -27,24 +34,25 @@ from runtime.finance.kpis import (
     runway_months,
     working_capital_kpis,
 )
-from runtime.finance.ledger import load_ledger, natural_to_net_debit
-from runtime.finance.pipeline import FinanceAnalysis, analyze
-from runtime.finance.pnl import account_detail, attach_lines, build_pnl, pnl_from_lines
-from runtime.finance.reconcile import ReconResult, reconcile
-from runtime.finance.scenarios import (
+from .ledger import load_ledger, natural_to_net_debit
+from .pipeline import FinanceAnalysis, analyze
+from .pnl import account_detail, attach_lines, build_pnl, pnl_from_lines
+from .reconcile import ReconResult, reconcile
+from .scenarios import (
     Scenario,
     apply_scenario,
     breakeven_revenue,
     run_scenarios,
     sensitivity,
 )
-from runtime.finance.validation import validate_ledger
-from runtime.finance.variance import compare, compare_pnl, drill_down, price_volume_mix
+from .validation import validate_ledger
+from .variance import compare, compare_pnl, drill_down, price_volume_mix
 
 __all__ = [
     "ChartOfAccounts",
     "DriverModel",
     "FinanceAnalysis",
+    "FinanceContext",
     "ForecastResult",
     "ReconResult",
     "Scenario",
@@ -60,10 +68,14 @@ __all__ = [
     "build_pnl",
     "compare",
     "compare_pnl",
+    "currency_check",
+    "detect_cumulative",
     "draft_commentary",
     "drill_down",
+    "exclude_closing_entries",
     "forecast_pnl",
     "kpi_alerts",
+    "load_context",
     "load_ledger",
     "load_mapping_file",
     "natural_to_net_debit",
@@ -71,6 +83,7 @@ __all__ = [
     "pnl_kpis",
     "price_volume_mix",
     "reconcile",
+    "record_driver",
     "revenue_concentration",
     "risk_rank",
     "run_rate",
@@ -81,4 +94,5 @@ __all__ = [
     "transaction_flags",
     "validate_ledger",
     "working_capital_kpis",
+    "ytd_to_periodic",
 ]

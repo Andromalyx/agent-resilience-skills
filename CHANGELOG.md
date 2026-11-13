@@ -2,7 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## 0.2.0
+
+Readiness for real data in Claude Code (findings from an install-and-break audit):
+
+- Fixed silent data corruption on real exports: dd/mm dates are inferred (and reported)
+  instead of parsed as mm/dd; `1.200.000.000`-style VND amounts parse correctly instead
+  of becoming 0; unparseable amounts are blocking errors, never silent zeros; title rows
+  above the header are skipped.
+- Closing entries (VAS 911 by default) are excluded so P&L balances are not zeroed; YTD
+  trial balances are detected (`possible_cumulative_tb`) and converted with `--ytd`;
+  mixed-currency ledgers are blocked.
+- Company knowledge base `fpa-context/` (company.yaml, coa_map.csv, drivers.csv,
+  notes.md) with `init-context` and `record-driver` (confirmed-by required); confirmed
+  drivers and owners flow into commentary.
+- Self-contained skill: engine vendored into `skills/fpa/scripts/fpa_engine` with an
+  `fpa.py` launcher (`doctor`, `analyze`, `init-context`, `record-driver`, `reconcile`);
+  sync script + drift test.
+- Claude Code plugin + marketplace manifests (`claude plugin validate` passes); resilience
+  skill gained frontmatter.
+- CLI JSON now carries P&L, variance, evidence, queue, forecast, settings.
+- 2.4x faster anomaly screen (vectorized); `docs/claude-code-setup.md`.
+
+## Unreleased (0.1.x)
 
 - Added `skills/fpa` (FP&A & G/L Analyst) skill: references for P&L structure, CoA mapping
   (generic + Vietnam VAS Circular 200), variance/flux analysis, G/L review checks, KPIs and

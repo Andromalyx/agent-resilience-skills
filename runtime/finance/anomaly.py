@@ -91,7 +91,7 @@ def account_period_outliers(mapped: pd.DataFrame, period: str, z: float = 3.0,
     excluded by default (requires the ``line`` column from ``attach_lines``).
     """
     if pnl_only and "line" in mapped.columns:
-        from runtime.finance.coa import PNL_LINES
+        from .coa import PNL_LINES
 
         mapped = mapped[mapped["line"].isin(list(PNL_LINES))]
     tot = mapped.groupby(["account", "period"])["amount"].sum().unstack(fill_value=0.0)
@@ -129,11 +129,13 @@ def transaction_flags(mapped: pd.DataFrame, period: str | None = None, z: float 
 
     # Amount outlier vs same-account history (robust z on log scale - amounts are skewed).
     logs = np.log1p(df["abs_amount"])
-    flags["amount_outlier"] = (
-        logs.groupby(df["account"]).transform(lambda s: _robust_z(s).abs() >= z if len(s) >= 8
-                                              else pd.Series(False, index=s.index))
-        .astype(bool)
-    )
+    grp = logs.groupby(df["account"])
+    med = grp.transform("median")
+    mad = (logs - med).abs().groupby(df["account"]).transform("median") * 1.4826
+    std = grp.transform("std")
+    scale = mad.where(mad > 0, std)
+    rz = ((logs - med) / scale).abs()
+    flags["amount_outlier"] = (grp.transform("size") >= 8) & (rz >= z).fillna(False)
     # First time a counterparty appears on this account (only meaningful with history).
     has_cp = df["counterparty"] != ""
     order = df.sort_values(["date", "period"]).index
@@ -150,16 +152,15 @@ def transaction_flags(mapped: pd.DataFrame, period: str | None = None, z: float 
 
     # Near-duplicate: same account + counterparty + amount within N days, different JE or
     # identical JE repeated (exact dups are caught by validation; this catches re-keys).
-    flags["near_duplicate"] = False
+    # Vectorized: sort by key + date, compare each row with its neighbours in-group.
     key_cols = ["account", "counterparty", "amount"]
-    for _, g in df[dated & (df["amount"] != 0)].groupby(key_cols):
-        if len(g) < 2:
-            continue
-        g = g.sort_values("date")
-        gaps = g["date"].diff().dt.days
-        hit = gaps.notna() & (gaps <= dup_window_days)
-        idx = g.index[hit | hit.shift(-1, fill_value=False)]
-        flags.loc[idx, "near_duplicate"] = True
+    cand = df.loc[dated & (df["amount"] != 0), key_cols + ["date"]].sort_values(key_cols + ["date"])
+    same_prev = (cand[key_cols] == cand[key_cols].shift(1)).all(axis=1)
+    gap_prev = (cand["date"] - cand["date"].shift(1)).dt.days
+    hit_prev = same_prev & (gap_prev <= dup_window_days)
+    hit_next = hit_prev.shift(-1, fill_value=False).astype(bool)
+    flags["near_duplicate"] = False
+    flags.loc[cand.index[(hit_prev | hit_next).to_numpy()], "near_duplicate"] = True
 
     out = pd.concat([df, flags], axis=1)
     return out if period is None else out[out["period"] == period]
@@ -209,7 +210,7 @@ def risk_rank(mapped: pd.DataFrame, period: str | None = None, top_k: int = 25,
     f["risk_score"] = f["rule_score"] * np.log10(f["abs_amount"].clip(lower=10))
     f["reasons"] = f[rule_cols].apply(lambda r: ", ".join(c for c in rule_cols if r[c]), axis=1)
     if pnl_only and "line" in f.columns:
-        from runtime.finance.coa import PNL_LINES
+        from .coa import PNL_LINES
 
         f = f[f["line"].isin(list(PNL_LINES))]
     f = f[f["rule_score"] >= min_rule_score].sort_values("risk_score", ascending=False)

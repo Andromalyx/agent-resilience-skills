@@ -4,12 +4,8 @@ Use Agent Resilience Skills for repository work when commands fail, requirements
 
 ## FP&A & G/L Analyst
 
-`skills/fpa/SKILL.md` has Claude Code skill frontmatter and can be installed directly:
-
-```bash
-pip install -e ".[finance]"                                  # makes runtime.finance importable
-mkdir -p ~/.claude/skills && cp -r skills/fpa ~/.claude/skills/fpa-gl-analyst
-```
-
-Claude Code then loads it when you share a G/L, trial balance, P&L or budget, and runs
-`python -m runtime.finance ...` for deterministic numbers instead of computing in-context.
+Install as a plugin (`/plugin marketplace add Andromalyx/agent-resilience-skills`, then
+`/plugin install agent-resilience-skills@agent-resilience-skills`) or copy
+`skills/fpa` to `~/.claude/skills/fpa-gl-analyst`. The engine is bundled in
+`skills/fpa/scripts/` - only `pandas numpy openpyxl pyyaml` are needed. Real-data setup
+(fpa-context knowledge base, calibration, privacy): `docs/claude-code-setup.md`.
