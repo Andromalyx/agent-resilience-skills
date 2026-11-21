@@ -1,0 +1,14 @@
+{
+  "name": "agent-resilience-skills",
+  "description": "Agent resilience and FP&A / general-ledger analysis skills for Claude Code.",
+  "owner": {
+    "name": "Agent Resilience Skills contributors"
+  },
+  "plugins": [
+    {
+      "name": "agent-resilience-skills",
+      "source": "./",
+      "description": "Resilience + FP&A & G/L analyst skills with a bundled, offline finance engine."
+    }
+  ]
+}

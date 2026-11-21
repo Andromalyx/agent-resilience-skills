@@ -12,3 +12,9 @@ dist/
 build/
 node_modules/
 .DS_Store
+
+# Real financial data and company knowledge bases never belong in this repo.
+data/
+fpa-context/
+reports/
+*.local.*

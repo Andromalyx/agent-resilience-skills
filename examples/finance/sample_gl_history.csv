@@ -1,0 +1,547 @@
+Date,JE No,Account,Account Name,Debit,Credit,Memo,Name,Department
+2024-07-12,H00001,1200,Accounts Receivable,172468.79,0.0,Invoice Acme Retail 2024-07,Acme Retail,HQ
+2024-07-12,H00001,4000,Product Revenue,0.0,172468.79,Invoice Acme Retail 2024-07,Acme Retail,HQ
+2024-07-12,H00002,5000,Cost of Goods Sold,72434.4,0.0,COGS Acme Retail 2024-07,Acme Retail,HQ
+2024-07-12,H00002,1000,Cash - Operating,0.0,72434.4,COGS Acme Retail 2024-07,,HQ
+2024-07-12,H00003,1200,Accounts Receivable,117133.01,0.0,Invoice Beta Foods 2024-07,Beta Foods,HQ
+2024-07-12,H00003,4000,Product Revenue,0.0,117133.01,Invoice Beta Foods 2024-07,Beta Foods,HQ
+2024-07-12,H00004,5000,Cost of Goods Sold,48091.74,0.0,COGS Beta Foods 2024-07,Beta Foods,HQ
+2024-07-12,H00004,1000,Cash - Operating,0.0,48091.74,COGS Beta Foods 2024-07,,HQ
+2024-07-12,H00005,1200,Accounts Receivable,58709.04,0.0,Invoice Cora Hotels 2024-07,Cora Hotels,HQ
+2024-07-12,H00005,4000,Product Revenue,0.0,58709.04,Invoice Cora Hotels 2024-07,Cora Hotels,HQ
+2024-07-12,H00006,5000,Cost of Goods Sold,25160.59,0.0,COGS Cora Hotels 2024-07,Cora Hotels,HQ
+2024-07-12,H00006,1000,Cash - Operating,0.0,25160.59,COGS Cora Hotels 2024-07,,HQ
+2024-07-20,H00007,6000,Salaries & Wages,92551.4,0.0,Payroll 2024-07,Payroll,HQ
+2024-07-20,H00007,2000,Accounts Payable,0.0,92551.4,Payroll 2024-07,Payroll,HQ
+2024-07-20,H00008,6200,Digital Marketing,23466.87,0.0,AdNetwork Co 2024-07,AdNetwork Co,HQ
+2024-07-20,H00008,2000,Accounts Payable,0.0,23466.87,AdNetwork Co 2024-07,AdNetwork Co,HQ
+2024-07-20,H00009,6600,Software Subscriptions,7547.71,0.0,CloudSuite 2024-07,CloudSuite,HQ
+2024-07-20,H00009,2000,Accounts Payable,0.0,7547.71,CloudSuite 2024-07,CloudSuite,HQ
+2024-07-03,H00010,6500,Office Rent,18000.0,0.0,Rent 2024-07,Landlord LLC,HQ
+2024-07-03,H00010,1000,Cash - Operating,0.0,18000.0,Rent 2024-07,Landlord LLC,HQ
+2024-08-12,H00011,1200,Accounts Receivable,177635.62,0.0,Invoice Acme Retail 2024-08,Acme Retail,HQ
+2024-08-12,H00011,4000,Product Revenue,0.0,177635.62,Invoice Acme Retail 2024-08,Acme Retail,HQ
+2024-08-12,H00012,5000,Cost of Goods Sold,74141.53,0.0,COGS Acme Retail 2024-08,Acme Retail,HQ
+2024-08-12,H00012,1000,Cash - Operating,0.0,74141.53,COGS Acme Retail 2024-08,,HQ
+2024-08-12,H00013,1200,Accounts Receivable,116467.9,0.0,Invoice Beta Foods 2024-08,Beta Foods,HQ
+2024-08-12,H00013,4000,Product Revenue,0.0,116467.9,Invoice Beta Foods 2024-08,Beta Foods,HQ
+2024-08-12,H00014,5000,Cost of Goods Sold,49295.84,0.0,COGS Beta Foods 2024-08,Beta Foods,HQ
+2024-08-12,H00014,1000,Cash - Operating,0.0,49295.84,COGS Beta Foods 2024-08,,HQ
+2024-08-12,H00015,1200,Accounts Receivable,59149.32,0.0,Invoice Cora Hotels 2024-08,Cora Hotels,HQ
+2024-08-12,H00015,4000,Product Revenue,0.0,59149.32,Invoice Cora Hotels 2024-08,Cora Hotels,HQ
+2024-08-12,H00016,5000,Cost of Goods Sold,24414.44,0.0,COGS Cora Hotels 2024-08,Cora Hotels,HQ
+2024-08-12,H00016,1000,Cash - Operating,0.0,24414.44,COGS Cora Hotels 2024-08,,HQ
+2024-08-20,H00017,6000,Salaries & Wages,96641.83,0.0,Payroll 2024-08,Payroll,HQ
+2024-08-20,H00017,2000,Accounts Payable,0.0,96641.83,Payroll 2024-08,Payroll,HQ
+2024-08-20,H00018,6200,Digital Marketing,24245.32,0.0,AdNetwork Co 2024-08,AdNetwork Co,HQ
+2024-08-20,H00018,2000,Accounts Payable,0.0,24245.32,AdNetwork Co 2024-08,AdNetwork Co,HQ
+2024-08-20,H00019,6600,Software Subscriptions,7355.46,0.0,CloudSuite 2024-08,CloudSuite,HQ
+2024-08-20,H00019,2000,Accounts Payable,0.0,7355.46,CloudSuite 2024-08,CloudSuite,HQ
+2024-08-03,H00020,6500,Office Rent,18000.0,0.0,Rent 2024-08,Landlord LLC,HQ
+2024-08-03,H00020,1000,Cash - Operating,0.0,18000.0,Rent 2024-08,Landlord LLC,HQ
+2024-09-12,H00021,1200,Accounts Receivable,192701.84,0.0,Invoice Acme Retail 2024-09,Acme Retail,HQ
+2024-09-12,H00021,4000,Product Revenue,0.0,192701.84,Invoice Acme Retail 2024-09,Acme Retail,HQ
+2024-09-12,H00022,5000,Cost of Goods Sold,81123.91,0.0,COGS Acme Retail 2024-09,Acme Retail,HQ
+2024-09-12,H00022,1000,Cash - Operating,0.0,81123.91,COGS Acme Retail 2024-09,,HQ
+2024-09-12,H00023,1200,Accounts Receivable,128412.69,0.0,Invoice Beta Foods 2024-09,Beta Foods,HQ
+2024-09-12,H00023,4000,Product Revenue,0.0,128412.69,Invoice Beta Foods 2024-09,Beta Foods,HQ
+2024-09-12,H00024,5000,Cost of Goods Sold,53174.44,0.0,COGS Beta Foods 2024-09,Beta Foods,HQ
+2024-09-12,H00024,1000,Cash - Operating,0.0,53174.44,COGS Beta Foods 2024-09,,HQ
+2024-09-12,H00025,1200,Accounts Receivable,64504.0,0.0,Invoice Cora Hotels 2024-09,Cora Hotels,HQ
+2024-09-12,H00025,4000,Product Revenue,0.0,64504.0,Invoice Cora Hotels 2024-09,Cora Hotels,HQ
+2024-09-12,H00026,5000,Cost of Goods Sold,27070.55,0.0,COGS Cora Hotels 2024-09,Cora Hotels,HQ
+2024-09-12,H00026,1000,Cash - Operating,0.0,27070.55,COGS Cora Hotels 2024-09,,HQ
+2024-09-20,H00027,6000,Salaries & Wages,94163.67,0.0,Payroll 2024-09,Payroll,HQ
+2024-09-20,H00027,2000,Accounts Payable,0.0,94163.67,Payroll 2024-09,Payroll,HQ
+2024-09-20,H00028,6200,Digital Marketing,24131.9,0.0,AdNetwork Co 2024-09,AdNetwork Co,HQ
+2024-09-20,H00028,2000,Accounts Payable,0.0,24131.9,AdNetwork Co 2024-09,AdNetwork Co,HQ
+2024-09-20,H00029,6600,Software Subscriptions,7233.27,0.0,CloudSuite 2024-09,CloudSuite,HQ
+2024-09-20,H00029,2000,Accounts Payable,0.0,7233.27,CloudSuite 2024-09,CloudSuite,HQ
+2024-09-03,H00030,6500,Office Rent,18000.0,0.0,Rent 2024-09,Landlord LLC,HQ
+2024-09-03,H00030,1000,Cash - Operating,0.0,18000.0,Rent 2024-09,Landlord LLC,HQ
+2024-10-12,H00031,1200,Accounts Receivable,203862.64,0.0,Invoice Acme Retail 2024-10,Acme Retail,HQ
+2024-10-12,H00031,4000,Product Revenue,0.0,203862.64,Invoice Acme Retail 2024-10,Acme Retail,HQ
+2024-10-12,H00032,5000,Cost of Goods Sold,87120.02,0.0,COGS Acme Retail 2024-10,Acme Retail,HQ
+2024-10-12,H00032,1000,Cash - Operating,0.0,87120.02,COGS Acme Retail 2024-10,,HQ
+2024-10-12,H00033,1200,Accounts Receivable,129209.49,0.0,Invoice Beta Foods 2024-10,Beta Foods,HQ
+2024-10-12,H00033,4000,Product Revenue,0.0,129209.49,Invoice Beta Foods 2024-10,Beta Foods,HQ
+2024-10-12,H00034,5000,Cost of Goods Sold,54182.9,0.0,COGS Beta Foods 2024-10,Beta Foods,HQ
+2024-10-12,H00034,1000,Cash - Operating,0.0,54182.9,COGS Beta Foods 2024-10,,HQ
+2024-10-12,H00035,1200,Accounts Receivable,67168.58,0.0,Invoice Cora Hotels 2024-10,Cora Hotels,HQ
+2024-10-12,H00035,4000,Product Revenue,0.0,67168.58,Invoice Cora Hotels 2024-10,Cora Hotels,HQ
+2024-10-12,H00036,5000,Cost of Goods Sold,27650.77,0.0,COGS Cora Hotels 2024-10,Cora Hotels,HQ
+2024-10-12,H00036,1000,Cash - Operating,0.0,27650.77,COGS Cora Hotels 2024-10,,HQ
+2024-10-20,H00037,6000,Salaries & Wages,97256.88,0.0,Payroll 2024-10,Payroll,HQ
+2024-10-20,H00037,2000,Accounts Payable,0.0,97256.88,Payroll 2024-10,Payroll,HQ
+2024-10-20,H00038,6200,Digital Marketing,23899.13,0.0,AdNetwork Co 2024-10,AdNetwork Co,HQ
+2024-10-20,H00038,2000,Accounts Payable,0.0,23899.13,AdNetwork Co 2024-10,AdNetwork Co,HQ
+2024-10-20,H00039,6600,Software Subscriptions,7194.63,0.0,CloudSuite 2024-10,CloudSuite,HQ
+2024-10-20,H00039,2000,Accounts Payable,0.0,7194.63,CloudSuite 2024-10,CloudSuite,HQ
+2024-10-03,H00040,6500,Office Rent,18000.0,0.0,Rent 2024-10,Landlord LLC,HQ
+2024-10-03,H00040,1000,Cash - Operating,0.0,18000.0,Rent 2024-10,Landlord LLC,HQ
+2024-11-12,H00041,1200,Accounts Receivable,236434.01,0.0,Invoice Acme Retail 2024-11,Acme Retail,HQ
+2024-11-12,H00041,4000,Product Revenue,0.0,236434.01,Invoice Acme Retail 2024-11,Acme Retail,HQ
+2024-11-12,H00042,5000,Cost of Goods Sold,97894.16,0.0,COGS Acme Retail 2024-11,Acme Retail,HQ
+2024-11-12,H00042,1000,Cash - Operating,0.0,97894.16,COGS Acme Retail 2024-11,,HQ
+2024-11-12,H00043,1200,Accounts Receivable,158159.82,0.0,Invoice Beta Foods 2024-11,Beta Foods,HQ
+2024-11-12,H00043,4000,Product Revenue,0.0,158159.82,Invoice Beta Foods 2024-11,Beta Foods,HQ
+2024-11-12,H00044,5000,Cost of Goods Sold,65532.41,0.0,COGS Beta Foods 2024-11,Beta Foods,HQ
+2024-11-12,H00044,1000,Cash - Operating,0.0,65532.41,COGS Beta Foods 2024-11,,HQ
+2024-11-12,H00045,1200,Accounts Receivable,77331.09,0.0,Invoice Cora Hotels 2024-11,Cora Hotels,HQ
+2024-11-12,H00045,4000,Product Revenue,0.0,77331.09,Invoice Cora Hotels 2024-11,Cora Hotels,HQ
+2024-11-12,H00046,5000,Cost of Goods Sold,32016.26,0.0,COGS Cora Hotels 2024-11,Cora Hotels,HQ
+2024-11-12,H00046,1000,Cash - Operating,0.0,32016.26,COGS Cora Hotels 2024-11,,HQ
+2024-11-20,H00047,6000,Salaries & Wages,94120.76,0.0,Payroll 2024-11,Payroll,HQ
+2024-11-20,H00047,2000,Accounts Payable,0.0,94120.76,Payroll 2024-11,Payroll,HQ
+2024-11-20,H00048,6200,Digital Marketing,23955.23,0.0,AdNetwork Co 2024-11,AdNetwork Co,HQ
+2024-11-20,H00048,2000,Accounts Payable,0.0,23955.23,AdNetwork Co 2024-11,AdNetwork Co,HQ
+2024-11-20,H00049,6600,Software Subscriptions,7529.11,0.0,CloudSuite 2024-11,CloudSuite,HQ
+2024-11-20,H00049,2000,Accounts Payable,0.0,7529.11,CloudSuite 2024-11,CloudSuite,HQ
+2024-11-03,H00050,6500,Office Rent,18000.0,0.0,Rent 2024-11,Landlord LLC,HQ
+2024-11-03,H00050,1000,Cash - Operating,0.0,18000.0,Rent 2024-11,Landlord LLC,HQ
+2024-12-12,H00051,1200,Accounts Receivable,258171.4,0.0,Invoice Acme Retail 2024-12,Acme Retail,HQ
+2024-12-12,H00051,4000,Product Revenue,0.0,258171.4,Invoice Acme Retail 2024-12,Acme Retail,HQ
+2024-12-12,H00052,5000,Cost of Goods Sold,107602.33,0.0,COGS Acme Retail 2024-12,Acme Retail,HQ
+2024-12-12,H00052,1000,Cash - Operating,0.0,107602.33,COGS Acme Retail 2024-12,,HQ
+2024-12-12,H00053,1200,Accounts Receivable,163517.56,0.0,Invoice Beta Foods 2024-12,Beta Foods,HQ
+2024-12-12,H00053,4000,Product Revenue,0.0,163517.56,Invoice Beta Foods 2024-12,Beta Foods,HQ
+2024-12-12,H00054,5000,Cost of Goods Sold,67564.88,0.0,COGS Beta Foods 2024-12,Beta Foods,HQ
+2024-12-12,H00054,1000,Cash - Operating,0.0,67564.88,COGS Beta Foods 2024-12,,HQ
+2024-12-12,H00055,1200,Accounts Receivable,89334.98,0.0,Invoice Cora Hotels 2024-12,Cora Hotels,HQ
+2024-12-12,H00055,4000,Product Revenue,0.0,89334.98,Invoice Cora Hotels 2024-12,Cora Hotels,HQ
+2024-12-12,H00056,5000,Cost of Goods Sold,37448.72,0.0,COGS Cora Hotels 2024-12,Cora Hotels,HQ
+2024-12-12,H00056,1000,Cash - Operating,0.0,37448.72,COGS Cora Hotels 2024-12,,HQ
+2024-12-20,H00057,6000,Salaries & Wages,96088.93,0.0,Payroll 2024-12,Payroll,HQ
+2024-12-20,H00057,2000,Accounts Payable,0.0,96088.93,Payroll 2024-12,Payroll,HQ
+2024-12-20,H00058,6200,Digital Marketing,23358.72,0.0,AdNetwork Co 2024-12,AdNetwork Co,HQ
+2024-12-20,H00058,2000,Accounts Payable,0.0,23358.72,AdNetwork Co 2024-12,AdNetwork Co,HQ
+2024-12-20,H00059,6600,Software Subscriptions,7144.52,0.0,CloudSuite 2024-12,CloudSuite,HQ
+2024-12-20,H00059,2000,Accounts Payable,0.0,7144.52,CloudSuite 2024-12,CloudSuite,HQ
+2024-12-03,H00060,6500,Office Rent,18000.0,0.0,Rent 2024-12,Landlord LLC,HQ
+2024-12-03,H00060,1000,Cash - Operating,0.0,18000.0,Rent 2024-12,Landlord LLC,HQ
+2025-01-12,H00061,1200,Accounts Receivable,185021.76,0.0,Invoice Acme Retail 2025-01,Acme Retail,HQ
+2025-01-12,H00061,4000,Product Revenue,0.0,185021.76,Invoice Acme Retail 2025-01,Acme Retail,HQ
+2025-01-12,H00062,5000,Cost of Goods Sold,78034.34,0.0,COGS Acme Retail 2025-01,Acme Retail,HQ
+2025-01-12,H00062,1000,Cash - Operating,0.0,78034.34,COGS Acme Retail 2025-01,,HQ
+2025-01-12,H00063,1200,Accounts Receivable,118258.54,0.0,Invoice Beta Foods 2025-01,Beta Foods,HQ
+2025-01-12,H00063,4000,Product Revenue,0.0,118258.54,Invoice Beta Foods 2025-01,Beta Foods,HQ
+2025-01-12,H00064,5000,Cost of Goods Sold,49236.65,0.0,COGS Beta Foods 2025-01,Beta Foods,HQ
+2025-01-12,H00064,1000,Cash - Operating,0.0,49236.65,COGS Beta Foods 2025-01,,HQ
+2025-01-12,H00065,1200,Accounts Receivable,60109.52,0.0,Invoice Cora Hotels 2025-01,Cora Hotels,HQ
+2025-01-12,H00065,4000,Product Revenue,0.0,60109.52,Invoice Cora Hotels 2025-01,Cora Hotels,HQ
+2025-01-12,H00066,5000,Cost of Goods Sold,24852.48,0.0,COGS Cora Hotels 2025-01,Cora Hotels,HQ
+2025-01-12,H00066,1000,Cash - Operating,0.0,24852.48,COGS Cora Hotels 2025-01,,HQ
+2025-01-20,H00067,6000,Salaries & Wages,92290.14,0.0,Payroll 2025-01,Payroll,HQ
+2025-01-20,H00067,2000,Accounts Payable,0.0,92290.14,Payroll 2025-01,Payroll,HQ
+2025-01-20,H00068,6200,Digital Marketing,24488.34,0.0,AdNetwork Co 2025-01,AdNetwork Co,HQ
+2025-01-20,H00068,2000,Accounts Payable,0.0,24488.34,AdNetwork Co 2025-01,AdNetwork Co,HQ
+2025-01-20,H00069,6600,Software Subscriptions,7335.14,0.0,CloudSuite 2025-01,CloudSuite,HQ
+2025-01-20,H00069,2000,Accounts Payable,0.0,7335.14,CloudSuite 2025-01,CloudSuite,HQ
+2025-01-03,H00070,6500,Office Rent,18000.0,0.0,Rent 2025-01,Landlord LLC,HQ
+2025-01-03,H00070,1000,Cash - Operating,0.0,18000.0,Rent 2025-01,Landlord LLC,HQ
+2025-02-12,H00071,1200,Accounts Receivable,160048.16,0.0,Invoice Acme Retail 2025-02,Acme Retail,HQ
+2025-02-12,H00071,4000,Product Revenue,0.0,160048.16,Invoice Acme Retail 2025-02,Acme Retail,HQ
+2025-02-12,H00072,5000,Cost of Goods Sold,67986.05,0.0,COGS Acme Retail 2025-02,Acme Retail,HQ
+2025-02-12,H00072,1000,Cash - Operating,0.0,67986.05,COGS Acme Retail 2025-02,,HQ
+2025-02-12,H00073,1200,Accounts Receivable,106075.54,0.0,Invoice Beta Foods 2025-02,Beta Foods,HQ
+2025-02-12,H00073,4000,Product Revenue,0.0,106075.54,Invoice Beta Foods 2025-02,Beta Foods,HQ
+2025-02-12,H00074,5000,Cost of Goods Sold,43622.34,0.0,COGS Beta Foods 2025-02,Beta Foods,HQ
+2025-02-12,H00074,1000,Cash - Operating,0.0,43622.34,COGS Beta Foods 2025-02,,HQ
+2025-02-12,H00075,1200,Accounts Receivable,55990.0,0.0,Invoice Cora Hotels 2025-02,Cora Hotels,HQ
+2025-02-12,H00075,4000,Product Revenue,0.0,55990.0,Invoice Cora Hotels 2025-02,Cora Hotels,HQ
+2025-02-12,H00076,5000,Cost of Goods Sold,23958.97,0.0,COGS Cora Hotels 2025-02,Cora Hotels,HQ
+2025-02-12,H00076,1000,Cash - Operating,0.0,23958.97,COGS Cora Hotels 2025-02,,HQ
+2025-02-20,H00077,6000,Salaries & Wages,92303.58,0.0,Payroll 2025-02,Payroll,HQ
+2025-02-20,H00077,2000,Accounts Payable,0.0,92303.58,Payroll 2025-02,Payroll,HQ
+2025-02-20,H00078,6200,Digital Marketing,24439.4,0.0,AdNetwork Co 2025-02,AdNetwork Co,HQ
+2025-02-20,H00078,2000,Accounts Payable,0.0,24439.4,AdNetwork Co 2025-02,AdNetwork Co,HQ
+2025-02-20,H00079,6600,Software Subscriptions,7213.36,0.0,CloudSuite 2025-02,CloudSuite,HQ
+2025-02-20,H00079,2000,Accounts Payable,0.0,7213.36,CloudSuite 2025-02,CloudSuite,HQ
+2025-02-03,H00080,6500,Office Rent,18000.0,0.0,Rent 2025-02,Landlord LLC,HQ
+2025-02-03,H00080,1000,Cash - Operating,0.0,18000.0,Rent 2025-02,Landlord LLC,HQ
+2025-03-12,H00081,1200,Accounts Receivable,180169.02,0.0,Invoice Acme Retail 2025-03,Acme Retail,HQ
+2025-03-12,H00081,4000,Product Revenue,0.0,180169.02,Invoice Acme Retail 2025-03,Acme Retail,HQ
+2025-03-12,H00082,5000,Cost of Goods Sold,73934.02,0.0,COGS Acme Retail 2025-03,Acme Retail,HQ
+2025-03-12,H00082,1000,Cash - Operating,0.0,73934.02,COGS Acme Retail 2025-03,,HQ
+2025-03-12,H00083,1200,Accounts Receivable,120374.76,0.0,Invoice Beta Foods 2025-03,Beta Foods,HQ
+2025-03-12,H00083,4000,Product Revenue,0.0,120374.76,Invoice Beta Foods 2025-03,Beta Foods,HQ
+2025-03-12,H00084,5000,Cost of Goods Sold,51104.17,0.0,COGS Beta Foods 2025-03,Beta Foods,HQ
+2025-03-12,H00084,1000,Cash - Operating,0.0,51104.17,COGS Beta Foods 2025-03,,HQ
+2025-03-12,H00085,1200,Accounts Receivable,62765.5,0.0,Invoice Cora Hotels 2025-03,Cora Hotels,HQ
+2025-03-12,H00085,4000,Product Revenue,0.0,62765.5,Invoice Cora Hotels 2025-03,Cora Hotels,HQ
+2025-03-12,H00086,5000,Cost of Goods Sold,26804.53,0.0,COGS Cora Hotels 2025-03,Cora Hotels,HQ
+2025-03-12,H00086,1000,Cash - Operating,0.0,26804.53,COGS Cora Hotels 2025-03,,HQ
+2025-03-20,H00087,6000,Salaries & Wages,93388.1,0.0,Payroll 2025-03,Payroll,HQ
+2025-03-20,H00087,2000,Accounts Payable,0.0,93388.1,Payroll 2025-03,Payroll,HQ
+2025-03-20,H00088,6200,Digital Marketing,23733.86,0.0,AdNetwork Co 2025-03,AdNetwork Co,HQ
+2025-03-20,H00088,2000,Accounts Payable,0.0,23733.86,AdNetwork Co 2025-03,AdNetwork Co,HQ
+2025-03-20,H00089,6600,Software Subscriptions,7243.34,0.0,CloudSuite 2025-03,CloudSuite,HQ
+2025-03-20,H00089,2000,Accounts Payable,0.0,7243.34,CloudSuite 2025-03,CloudSuite,HQ
+2025-03-03,H00090,6500,Office Rent,18000.0,0.0,Rent 2025-03,Landlord LLC,HQ
+2025-03-03,H00090,1000,Cash - Operating,0.0,18000.0,Rent 2025-03,Landlord LLC,HQ
+2025-04-12,H00091,1200,Accounts Receivable,201830.56,0.0,Invoice Acme Retail 2025-04,Acme Retail,HQ
+2025-04-12,H00091,4000,Product Revenue,0.0,201830.56,Invoice Acme Retail 2025-04,Acme Retail,HQ
+2025-04-12,H00092,5000,Cost of Goods Sold,86549.0,0.0,COGS Acme Retail 2025-04,Acme Retail,HQ
+2025-04-12,H00092,1000,Cash - Operating,0.0,86549.0,COGS Acme Retail 2025-04,,HQ
+2025-04-12,H00093,1200,Accounts Receivable,128254.21,0.0,Invoice Beta Foods 2025-04,Beta Foods,HQ
+2025-04-12,H00093,4000,Product Revenue,0.0,128254.21,Invoice Beta Foods 2025-04,Beta Foods,HQ
+2025-04-12,H00094,5000,Cost of Goods Sold,53702.61,0.0,COGS Beta Foods 2025-04,Beta Foods,HQ
+2025-04-12,H00094,1000,Cash - Operating,0.0,53702.61,COGS Beta Foods 2025-04,,HQ
+2025-04-12,H00095,1200,Accounts Receivable,65964.82,0.0,Invoice Cora Hotels 2025-04,Cora Hotels,HQ
+2025-04-12,H00095,4000,Product Revenue,0.0,65964.82,Invoice Cora Hotels 2025-04,Cora Hotels,HQ
+2025-04-12,H00096,5000,Cost of Goods Sold,28030.44,0.0,COGS Cora Hotels 2025-04,Cora Hotels,HQ
+2025-04-12,H00096,1000,Cash - Operating,0.0,28030.44,COGS Cora Hotels 2025-04,,HQ
+2025-04-20,H00097,6000,Salaries & Wages,92378.07,0.0,Payroll 2025-04,Payroll,HQ
+2025-04-20,H00097,2000,Accounts Payable,0.0,92378.07,Payroll 2025-04,Payroll,HQ
+2025-04-20,H00098,6200,Digital Marketing,23377.11,0.0,AdNetwork Co 2025-04,AdNetwork Co,HQ
+2025-04-20,H00098,2000,Accounts Payable,0.0,23377.11,AdNetwork Co 2025-04,AdNetwork Co,HQ
+2025-04-20,H00099,6600,Software Subscriptions,7307.68,0.0,CloudSuite 2025-04,CloudSuite,HQ
+2025-04-20,H00099,2000,Accounts Payable,0.0,7307.68,CloudSuite 2025-04,CloudSuite,HQ
+2025-04-03,H00100,6500,Office Rent,18000.0,0.0,Rent 2025-04,Landlord LLC,HQ
+2025-04-03,H00100,1000,Cash - Operating,0.0,18000.0,Rent 2025-04,Landlord LLC,HQ
+2025-05-12,H00101,1200,Accounts Receivable,194971.72,0.0,Invoice Acme Retail 2025-05,Acme Retail,HQ
+2025-05-12,H00101,4000,Product Revenue,0.0,194971.72,Invoice Acme Retail 2025-05,Acme Retail,HQ
+2025-05-12,H00102,5000,Cost of Goods Sold,83234.3,0.0,COGS Acme Retail 2025-05,Acme Retail,HQ
+2025-05-12,H00102,1000,Cash - Operating,0.0,83234.3,COGS Acme Retail 2025-05,,HQ
+2025-05-12,H00103,1200,Accounts Receivable,132575.96,0.0,Invoice Beta Foods 2025-05,Beta Foods,HQ
+2025-05-12,H00103,4000,Product Revenue,0.0,132575.96,Invoice Beta Foods 2025-05,Beta Foods,HQ
+2025-05-12,H00104,5000,Cost of Goods Sold,55803.33,0.0,COGS Beta Foods 2025-05,Beta Foods,HQ
+2025-05-12,H00104,1000,Cash - Operating,0.0,55803.33,COGS Beta Foods 2025-05,,HQ
+2025-05-12,H00105,1200,Accounts Receivable,67972.23,0.0,Invoice Cora Hotels 2025-05,Cora Hotels,HQ
+2025-05-12,H00105,4000,Product Revenue,0.0,67972.23,Invoice Cora Hotels 2025-05,Cora Hotels,HQ
+2025-05-12,H00106,5000,Cost of Goods Sold,28809.73,0.0,COGS Cora Hotels 2025-05,Cora Hotels,HQ
+2025-05-12,H00106,1000,Cash - Operating,0.0,28809.73,COGS Cora Hotels 2025-05,,HQ
+2025-05-20,H00107,6000,Salaries & Wages,96602.01,0.0,Payroll 2025-05,Payroll,HQ
+2025-05-20,H00107,2000,Accounts Payable,0.0,96602.01,Payroll 2025-05,Payroll,HQ
+2025-05-20,H00108,6200,Digital Marketing,24615.6,0.0,AdNetwork Co 2025-05,AdNetwork Co,HQ
+2025-05-20,H00108,2000,Accounts Payable,0.0,24615.6,AdNetwork Co 2025-05,AdNetwork Co,HQ
+2025-05-20,H00109,6600,Software Subscriptions,7195.53,0.0,CloudSuite 2025-05,CloudSuite,HQ
+2025-05-20,H00109,2000,Accounts Payable,0.0,7195.53,CloudSuite 2025-05,CloudSuite,HQ
+2025-05-03,H00110,6500,Office Rent,18000.0,0.0,Rent 2025-05,Landlord LLC,HQ
+2025-05-03,H00110,1000,Cash - Operating,0.0,18000.0,Rent 2025-05,Landlord LLC,HQ
+2025-06-12,H00111,1200,Accounts Receivable,205338.29,0.0,Invoice Acme Retail 2025-06,Acme Retail,HQ
+2025-06-12,H00111,4000,Product Revenue,0.0,205338.29,Invoice Acme Retail 2025-06,Acme Retail,HQ
+2025-06-12,H00112,5000,Cost of Goods Sold,84778.52,0.0,COGS Acme Retail 2025-06,Acme Retail,HQ
+2025-06-12,H00112,1000,Cash - Operating,0.0,84778.52,COGS Acme Retail 2025-06,,HQ
+2025-06-12,H00113,1200,Accounts Receivable,134046.41,0.0,Invoice Beta Foods 2025-06,Beta Foods,HQ
+2025-06-12,H00113,4000,Product Revenue,0.0,134046.41,Invoice Beta Foods 2025-06,Beta Foods,HQ
+2025-06-12,H00114,5000,Cost of Goods Sold,57067.0,0.0,COGS Beta Foods 2025-06,Beta Foods,HQ
+2025-06-12,H00114,1000,Cash - Operating,0.0,57067.0,COGS Beta Foods 2025-06,,HQ
+2025-06-12,H00115,1200,Accounts Receivable,70931.57,0.0,Invoice Cora Hotels 2025-06,Cora Hotels,HQ
+2025-06-12,H00115,4000,Product Revenue,0.0,70931.57,Invoice Cora Hotels 2025-06,Cora Hotels,HQ
+2025-06-12,H00116,5000,Cost of Goods Sold,30159.01,0.0,COGS Cora Hotels 2025-06,Cora Hotels,HQ
+2025-06-12,H00116,1000,Cash - Operating,0.0,30159.01,COGS Cora Hotels 2025-06,,HQ
+2025-06-20,H00117,6000,Salaries & Wages,92351.83,0.0,Payroll 2025-06,Payroll,HQ
+2025-06-20,H00117,2000,Accounts Payable,0.0,92351.83,Payroll 2025-06,Payroll,HQ
+2025-06-20,H00118,6200,Digital Marketing,23797.55,0.0,AdNetwork Co 2025-06,AdNetwork Co,HQ
+2025-06-20,H00118,2000,Accounts Payable,0.0,23797.55,AdNetwork Co 2025-06,AdNetwork Co,HQ
+2025-06-20,H00119,6600,Software Subscriptions,7201.41,0.0,CloudSuite 2025-06,CloudSuite,HQ
+2025-06-20,H00119,2000,Accounts Payable,0.0,7201.41,CloudSuite 2025-06,CloudSuite,HQ
+2025-06-03,H00120,6500,Office Rent,18000.0,0.0,Rent 2025-06,Landlord LLC,HQ
+2025-06-03,H00120,1000,Cash - Operating,0.0,18000.0,Rent 2025-06,Landlord LLC,HQ
+2025-07-12,H00121,1200,Accounts Receivable,203480.84,0.0,Invoice Acme Retail 2025-07,Acme Retail,HQ
+2025-07-12,H00121,4000,Product Revenue,0.0,203480.84,Invoice Acme Retail 2025-07,Acme Retail,HQ
+2025-07-12,H00122,5000,Cost of Goods Sold,84013.23,0.0,COGS Acme Retail 2025-07,Acme Retail,HQ
+2025-07-12,H00122,1000,Cash - Operating,0.0,84013.23,COGS Acme Retail 2025-07,,HQ
+2025-07-12,H00123,1200,Accounts Receivable,128394.47,0.0,Invoice Beta Foods 2025-07,Beta Foods,HQ
+2025-07-12,H00123,4000,Product Revenue,0.0,128394.47,Invoice Beta Foods 2025-07,Beta Foods,HQ
+2025-07-12,H00124,5000,Cost of Goods Sold,53559.03,0.0,COGS Beta Foods 2025-07,Beta Foods,HQ
+2025-07-12,H00124,1000,Cash - Operating,0.0,53559.03,COGS Beta Foods 2025-07,,HQ
+2025-07-12,H00125,1200,Accounts Receivable,65403.32,0.0,Invoice Cora Hotels 2025-07,Cora Hotels,HQ
+2025-07-12,H00125,4000,Product Revenue,0.0,65403.32,Invoice Cora Hotels 2025-07,Cora Hotels,HQ
+2025-07-12,H00126,5000,Cost of Goods Sold,27953.88,0.0,COGS Cora Hotels 2025-07,Cora Hotels,HQ
+2025-07-12,H00126,1000,Cash - Operating,0.0,27953.88,COGS Cora Hotels 2025-07,,HQ
+2025-07-20,H00127,6000,Salaries & Wages,95777.26,0.0,Payroll 2025-07,Payroll,HQ
+2025-07-20,H00127,2000,Accounts Payable,0.0,95777.26,Payroll 2025-07,Payroll,HQ
+2025-07-20,H00128,6200,Digital Marketing,23510.04,0.0,AdNetwork Co 2025-07,AdNetwork Co,HQ
+2025-07-20,H00128,2000,Accounts Payable,0.0,23510.04,AdNetwork Co 2025-07,AdNetwork Co,HQ
+2025-07-20,H00129,6600,Software Subscriptions,7349.24,0.0,CloudSuite 2025-07,CloudSuite,HQ
+2025-07-20,H00129,2000,Accounts Payable,0.0,7349.24,CloudSuite 2025-07,CloudSuite,HQ
+2025-07-03,H00130,6500,Office Rent,18000.0,0.0,Rent 2025-07,Landlord LLC,HQ
+2025-07-03,H00130,1000,Cash - Operating,0.0,18000.0,Rent 2025-07,Landlord LLC,HQ
+2025-08-12,H00131,1200,Accounts Receivable,192310.34,0.0,Invoice Acme Retail 2025-08,Acme Retail,HQ
+2025-08-12,H00131,4000,Product Revenue,0.0,192310.34,Invoice Acme Retail 2025-08,Acme Retail,HQ
+2025-08-12,H00132,5000,Cost of Goods Sold,81197.19,0.0,COGS Acme Retail 2025-08,Acme Retail,HQ
+2025-08-12,H00132,1000,Cash - Operating,0.0,81197.19,COGS Acme Retail 2025-08,,HQ
+2025-08-12,H00133,1200,Accounts Receivable,128120.16,0.0,Invoice Beta Foods 2025-08,Beta Foods,HQ
+2025-08-12,H00133,4000,Product Revenue,0.0,128120.16,Invoice Beta Foods 2025-08,Beta Foods,HQ
+2025-08-12,H00134,5000,Cost of Goods Sold,52628.27,0.0,COGS Beta Foods 2025-08,Beta Foods,HQ
+2025-08-12,H00134,1000,Cash - Operating,0.0,52628.27,COGS Beta Foods 2025-08,,HQ
+2025-08-12,H00135,1200,Accounts Receivable,65532.7,0.0,Invoice Cora Hotels 2025-08,Cora Hotels,HQ
+2025-08-12,H00135,4000,Product Revenue,0.0,65532.7,Invoice Cora Hotels 2025-08,Cora Hotels,HQ
+2025-08-12,H00136,5000,Cost of Goods Sold,27596.16,0.0,COGS Cora Hotels 2025-08,Cora Hotels,HQ
+2025-08-12,H00136,1000,Cash - Operating,0.0,27596.16,COGS Cora Hotels 2025-08,,HQ
+2025-08-20,H00137,6000,Salaries & Wages,95780.79,0.0,Payroll 2025-08,Payroll,HQ
+2025-08-20,H00137,2000,Accounts Payable,0.0,95780.79,Payroll 2025-08,Payroll,HQ
+2025-08-20,H00138,6200,Digital Marketing,23747.71,0.0,AdNetwork Co 2025-08,AdNetwork Co,HQ
+2025-08-20,H00138,2000,Accounts Payable,0.0,23747.71,AdNetwork Co 2025-08,AdNetwork Co,HQ
+2025-08-20,H00139,6600,Software Subscriptions,7413.26,0.0,CloudSuite 2025-08,CloudSuite,HQ
+2025-08-20,H00139,2000,Accounts Payable,0.0,7413.26,CloudSuite 2025-08,CloudSuite,HQ
+2025-08-03,H00140,6500,Office Rent,18000.0,0.0,Rent 2025-08,Landlord LLC,HQ
+2025-08-03,H00140,1000,Cash - Operating,0.0,18000.0,Rent 2025-08,Landlord LLC,HQ
+2025-09-12,H00141,1200,Accounts Receivable,209480.0,0.0,Invoice Acme Retail 2025-09,Acme Retail,HQ
+2025-09-12,H00141,4000,Product Revenue,0.0,209480.0,Invoice Acme Retail 2025-09,Acme Retail,HQ
+2025-09-12,H00142,5000,Cost of Goods Sold,86434.21,0.0,COGS Acme Retail 2025-09,Acme Retail,HQ
+2025-09-12,H00142,1000,Cash - Operating,0.0,86434.21,COGS Acme Retail 2025-09,,HQ
+2025-09-12,H00143,1200,Accounts Receivable,137948.33,0.0,Invoice Beta Foods 2025-09,Beta Foods,HQ
+2025-09-12,H00143,4000,Product Revenue,0.0,137948.33,Invoice Beta Foods 2025-09,Beta Foods,HQ
+2025-09-12,H00144,5000,Cost of Goods Sold,57649.35,0.0,COGS Beta Foods 2025-09,Beta Foods,HQ
+2025-09-12,H00144,1000,Cash - Operating,0.0,57649.35,COGS Beta Foods 2025-09,,HQ
+2025-09-12,H00145,1200,Accounts Receivable,73640.2,0.0,Invoice Cora Hotels 2025-09,Cora Hotels,HQ
+2025-09-12,H00145,4000,Product Revenue,0.0,73640.2,Invoice Cora Hotels 2025-09,Cora Hotels,HQ
+2025-09-12,H00146,5000,Cost of Goods Sold,30362.83,0.0,COGS Cora Hotels 2025-09,Cora Hotels,HQ
+2025-09-12,H00146,1000,Cash - Operating,0.0,30362.83,COGS Cora Hotels 2025-09,,HQ
+2025-09-20,H00147,6000,Salaries & Wages,92641.13,0.0,Payroll 2025-09,Payroll,HQ
+2025-09-20,H00147,2000,Accounts Payable,0.0,92641.13,Payroll 2025-09,Payroll,HQ
+2025-09-20,H00148,6200,Digital Marketing,24088.56,0.0,AdNetwork Co 2025-09,AdNetwork Co,HQ
+2025-09-20,H00148,2000,Accounts Payable,0.0,24088.56,AdNetwork Co 2025-09,AdNetwork Co,HQ
+2025-09-20,H00149,6600,Software Subscriptions,7554.36,0.0,CloudSuite 2025-09,CloudSuite,HQ
+2025-09-20,H00149,2000,Accounts Payable,0.0,7554.36,CloudSuite 2025-09,CloudSuite,HQ
+2025-09-03,H00150,6500,Office Rent,18000.0,0.0,Rent 2025-09,Landlord LLC,HQ
+2025-09-03,H00150,1000,Cash - Operating,0.0,18000.0,Rent 2025-09,Landlord LLC,HQ
+2025-10-12,H00151,1200,Accounts Receivable,229022.76,0.0,Invoice Acme Retail 2025-10,Acme Retail,HQ
+2025-10-12,H00151,4000,Product Revenue,0.0,229022.76,Invoice Acme Retail 2025-10,Acme Retail,HQ
+2025-10-12,H00152,5000,Cost of Goods Sold,97106.77,0.0,COGS Acme Retail 2025-10,Acme Retail,HQ
+2025-10-12,H00152,1000,Cash - Operating,0.0,97106.77,COGS Acme Retail 2025-10,,HQ
+2025-10-12,H00153,1200,Accounts Receivable,143714.05,0.0,Invoice Beta Foods 2025-10,Beta Foods,HQ
+2025-10-12,H00153,4000,Product Revenue,0.0,143714.05,Invoice Beta Foods 2025-10,Beta Foods,HQ
+2025-10-12,H00154,5000,Cost of Goods Sold,61240.58,0.0,COGS Beta Foods 2025-10,Beta Foods,HQ
+2025-10-12,H00154,1000,Cash - Operating,0.0,61240.58,COGS Beta Foods 2025-10,,HQ
+2025-10-12,H00155,1200,Accounts Receivable,76846.7,0.0,Invoice Cora Hotels 2025-10,Cora Hotels,HQ
+2025-10-12,H00155,4000,Product Revenue,0.0,76846.7,Invoice Cora Hotels 2025-10,Cora Hotels,HQ
+2025-10-12,H00156,5000,Cost of Goods Sold,31728.36,0.0,COGS Cora Hotels 2025-10,Cora Hotels,HQ
+2025-10-12,H00156,1000,Cash - Operating,0.0,31728.36,COGS Cora Hotels 2025-10,,HQ
+2025-10-20,H00157,6000,Salaries & Wages,94800.18,0.0,Payroll 2025-10,Payroll,HQ
+2025-10-20,H00157,2000,Accounts Payable,0.0,94800.18,Payroll 2025-10,Payroll,HQ
+2025-10-20,H00158,6200,Digital Marketing,23351.02,0.0,AdNetwork Co 2025-10,AdNetwork Co,HQ
+2025-10-20,H00158,2000,Accounts Payable,0.0,23351.02,AdNetwork Co 2025-10,AdNetwork Co,HQ
+2025-10-20,H00159,6600,Software Subscriptions,7483.13,0.0,CloudSuite 2025-10,CloudSuite,HQ
+2025-10-20,H00159,2000,Accounts Payable,0.0,7483.13,CloudSuite 2025-10,CloudSuite,HQ
+2025-10-03,H00160,6500,Office Rent,18000.0,0.0,Rent 2025-10,Landlord LLC,HQ
+2025-10-03,H00160,1000,Cash - Operating,0.0,18000.0,Rent 2025-10,Landlord LLC,HQ
+2025-11-12,H00161,1200,Accounts Receivable,264423.81,0.0,Invoice Acme Retail 2025-11,Acme Retail,HQ
+2025-11-12,H00161,4000,Product Revenue,0.0,264423.81,Invoice Acme Retail 2025-11,Acme Retail,HQ
+2025-11-12,H00162,5000,Cost of Goods Sold,112669.02,0.0,COGS Acme Retail 2025-11,Acme Retail,HQ
+2025-11-12,H00162,1000,Cash - Operating,0.0,112669.02,COGS Acme Retail 2025-11,,HQ
+2025-11-12,H00163,1200,Accounts Receivable,174951.55,0.0,Invoice Beta Foods 2025-11,Beta Foods,HQ
+2025-11-12,H00163,4000,Product Revenue,0.0,174951.55,Invoice Beta Foods 2025-11,Beta Foods,HQ
+2025-11-12,H00164,5000,Cost of Goods Sold,72665.28,0.0,COGS Beta Foods 2025-11,Beta Foods,HQ
+2025-11-12,H00164,1000,Cash - Operating,0.0,72665.28,COGS Beta Foods 2025-11,,HQ
+2025-11-12,H00165,1200,Accounts Receivable,90282.69,0.0,Invoice Cora Hotels 2025-11,Cora Hotels,HQ
+2025-11-12,H00165,4000,Product Revenue,0.0,90282.69,Invoice Cora Hotels 2025-11,Cora Hotels,HQ
+2025-11-12,H00166,5000,Cost of Goods Sold,37465.82,0.0,COGS Cora Hotels 2025-11,Cora Hotels,HQ
+2025-11-12,H00166,1000,Cash - Operating,0.0,37465.82,COGS Cora Hotels 2025-11,,HQ
+2025-11-20,H00167,6000,Salaries & Wages,92936.0,0.0,Payroll 2025-11,Payroll,HQ
+2025-11-20,H00167,2000,Accounts Payable,0.0,92936.0,Payroll 2025-11,Payroll,HQ
+2025-11-20,H00168,6200,Digital Marketing,23842.16,0.0,AdNetwork Co 2025-11,AdNetwork Co,HQ
+2025-11-20,H00168,2000,Accounts Payable,0.0,23842.16,AdNetwork Co 2025-11,AdNetwork Co,HQ
+2025-11-20,H00169,6600,Software Subscriptions,7349.05,0.0,CloudSuite 2025-11,CloudSuite,HQ
+2025-11-20,H00169,2000,Accounts Payable,0.0,7349.05,CloudSuite 2025-11,CloudSuite,HQ
+2025-11-03,H00170,6500,Office Rent,18000.0,0.0,Rent 2025-11,Landlord LLC,HQ
+2025-11-03,H00170,1000,Cash - Operating,0.0,18000.0,Rent 2025-11,Landlord LLC,HQ
+2025-12-12,H00171,1200,Accounts Receivable,280656.43,0.0,Invoice Acme Retail 2025-12,Acme Retail,HQ
+2025-12-12,H00171,4000,Product Revenue,0.0,280656.43,Invoice Acme Retail 2025-12,Acme Retail,HQ
+2025-12-12,H00172,5000,Cost of Goods Sold,118469.47,0.0,COGS Acme Retail 2025-12,Acme Retail,HQ
+2025-12-12,H00172,1000,Cash - Operating,0.0,118469.47,COGS Acme Retail 2025-12,,HQ
+2025-12-12,H00173,1200,Accounts Receivable,188798.66,0.0,Invoice Beta Foods 2025-12,Beta Foods,HQ
+2025-12-12,H00173,4000,Product Revenue,0.0,188798.66,Invoice Beta Foods 2025-12,Beta Foods,HQ
+2025-12-12,H00174,5000,Cost of Goods Sold,78313.0,0.0,COGS Beta Foods 2025-12,Beta Foods,HQ
+2025-12-12,H00174,1000,Cash - Operating,0.0,78313.0,COGS Beta Foods 2025-12,,HQ
+2025-12-12,H00175,1200,Accounts Receivable,97376.28,0.0,Invoice Cora Hotels 2025-12,Cora Hotels,HQ
+2025-12-12,H00175,4000,Product Revenue,0.0,97376.28,Invoice Cora Hotels 2025-12,Cora Hotels,HQ
+2025-12-12,H00176,5000,Cost of Goods Sold,40620.03,0.0,COGS Cora Hotels 2025-12,Cora Hotels,HQ
+2025-12-12,H00176,1000,Cash - Operating,0.0,40620.03,COGS Cora Hotels 2025-12,,HQ
+2025-12-20,H00177,6000,Salaries & Wages,96337.73,0.0,Payroll 2025-12,Payroll,HQ
+2025-12-20,H00177,2000,Accounts Payable,0.0,96337.73,Payroll 2025-12,Payroll,HQ
+2025-12-20,H00178,6200,Digital Marketing,23698.2,0.0,AdNetwork Co 2025-12,AdNetwork Co,HQ
+2025-12-20,H00178,2000,Accounts Payable,0.0,23698.2,AdNetwork Co 2025-12,AdNetwork Co,HQ
+2025-12-20,H00179,6600,Software Subscriptions,7481.77,0.0,CloudSuite 2025-12,CloudSuite,HQ
+2025-12-20,H00179,2000,Accounts Payable,0.0,7481.77,CloudSuite 2025-12,CloudSuite,HQ
+2025-12-03,H00180,6500,Office Rent,18000.0,0.0,Rent 2025-12,Landlord LLC,HQ
+2025-12-03,H00180,1000,Cash - Operating,0.0,18000.0,Rent 2025-12,Landlord LLC,HQ
+2026-01-12,H00181,1200,Accounts Receivable,200752.26,0.0,Invoice Acme Retail 2026-01,Acme Retail,HQ
+2026-01-12,H00181,4000,Product Revenue,0.0,200752.26,Invoice Acme Retail 2026-01,Acme Retail,HQ
+2026-01-12,H00182,5000,Cost of Goods Sold,84529.71,0.0,COGS Acme Retail 2026-01,Acme Retail,HQ
+2026-01-12,H00182,1000,Cash - Operating,0.0,84529.71,COGS Acme Retail 2026-01,,HQ
+2026-01-12,H00183,1200,Accounts Receivable,134559.92,0.0,Invoice Beta Foods 2026-01,Beta Foods,HQ
+2026-01-12,H00183,4000,Product Revenue,0.0,134559.92,Invoice Beta Foods 2026-01,Beta Foods,HQ
+2026-01-12,H00184,5000,Cost of Goods Sold,56564.62,0.0,COGS Beta Foods 2026-01,Beta Foods,HQ
+2026-01-12,H00184,1000,Cash - Operating,0.0,56564.62,COGS Beta Foods 2026-01,,HQ
+2026-01-12,H00185,1200,Accounts Receivable,67607.48,0.0,Invoice Cora Hotels 2026-01,Cora Hotels,HQ
+2026-01-12,H00185,4000,Product Revenue,0.0,67607.48,Invoice Cora Hotels 2026-01,Cora Hotels,HQ
+2026-01-12,H00186,5000,Cost of Goods Sold,29043.34,0.0,COGS Cora Hotels 2026-01,Cora Hotels,HQ
+2026-01-12,H00186,1000,Cash - Operating,0.0,29043.34,COGS Cora Hotels 2026-01,,HQ
+2026-01-20,H00187,6000,Salaries & Wages,92697.52,0.0,Payroll 2026-01,Payroll,HQ
+2026-01-20,H00187,2000,Accounts Payable,0.0,92697.52,Payroll 2026-01,Payroll,HQ
+2026-01-20,H00188,6200,Digital Marketing,23747.89,0.0,AdNetwork Co 2026-01,AdNetwork Co,HQ
+2026-01-20,H00188,2000,Accounts Payable,0.0,23747.89,AdNetwork Co 2026-01,AdNetwork Co,HQ
+2026-01-20,H00189,6600,Software Subscriptions,7371.66,0.0,CloudSuite 2026-01,CloudSuite,HQ
+2026-01-20,H00189,2000,Accounts Payable,0.0,7371.66,CloudSuite 2026-01,CloudSuite,HQ
+2026-01-03,H00190,6500,Office Rent,18000.0,0.0,Rent 2026-01,Landlord LLC,HQ
+2026-01-03,H00190,1000,Cash - Operating,0.0,18000.0,Rent 2026-01,Landlord LLC,HQ
+2026-02-12,H00191,1200,Accounts Receivable,176921.43,0.0,Invoice Acme Retail 2026-02,Acme Retail,HQ
+2026-02-12,H00191,4000,Product Revenue,0.0,176921.43,Invoice Acme Retail 2026-02,Acme Retail,HQ
+2026-02-12,H00192,5000,Cost of Goods Sold,73085.94,0.0,COGS Acme Retail 2026-02,Acme Retail,HQ
+2026-02-12,H00192,1000,Cash - Operating,0.0,73085.94,COGS Acme Retail 2026-02,,HQ
+2026-02-12,H00193,1200,Accounts Receivable,122323.89,0.0,Invoice Beta Foods 2026-02,Beta Foods,HQ
+2026-02-12,H00193,4000,Product Revenue,0.0,122323.89,Invoice Beta Foods 2026-02,Beta Foods,HQ
+2026-02-12,H00194,5000,Cost of Goods Sold,52070.38,0.0,COGS Beta Foods 2026-02,Beta Foods,HQ
+2026-02-12,H00194,1000,Cash - Operating,0.0,52070.38,COGS Beta Foods 2026-02,,HQ
+2026-02-12,H00195,1200,Accounts Receivable,62412.52,0.0,Invoice Cora Hotels 2026-02,Cora Hotels,HQ
+2026-02-12,H00195,4000,Product Revenue,0.0,62412.52,Invoice Cora Hotels 2026-02,Cora Hotels,HQ
+2026-02-12,H00196,5000,Cost of Goods Sold,26714.8,0.0,COGS Cora Hotels 2026-02,Cora Hotels,HQ
+2026-02-12,H00196,1000,Cash - Operating,0.0,26714.8,COGS Cora Hotels 2026-02,,HQ
+2026-02-20,H00197,6000,Salaries & Wages,96456.48,0.0,Payroll 2026-02,Payroll,HQ
+2026-02-20,H00197,2000,Accounts Payable,0.0,96456.48,Payroll 2026-02,Payroll,HQ
+2026-02-20,H00198,6200,Digital Marketing,23710.25,0.0,AdNetwork Co 2026-02,AdNetwork Co,HQ
+2026-02-20,H00198,2000,Accounts Payable,0.0,23710.25,AdNetwork Co 2026-02,AdNetwork Co,HQ
+2026-02-20,H00199,6600,Software Subscriptions,7413.89,0.0,CloudSuite 2026-02,CloudSuite,HQ
+2026-02-20,H00199,2000,Accounts Payable,0.0,7413.89,CloudSuite 2026-02,CloudSuite,HQ
+2026-02-03,H00200,6500,Office Rent,18000.0,0.0,Rent 2026-02,Landlord LLC,HQ
+2026-02-03,H00200,1000,Cash - Operating,0.0,18000.0,Rent 2026-02,Landlord LLC,HQ
+2026-03-12,H00201,1200,Accounts Receivable,203231.09,0.0,Invoice Acme Retail 2026-03,Acme Retail,HQ
+2026-03-12,H00201,4000,Product Revenue,0.0,203231.09,Invoice Acme Retail 2026-03,Acme Retail,HQ
+2026-03-12,H00202,5000,Cost of Goods Sold,86372.58,0.0,COGS Acme Retail 2026-03,Acme Retail,HQ
+2026-03-12,H00202,1000,Cash - Operating,0.0,86372.58,COGS Acme Retail 2026-03,,HQ
+2026-03-12,H00203,1200,Accounts Receivable,134495.84,0.0,Invoice Beta Foods 2026-03,Beta Foods,HQ
+2026-03-12,H00203,4000,Product Revenue,0.0,134495.84,Invoice Beta Foods 2026-03,Beta Foods,HQ
+2026-03-12,H00204,5000,Cost of Goods Sold,55555.51,0.0,COGS Beta Foods 2026-03,Beta Foods,HQ
+2026-03-12,H00204,1000,Cash - Operating,0.0,55555.51,COGS Beta Foods 2026-03,,HQ
+2026-03-12,H00205,1200,Accounts Receivable,71343.88,0.0,Invoice Cora Hotels 2026-03,Cora Hotels,HQ
+2026-03-12,H00205,4000,Product Revenue,0.0,71343.88,Invoice Cora Hotels 2026-03,Cora Hotels,HQ
+2026-03-12,H00206,5000,Cost of Goods Sold,30236.11,0.0,COGS Cora Hotels 2026-03,Cora Hotels,HQ
+2026-03-12,H00206,1000,Cash - Operating,0.0,30236.11,COGS Cora Hotels 2026-03,,HQ
+2026-03-20,H00207,6000,Salaries & Wages,96394.67,0.0,Payroll 2026-03,Payroll,HQ
+2026-03-20,H00207,2000,Accounts Payable,0.0,96394.67,Payroll 2026-03,Payroll,HQ
+2026-03-20,H00208,6200,Digital Marketing,24085.82,0.0,AdNetwork Co 2026-03,AdNetwork Co,HQ
+2026-03-20,H00208,2000,Accounts Payable,0.0,24085.82,AdNetwork Co 2026-03,AdNetwork Co,HQ
+2026-03-20,H00209,6600,Software Subscriptions,7474.78,0.0,CloudSuite 2026-03,CloudSuite,HQ
+2026-03-20,H00209,2000,Accounts Payable,0.0,7474.78,CloudSuite 2026-03,CloudSuite,HQ
+2026-03-03,H00210,6500,Office Rent,18000.0,0.0,Rent 2026-03,Landlord LLC,HQ
+2026-03-03,H00210,1000,Cash - Operating,0.0,18000.0,Rent 2026-03,Landlord LLC,HQ
+2026-04-12,H00211,1200,Accounts Receivable,217118.81,0.0,Invoice Acme Retail 2026-04,Acme Retail,HQ
+2026-04-12,H00211,4000,Product Revenue,0.0,217118.81,Invoice Acme Retail 2026-04,Acme Retail,HQ
+2026-04-12,H00212,5000,Cost of Goods Sold,91475.6,0.0,COGS Acme Retail 2026-04,Acme Retail,HQ
+2026-04-12,H00212,1000,Cash - Operating,0.0,91475.6,COGS Acme Retail 2026-04,,HQ
+2026-04-12,H00213,1200,Accounts Receivable,139975.17,0.0,Invoice Beta Foods 2026-04,Beta Foods,HQ
+2026-04-12,H00213,4000,Product Revenue,0.0,139975.17,Invoice Beta Foods 2026-04,Beta Foods,HQ
+2026-04-12,H00214,5000,Cost of Goods Sold,58943.74,0.0,COGS Beta Foods 2026-04,Beta Foods,HQ
+2026-04-12,H00214,1000,Cash - Operating,0.0,58943.74,COGS Beta Foods 2026-04,,HQ
+2026-04-12,H00215,1200,Accounts Receivable,75449.82,0.0,Invoice Cora Hotels 2026-04,Cora Hotels,HQ
+2026-04-12,H00215,4000,Product Revenue,0.0,75449.82,Invoice Cora Hotels 2026-04,Cora Hotels,HQ
+2026-04-12,H00216,5000,Cost of Goods Sold,31999.09,0.0,COGS Cora Hotels 2026-04,Cora Hotels,HQ
+2026-04-12,H00216,1000,Cash - Operating,0.0,31999.09,COGS Cora Hotels 2026-04,,HQ
+2026-04-20,H00217,6000,Salaries & Wages,96727.97,0.0,Payroll 2026-04,Payroll,HQ
+2026-04-20,H00217,2000,Accounts Payable,0.0,96727.97,Payroll 2026-04,Payroll,HQ
+2026-04-20,H00218,6200,Digital Marketing,23994.38,0.0,AdNetwork Co 2026-04,AdNetwork Co,HQ
+2026-04-20,H00218,2000,Accounts Payable,0.0,23994.38,AdNetwork Co 2026-04,AdNetwork Co,HQ
+2026-04-20,H00219,6600,Software Subscriptions,7518.17,0.0,CloudSuite 2026-04,CloudSuite,HQ
+2026-04-20,H00219,2000,Accounts Payable,0.0,7518.17,CloudSuite 2026-04,CloudSuite,HQ
+2026-04-03,H00220,6500,Office Rent,18000.0,0.0,Rent 2026-04,Landlord LLC,HQ
+2026-04-03,H00220,1000,Cash - Operating,0.0,18000.0,Rent 2026-04,Landlord LLC,HQ
+2026-05-12,H00221,1200,Accounts Receivable,214438.99,0.0,Invoice Acme Retail 2026-05,Acme Retail,HQ
+2026-05-12,H00221,4000,Product Revenue,0.0,214438.99,Invoice Acme Retail 2026-05,Acme Retail,HQ
+2026-05-12,H00222,5000,Cost of Goods Sold,91675.67,0.0,COGS Acme Retail 2026-05,Acme Retail,HQ
+2026-05-12,H00222,1000,Cash - Operating,0.0,91675.67,COGS Acme Retail 2026-05,,HQ
+2026-05-12,H00223,1200,Accounts Receivable,143816.56,0.0,Invoice Beta Foods 2026-05,Beta Foods,HQ
+2026-05-12,H00223,4000,Product Revenue,0.0,143816.56,Invoice Beta Foods 2026-05,Beta Foods,HQ
+2026-05-12,H00224,5000,Cost of Goods Sold,59226.43,0.0,COGS Beta Foods 2026-05,Beta Foods,HQ
+2026-05-12,H00224,1000,Cash - Operating,0.0,59226.43,COGS Beta Foods 2026-05,,HQ
+2026-05-12,H00225,1200,Accounts Receivable,75198.59,0.0,Invoice Cora Hotels 2026-05,Cora Hotels,HQ
+2026-05-12,H00225,4000,Product Revenue,0.0,75198.59,Invoice Cora Hotels 2026-05,Cora Hotels,HQ
+2026-05-12,H00226,5000,Cost of Goods Sold,31515.57,0.0,COGS Cora Hotels 2026-05,Cora Hotels,HQ
+2026-05-12,H00226,1000,Cash - Operating,0.0,31515.57,COGS Cora Hotels 2026-05,,HQ
+2026-05-20,H00227,6000,Salaries & Wages,94591.72,0.0,Payroll 2026-05,Payroll,HQ
+2026-05-20,H00227,2000,Accounts Payable,0.0,94591.72,Payroll 2026-05,Payroll,HQ
+2026-05-20,H00228,6200,Digital Marketing,24506.92,0.0,AdNetwork Co 2026-05,AdNetwork Co,HQ
+2026-05-20,H00228,2000,Accounts Payable,0.0,24506.92,AdNetwork Co 2026-05,AdNetwork Co,HQ
+2026-05-20,H00229,6600,Software Subscriptions,7190.27,0.0,CloudSuite 2026-05,CloudSuite,HQ
+2026-05-20,H00229,2000,Accounts Payable,0.0,7190.27,CloudSuite 2026-05,CloudSuite,HQ
+2026-05-03,H00230,6500,Office Rent,18000.0,0.0,Rent 2026-05,Landlord LLC,HQ
+2026-05-03,H00230,1000,Cash - Operating,0.0,18000.0,Rent 2026-05,Landlord LLC,HQ
+2026-06-12,H00231,1200,Accounts Receivable,227412.43,0.0,Invoice Acme Retail 2026-06,Acme Retail,HQ
+2026-06-12,H00231,4000,Product Revenue,0.0,227412.43,Invoice Acme Retail 2026-06,Acme Retail,HQ
+2026-06-12,H00232,5000,Cost of Goods Sold,95120.93,0.0,COGS Acme Retail 2026-06,Acme Retail,HQ
+2026-06-12,H00232,1000,Cash - Operating,0.0,95120.93,COGS Acme Retail 2026-06,,HQ
+2026-06-12,H00233,1200,Accounts Receivable,149299.19,0.0,Invoice Beta Foods 2026-06,Beta Foods,HQ
+2026-06-12,H00233,4000,Product Revenue,0.0,149299.19,Invoice Beta Foods 2026-06,Beta Foods,HQ
+2026-06-12,H00234,5000,Cost of Goods Sold,62703.9,0.0,COGS Beta Foods 2026-06,Beta Foods,HQ
+2026-06-12,H00234,1000,Cash - Operating,0.0,62703.9,COGS Beta Foods 2026-06,,HQ
+2026-06-12,H00235,1200,Accounts Receivable,75095.99,0.0,Invoice Cora Hotels 2026-06,Cora Hotels,HQ
+2026-06-12,H00235,4000,Product Revenue,0.0,75095.99,Invoice Cora Hotels 2026-06,Cora Hotels,HQ
+2026-06-12,H00236,5000,Cost of Goods Sold,31558.36,0.0,COGS Cora Hotels 2026-06,Cora Hotels,HQ
+2026-06-12,H00236,1000,Cash - Operating,0.0,31558.36,COGS Cora Hotels 2026-06,,HQ
+2026-06-20,H00237,6000,Salaries & Wages,97064.0,0.0,Payroll 2026-06,Payroll,HQ
+2026-06-20,H00237,2000,Accounts Payable,0.0,97064.0,Payroll 2026-06,Payroll,HQ
+2026-06-20,H00238,6200,Digital Marketing,23526.58,0.0,AdNetwork Co 2026-06,AdNetwork Co,HQ
+2026-06-20,H00238,2000,Accounts Payable,0.0,23526.58,AdNetwork Co 2026-06,AdNetwork Co,HQ
+2026-06-20,H00239,6600,Software Subscriptions,7134.56,0.0,CloudSuite 2026-06,CloudSuite,HQ
+2026-06-20,H00239,2000,Accounts Payable,0.0,7134.56,CloudSuite 2026-06,CloudSuite,HQ
+2026-06-03,H00240,6500,Office Rent,18000.0,0.0,Rent 2026-06,Landlord LLC,HQ
+2026-06-03,H00240,1000,Cash - Operating,0.0,18000.0,Rent 2026-06,Landlord LLC,HQ
+2026-07-12,H00241,1200,Accounts Receivable,213060.66,0.0,Invoice Acme Retail 2026-07,Acme Retail,HQ
+2026-07-12,H00241,4000,Product Revenue,0.0,213060.66,Invoice Acme Retail 2026-07,Acme Retail,HQ
+2026-07-12,H00242,5000,Cost of Goods Sold,89314.16,0.0,COGS Acme Retail 2026-07,Acme Retail,HQ
+2026-07-12,H00242,1000,Cash - Operating,0.0,89314.16,COGS Acme Retail 2026-07,,HQ
+2026-07-12,H00243,1200,Accounts Receivable,148475.44,0.0,Invoice Beta Foods 2026-07,Beta Foods,HQ
+2026-07-12,H00243,4000,Product Revenue,0.0,148475.44,Invoice Beta Foods 2026-07,Beta Foods,HQ
+2026-07-12,H00244,5000,Cost of Goods Sold,61006.29,0.0,COGS Beta Foods 2026-07,Beta Foods,HQ
+2026-07-12,H00244,1000,Cash - Operating,0.0,61006.29,COGS Beta Foods 2026-07,,HQ
+2026-07-12,H00245,1200,Accounts Receivable,76560.87,0.0,Invoice Cora Hotels 2026-07,Cora Hotels,HQ
+2026-07-12,H00245,4000,Product Revenue,0.0,76560.87,Invoice Cora Hotels 2026-07,Cora Hotels,HQ
+2026-07-12,H00246,5000,Cost of Goods Sold,32210.77,0.0,COGS Cora Hotels 2026-07,Cora Hotels,HQ
+2026-07-12,H00246,1000,Cash - Operating,0.0,32210.77,COGS Cora Hotels 2026-07,,HQ
+2026-07-20,H00247,6000,Salaries & Wages,92834.8,0.0,Payroll 2026-07,Payroll,HQ
+2026-07-20,H00247,2000,Accounts Payable,0.0,92834.8,Payroll 2026-07,Payroll,HQ
+2026-07-20,H00248,6200,Digital Marketing,23882.7,0.0,AdNetwork Co 2026-07,AdNetwork Co,HQ
+2026-07-20,H00248,2000,Accounts Payable,0.0,23882.7,AdNetwork Co 2026-07,AdNetwork Co,HQ
+2026-07-20,H00249,6600,Software Subscriptions,7220.95,0.0,CloudSuite 2026-07,CloudSuite,HQ
+2026-07-20,H00249,2000,Accounts Payable,0.0,7220.95,CloudSuite 2026-07,CloudSuite,HQ
+2026-07-03,H00250,6500,Office Rent,18000.0,0.0,Rent 2026-07,Landlord LLC,HQ
+2026-07-03,H00250,1000,Cash - Operating,0.0,18000.0,Rent 2026-07,Landlord LLC,HQ
+2026-08-12,H00251,1200,Accounts Receivable,221054.31,0.0,Invoice Acme Retail 2026-08,Acme Retail,HQ
+2026-08-12,H00251,4000,Product Revenue,0.0,221054.31,Invoice Acme Retail 2026-08,Acme Retail,HQ
+2026-08-12,H00252,5000,Cost of Goods Sold,93026.35,0.0,COGS Acme Retail 2026-08,Acme Retail,HQ
+2026-08-12,H00252,1000,Cash - Operating,0.0,93026.35,COGS Acme Retail 2026-08,,HQ
+2026-08-12,H00253,1200,Accounts Receivable,142212.4,0.0,Invoice Beta Foods 2026-08,Beta Foods,HQ
+2026-08-12,H00253,4000,Product Revenue,0.0,142212.4,Invoice Beta Foods 2026-08,Beta Foods,HQ
+2026-08-12,H00254,5000,Cost of Goods Sold,59033.57,0.0,COGS Beta Foods 2026-08,Beta Foods,HQ
+2026-08-12,H00254,1000,Cash - Operating,0.0,59033.57,COGS Beta Foods 2026-08,,HQ
+2026-08-12,H00255,1200,Accounts Receivable,75838.89,0.0,Invoice Cora Hotels 2026-08,Cora Hotels,HQ
+2026-08-12,H00255,4000,Product Revenue,0.0,75838.89,Invoice Cora Hotels 2026-08,Cora Hotels,HQ
+2026-08-12,H00256,5000,Cost of Goods Sold,32256.16,0.0,COGS Cora Hotels 2026-08,Cora Hotels,HQ
+2026-08-12,H00256,1000,Cash - Operating,0.0,32256.16,COGS Cora Hotels 2026-08,,HQ
+2026-08-20,H00257,6000,Salaries & Wages,94636.25,0.0,Payroll 2026-08,Payroll,HQ
+2026-08-20,H00257,2000,Accounts Payable,0.0,94636.25,Payroll 2026-08,Payroll,HQ
+2026-08-20,H00258,6200,Digital Marketing,23863.94,0.0,AdNetwork Co 2026-08,AdNetwork Co,HQ
+2026-08-20,H00258,2000,Accounts Payable,0.0,23863.94,AdNetwork Co 2026-08,AdNetwork Co,HQ
+2026-08-20,H00259,6600,Software Subscriptions,7454.73,0.0,CloudSuite 2026-08,CloudSuite,HQ
+2026-08-20,H00259,2000,Accounts Payable,0.0,7454.73,CloudSuite 2026-08,CloudSuite,HQ
+2026-08-03,H00260,6500,Office Rent,18000.0,0.0,Rent 2026-08,Landlord LLC,HQ
+2026-08-03,H00260,1000,Cash - Operating,0.0,18000.0,Rent 2026-08,Landlord LLC,HQ
+2026-09-12,H00261,1200,Accounts Receivable,240201.93,0.0,Invoice Acme Retail 2026-09,Acme Retail,HQ
+2026-09-12,H00261,4000,Product Revenue,0.0,240201.93,Invoice Acme Retail 2026-09,Acme Retail,HQ
+2026-09-12,H00262,5000,Cost of Goods Sold,98865.16,0.0,COGS Acme Retail 2026-09,Acme Retail,HQ
+2026-09-12,H00262,1000,Cash - Operating,0.0,98865.16,COGS Acme Retail 2026-09,,HQ
+2026-09-12,H00263,1200,Accounts Receivable,151024.92,0.0,Invoice Beta Foods 2026-09,Beta Foods,HQ
+2026-09-12,H00263,4000,Product Revenue,0.0,151024.92,Invoice Beta Foods 2026-09,Beta Foods,HQ
+2026-09-12,H00264,5000,Cost of Goods Sold,63014.62,0.0,COGS Beta Foods 2026-09,Beta Foods,HQ
+2026-09-12,H00264,1000,Cash - Operating,0.0,63014.62,COGS Beta Foods 2026-09,,HQ
+2026-09-12,H00265,1200,Accounts Receivable,79462.13,0.0,Invoice Cora Hotels 2026-09,Cora Hotels,HQ
+2026-09-12,H00265,4000,Product Revenue,0.0,79462.13,Invoice Cora Hotels 2026-09,Cora Hotels,HQ
+2026-09-12,H00266,5000,Cost of Goods Sold,32692.96,0.0,COGS Cora Hotels 2026-09,Cora Hotels,HQ
+2026-09-12,H00266,1000,Cash - Operating,0.0,32692.96,COGS Cora Hotels 2026-09,,HQ
+2026-09-20,H00267,6000,Salaries & Wages,92454.89,0.0,Payroll 2026-09,Payroll,HQ
+2026-09-20,H00267,2000,Accounts Payable,0.0,92454.89,Payroll 2026-09,Payroll,HQ
+2026-09-20,H00268,6200,Digital Marketing,23596.03,0.0,AdNetwork Co 2026-09,AdNetwork Co,HQ
+2026-09-20,H00268,2000,Accounts Payable,0.0,23596.03,AdNetwork Co 2026-09,AdNetwork Co,HQ
+2026-09-20,H00269,6600,Software Subscriptions,7299.71,0.0,CloudSuite 2026-09,CloudSuite,HQ
+2026-09-20,H00269,2000,Accounts Payable,0.0,7299.71,CloudSuite 2026-09,CloudSuite,HQ
+2026-09-03,H00270,6500,Office Rent,18000.0,0.0,Rent 2026-09,Landlord LLC,HQ
+2026-09-03,H00270,1000,Cash - Operating,0.0,18000.0,Rent 2026-09,Landlord LLC,HQ
+2026-09-30,H00271,6600,Software Subscriptions,48000.0,0.0,Consulting - strategy,Zenith Advisory,HQ
+2026-09-30,H00271,2000,Accounts Payable,0.0,48000.0,Consulting - strategy,Zenith Advisory,HQ
+2026-09-22,H00272,6600,Software Subscriptions,7412.55,0.0,CloudSuite re-key,CloudSuite,HQ
+2026-09-22,H00272,2000,Accounts Payable,0.0,7412.55,CloudSuite re-key,CloudSuite,HQ
+2026-09-24,H00273,6600,Software Subscriptions,7412.55,0.0,CloudSuite inv,CloudSuite,HQ
+2026-09-24,H00273,2000,Accounts Payable,0.0,7412.55,CloudSuite inv,CloudSuite,HQ

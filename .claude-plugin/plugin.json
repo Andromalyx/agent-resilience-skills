@@ -1,0 +1,8 @@
+{
+  "name": "agent-resilience-skills",
+  "version": "0.2.0",
+  "description": "Resilience (calm, honest recovery under pressure) plus an FP&A & G/L analyst skill with a bundled pandas engine: P&L from G/L or trial balance, variance with G/L evidence, anomaly screen, forecasting, scenarios, reconciliation, and a per-company knowledge base (fpa-context).",
+  "author": { "name": "Agent Resilience Skills contributors" },
+  "license": "MIT",
+  "keywords": ["fpa", "accounting", "general-ledger", "variance-analysis", "forecasting", "resilience"]
+}

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agent-resilience-skills"
-version = "0.1.0"
+version = "0.2.0"
 description = "Reusable AI agent skill for calm, honest recovery under pressure, ambiguity, and tool failure."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -12,7 +12,7 @@ license = { text = "MIT" }
 authors = [
   { name = "Agent Resilience Skills contributors" }
 ]
-keywords = ["ai-agents", "resilience", "reliability", "evals", "prompting"]
+keywords = ["ai-agents", "resilience", "reliability", "evals", "prompting", "fpa", "accounting", "general-ledger"]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Intended Audience :: Developers",
@@ -24,10 +24,16 @@ classifiers = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8.0", "ruff>=0.5"]
+dev = ["pytest>=8.0", "ruff>=0.5", "pandas>=2.1", "numpy>=1.26", "openpyxl>=3.1", "pyyaml>=6.0"]
+finance = ["pandas>=2.1", "numpy>=1.26", "openpyxl>=3.1", "pyyaml>=6.0"]
+ml = ["scikit-learn>=1.4", "rapidfuzz>=3.0"]
+agent = ["langgraph>=1.0", "langchain-anthropic>=1.0"]
 
 [tool.setuptools]
-packages = ["runtime"]
+packages = ["runtime", "runtime.finance"]
+
+[tool.setuptools.package-data]
+"runtime.finance" = ["context_template/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

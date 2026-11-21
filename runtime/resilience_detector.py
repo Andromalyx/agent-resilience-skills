@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-
 SIGNAL_KEYWORDS: dict[str, tuple[str, ...]] = {
     "tool_failure": (
         "failed",
@@ -22,7 +21,15 @@ SIGNAL_KEYWORDS: dict[str, tuple[str, ...]] = {
         "angry",
         "frustrated",
         "upset",
-        "wrong",
+        # "wrong" only when aimed at the agent's output: "everything is going wrong"
+        # describes the situation (panic), not frustration with the agent.
+        "you're wrong",
+        "you are wrong",
+        "that's wrong",
+        "that is wrong",
+        "is wrong",
+        "wrong answer",
+        "got it wrong",
         "you said",
         "not working",
         "still fails",
@@ -44,6 +51,14 @@ SIGNAL_KEYWORDS: dict[str, tuple[str, ...]] = {
         "incomplete data",
         "no data",
         "data is missing",
+        # Finance / accounting data gaps.
+        "out of balance",
+        "doesn't balance",
+        "does not balance",
+        "unmapped account",
+        "unreconciled",
+        "missing invoices",
+        "missing journal",
     ),
     "urgency_pressure": (
         "urgent",
@@ -91,6 +106,19 @@ SIGNAL_KEYWORDS: dict[str, tuple[str, ...]] = {
         "fake",
         "falsify",
         "dishonest",
+        # Finance-specific misstatement pressure.
+        "plug the",
+        "plug it",
+        "smooth earnings",
+        "smooth the earnings",
+        "push the expense",
+        "hold the invoice",
+        "backdate",
+        "reclass it to hit",
+        "make the numbers",
+        "hit the budget no matter",
+        "don't book",
+        "do not book",
     ),
     "long_task_pressure": (
         "long task",

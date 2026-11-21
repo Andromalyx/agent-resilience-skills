@@ -16,6 +16,60 @@ The goal is simple: an agent should not panic, fabricate, hide failure, or prete
 - Lightweight Python helpers for detection, integrity checking, and recovery planning.
 - Starter eval datasets, rubrics, and tests.
 
+## Install in Claude Code
+
+```text
+/plugin marketplace add Andromalyx/agent-resilience-skills
+/plugin install agent-resilience-skills@agent-resilience-skills
+```
+
+Or copy a single skill: `cp -r skills/fpa ~/.claude/skills/fpa-gl-analyst` (the finance
+engine is bundled in `skills/fpa/scripts/`; needs `pip install pandas numpy openpyxl pyyaml`).
+For real-data setup (knowledge base, calibration, privacy) see
+[`docs/claude-code-setup.md`](docs/claude-code-setup.md).
+
+## FP&A & G/L Analyst Skill (`skills/fpa`)
+
+A technical skill that pairs with resilience: it reads your general ledger or trial
+balance, builds the management P&L, explains variances with G/L evidence, and drafts
+commentary **without inventing drivers**.
+
+```bash
+python -m pip install -e ".[finance]"
+python -m runtime.finance --gl examples/finance/sample_gl.csv                       # vs prior month
+python -m runtime.finance --gl examples/finance/sample_gl.csv \
+    --budget examples/finance/sample_budget.csv --out pnl_review.md                 # vs budget
+python -m runtime.finance --gl my_gl.xlsx --scheme vas --mapping my_coa_map.csv     # Vietnam VAS
+```
+
+```python
+from runtime.finance import analyze
+
+result = analyze("my_gl.csv", period="2026-09", budget="budget.csv", materiality_abs=5_000)
+print(result.confidence)          # gated by data-quality checks
+print(result.variance.query("material"))
+print(result.to_markdown())       # P&L pack: data quality, P&L, variance, commentary, open items
+```
+
+Pipeline: load (EN/VI headers, `(1,234)` negatives) -> CoA mapping with provenance
+(`explicit > range > keyword > unmapped`) -> validation (TB/JE balance, duplicates,
+abnormal signs, cut-off, round amounts) -> P&L (net revenue ... net income, margins) ->
+variance (F/U, materiality, new/dropped/sign-flip) -> G/L drill-down -> commentary.
+
+Also included: **anomaly screen** (ranked review queue: amount outliers, new vendors,
+near-duplicates, period-end, Benford, optional IsolationForest), **forecasting**
+(backtest-selected naive / MA / trend / seasonal naive / Holt-Winters with intervals,
+driver-based models), **scenarios** (what-if, tornado sensitivity, break-even),
+**bank reconciliation** (exact -> amount/date -> fuzzy -> one-to-many + balance proof),
+**revenue concentration** (HHI) and **KPI alerts**.
+
+```bash
+python -m runtime.finance --gl examples/finance/sample_gl_history.csv --forecast 3 --top-k 10
+```
+
+See `skills/fpa/SKILL.md`, `examples/finance/README.md`, and
+`docs/fpa-ai-coverage.md` (coverage vs IBM's key uses of AI in FP&A).
+
 ## Core Behavior
 
 When resilience is activated, the agent should follow this loop:
@@ -33,8 +87,12 @@ When resilience is activated, the agent should follow this loop:
 
 ```text
 skills/resilience/        Main reusable skill content.
+skills/fpa/               FP&A & G/L analyst skill (references + templates).
 adapters/                 Platform-specific instruction adapters.
 runtime/                  Small Python runtime helpers.
+runtime/finance/          Pandas toolkit: GL/TB -> P&L, variance, KPIs, commentary, CLI.
+                          (vendored into skills/fpa/scripts/fpa_engine by scripts/sync_skill_engine.py)
+.claude-plugin/           Claude Code plugin + marketplace manifests.
 evals/                    Starter datasets and rubrics.
 docs/                     Conceptual and implementation documentation.
 tests/                    Unit tests for runtime behavior.

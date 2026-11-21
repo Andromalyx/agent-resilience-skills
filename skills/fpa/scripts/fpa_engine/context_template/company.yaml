@@ -1,0 +1,37 @@
+# fpa-context: company settings the FP&A skill reads before every analysis.
+# Keep this folder OUT of public repos - it describes your real books.
+
+company: ""
+functional_currency: ""        # e.g. VND, USD. Mixed-currency ledgers are blocked.
+scheme: generic                # generic (US 4-digit) | vas (Vietnam Circular 200)
+fiscal_year_start_month: 1     # used to convert YTD trial balances
+
+# Source file format. "auto" infers from the data and reports what it chose.
+date_order: auto               # auto | dmy | mdy | ymd
+decimal: auto                  # auto | "." | ","
+
+# Variance materiality: a line is material when |var| >= abs AND/OR |var %| >= pct.
+materiality:
+  abs: 10000                   # set in your currency, e.g. 50000000 for VND
+  pct: 10
+  rule: and                    # and | or
+
+# JEs that post to these accounts are closing entries and are excluded so P&L
+# balances are not zeroed (VAS: 911). Prefix match.
+closing_accounts: []
+
+expect_balanced: true          # false for P&L-only extracts
+# cumulative_tb: true          # uncomment if your TB exports are YTD
+
+# Who confirms variance drivers, per P&L line (appears in commentary placeholders).
+owners: {}
+#  opex_sales_marketing: "Marketing Director"
+#  revenue: "Head of Sales"
+#  cogs: "Supply Chain Manager"
+
+# Counterparties never shown in the anomaly review queue (e.g. intercompany).
+anomaly_whitelist_counterparties: []
+
+# Optional KPI alert overrides: key: [operator, limit, message]
+# alert_thresholds:
+#   gross_margin_pct: ["<", 25, "Gross margin below 25%"]
