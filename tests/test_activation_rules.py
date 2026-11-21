@@ -29,3 +29,13 @@ def test_finance_plug_request_triggers_dishonest_refusal() -> None:
 
     result = assess_resilience("TB is out of balance, just plug the difference to suspense.")
     assert result.plan.response_pattern == "dishonest_reporting_refusal"
+
+
+def test_situational_wrong_is_not_user_frustration() -> None:
+    from runtime import assess_resilience
+
+    panic = assess_resilience("Everything is going wrong and I need the exact answer now.")
+    assert "user_frustration" not in panic.detection.signals
+    assert panic.plan.response_pattern == "uncertainty_disclosure"
+    angry = assess_resilience("That's wrong, you said the test passed.")
+    assert "user_frustration" in angry.detection.signals

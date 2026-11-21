@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-
 SIGNAL_KEYWORDS: dict[str, tuple[str, ...]] = {
     "tool_failure": (
         "failed",
@@ -22,7 +21,15 @@ SIGNAL_KEYWORDS: dict[str, tuple[str, ...]] = {
         "angry",
         "frustrated",
         "upset",
-        "wrong",
+        # "wrong" only when aimed at the agent's output: "everything is going wrong"
+        # describes the situation (panic), not frustration with the agent.
+        "you're wrong",
+        "you are wrong",
+        "that's wrong",
+        "that is wrong",
+        "is wrong",
+        "wrong answer",
+        "got it wrong",
         "you said",
         "not working",
         "still fails",
